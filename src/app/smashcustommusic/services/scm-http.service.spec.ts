@@ -1,13 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 
-import { ScmHttpService } from './scm-http.service';
+import { ScmApiService } from './scm-http.service';
 
 describe('ScmHttpService', () => {
-  let service: ScmHttpService;
+  let service: ScmApiService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    service = TestBed.inject(ScmHttpService);
+    service = TestBed.inject(ScmApiService);
   });
 
   it('should be created', () => {

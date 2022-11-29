@@ -1,9 +1,9 @@
 export namespace GameList {
-  export interface Main {
+  export interface Root {
     game_count: number;
     ok: boolean;
     total_song_count: number;
-    games: Entry[];
+    games: Array<Entry>;
   }
 
   export interface Entry {
@@ -13,16 +13,17 @@ export namespace GameList {
   }
 }
 
-export namespace Game {
-  export interface Main {
+export namespace SongList {
+  export interface Root {
     ok: boolean;
+    game_id: number;
     game_name: string;
     track_count: number;
     game_banner_exists: boolean;
-    songs: Song[];
+    songs: Array<Entry>;
   }
 
-  export interface Song {
+  export interface Entry {
     song_id: number;
     song_name: string;
     song_length: number;
@@ -31,8 +32,6 @@ export namespace Game {
     song_available: boolean;
     song_downloads: number;
   }
-
-
 }
 
 export interface Song {
@@ -43,6 +42,7 @@ export interface Song {
   uploader: string;
   available: boolean;
   downloads: number;
+  song_id: number;
   game_id: string;
   game_name: string;
   game_banner_exists: boolean;
@@ -57,8 +57,8 @@ export interface Song {
 }
 
 export enum LoopType {
-    normal = "Normal",
-    custom = "Custom",
-    etos = "E to S",
-    none = "None"
-  }
+  normal = 'Normal',
+  custom = 'Custom',
+  etos = 'E to S',
+  none = 'None',
+}
