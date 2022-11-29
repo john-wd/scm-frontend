@@ -3,12 +3,15 @@ import { CommonModule } from '@angular/common';
 import { EffectsModule } from '@ngrx/effects';
 import { ScmEffects } from './state/scm.effects';
 import { ListComponent } from './components/list/list.component';
-import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { HttpClientModule } from '@angular/common/http';
+import { StoreModule } from '@ngrx/store';
+import { scmFeatureKey, scmReducer } from './state/scm.reducer';
 
 @NgModule({
   declarations: [ListComponent],
   imports: [
     CommonModule,
+    StoreModule.forFeature(scmFeatureKey, scmReducer),
     EffectsModule.forFeature([ScmEffects]),
     HttpClientModule,
   ],

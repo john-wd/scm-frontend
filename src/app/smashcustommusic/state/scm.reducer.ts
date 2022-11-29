@@ -3,6 +3,8 @@ import { createReducer, on } from '@ngrx/store';
 import * as fromActions from './scm.actions';
 import { GameList, Song, SongList } from '../models/scm.model';
 
+export const scmFeatureKey = 'scm';
+
 export interface State {
   meta: {
     loading: boolean;
@@ -29,7 +31,7 @@ export const initialState: State = {
   selection: {},
 };
 
-export const booksReducer = createReducer(
+export const scmReducer = createReducer(
   initialState,
   on(fromActions.meta.reset, () => ({ ...initialState })),
   on(fromActions.fetchGamelist.action, (state) => setLoading(state)),
@@ -38,6 +40,10 @@ export const booksReducer = createReducer(
   ),
   on(fromActions.fetchGamelist.success, (state, { games }) => ({
     ...state,
+    meta: {
+      loaded: true,
+      loading: false,
+    },
     gamelist: games,
   })),
   on(fromActions.fetchSongDetails.action, (state) => setLoading(state)),

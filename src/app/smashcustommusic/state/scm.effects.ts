@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { catchError, mergeMap, map } from 'rxjs';
 import { of } from 'rxjs';
-import { ScmApiService } from '../services/scm-http.service';
+import { ScmApiService } from '../services/scm-api.service';
 import { fetchGamelist, fetchSonglist, fetchSongDetails } from './scm.actions';
 
 @Injectable()

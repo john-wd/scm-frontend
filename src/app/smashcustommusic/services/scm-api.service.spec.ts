@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 
-import { ScmApiService } from './scm-http.service';
+import { ScmApiService } from './scm-api.service';
 
 describe('ScmHttpService', () => {
   let service: ScmApiService;

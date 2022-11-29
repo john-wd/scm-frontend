@@ -1,1 +1,9 @@
-<p>list works!</p>
+<ng-container *ngIf="loaded$ | async">
+  <h1>Hello</h1>
+  <ul>
+    <li>test</li>
+    <li *ngFor="let game of games$ | async">
+      {{ game.game_id }} - {{ game.game_name }} - {{ game.song_count }}
+    </li>
+  </ul>
+</ng-container>
