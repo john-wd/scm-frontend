@@ -1,6 +1,16 @@
-import { Component, OnInit } from '@angular/core';
+import { DataSource } from '@angular/cdk/collections';
+import {
+  AfterViewInit,
+  Component,
+  OnDestroy,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatSort } from '@angular/material/sort';
+import { MatTableDataSource } from '@angular/material/table';
 import { Store } from '@ngrx/store';
-import { map, Observable } from 'rxjs';
+import { map, Observable, ReplaySubject, Subscription, tap } from 'rxjs';
 import { GameList } from '../../models/scm.model';
 import { LoadingService } from '../../services/loading.service';
 import { ScmApiService } from '../../services/scm-api.service';
@@ -12,11 +22,16 @@ import { getGamelist } from '../../state/scm.selector';
   templateUrl: './list.component.html',
   styleUrls: ['./list.component.sass'],
 })
-export class ListComponent implements OnInit {
+export class ListComponent implements OnInit, OnDestroy {
   gamelist$: Observable<GameList.Root>;
   loading$: Observable<boolean>;
   loaded$: Observable<boolean>;
   games$: Observable<GameList.Entry[]>;
+
+  columsToDisplay: string[] = ['game_name', 'song_count'];
+  dataSource = new MatTableDataSource<any>();
+
+  subscriptions: Subscription[] = [];
 
   constructor(
     private store: Store<any>,
@@ -30,5 +45,42 @@ export class ListComponent implements OnInit {
     this.games$ = this.gamelist$.pipe(map((list) => (list ? list.games : [])));
     this.loading$ = this.loadingService.loading$;
     this.loaded$ = this.loadingService.loaded$;
+
+    this.subscriptions.push(
+      this.games$.subscribe((games) => {
+        this.dataSource.data = games;
+      })
+    );
+  }
+
+  ngOnDestroy(): void {
+    this.subscriptions.forEach((s) => s.unsubscribe());
+  }
+
+  private paginator: MatPaginator;
+  @ViewChild(MatPaginator) set matPaginator(mp: MatPaginator) {
+    this.paginator = mp;
+    this.dataSource.paginator = this.paginator;
+  }
+
+  private sort: MatSort;
+  @ViewChild(MatSort) set matMatSort(ms: MatSort) {
+    this.sort = ms;
+    this.dataSource.sort = this.sort;
+  }
+
+  applyFilter(event: Event) {
+    if (this.dataSource) {
+      const filterValue = (event.target as HTMLInputElement).value;
+      this.dataSource.filter = filterValue.trim().toLowerCase();
+
+      if (this.dataSource.paginator) {
+        this.dataSource.paginator.firstPage();
+      }
+    }
+  }
+
+  onRowClicked(row: any) {
+    console.log(row);
   }
 }

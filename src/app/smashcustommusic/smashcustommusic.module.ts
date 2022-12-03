@@ -6,6 +6,7 @@ import { ListComponent } from './components/list/list.component';
 import { HttpClientModule } from '@angular/common/http';
 import { StoreModule } from '@ngrx/store';
 import { scmFeatureKey, scmReducer } from './state/scm.reducer';
+import { MaterialModule } from '../material.module';
 
 @NgModule({
   declarations: [ListComponent],
@@ -14,6 +15,7 @@ import { scmFeatureKey, scmReducer } from './state/scm.reducer';
     StoreModule.forFeature(scmFeatureKey, scmReducer),
     EffectsModule.forFeature([ScmEffects]),
     HttpClientModule,
+    MaterialModule,
   ],
   exports: [ListComponent],
 })
