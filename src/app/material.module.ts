@@ -7,6 +7,8 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
 import { MatTableModule } from '@angular/material/table';
 import { MatIconModule } from '@angular/material/icon';
+import { MatButtonModule } from '@angular/material/button';
+import { MatGridListModule } from '@angular/material/grid-list';
 
 @NgModule({
   exports: [
@@ -17,6 +19,8 @@ import { MatIconModule } from '@angular/material/icon';
     MatInputModule,
     MatRippleModule,
     MatIconModule,
+    MatButtonModule,
+    MatGridListModule,
     CdkTableModule,
   ],
 })

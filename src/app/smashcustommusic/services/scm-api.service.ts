@@ -34,9 +34,7 @@ export class ScmApiService {
     );
   }
 
-  fetchBanner(gameId: number): Observable<Blob> {
-    return this._http.get(`${this._baseUrl}/logos/${gameId}`, {
-      responseType: 'blob',
-    });
+  getBannerUrl(gameId: number): string {
+    return `${this._baseUrl}/logos/${gameId}`;
   }
 }

@@ -9,6 +9,7 @@ import { scmFeatureKey, scmReducer } from './state/scm.reducer';
 import { MaterialModule } from '../material.module';
 import { RouterWrapperComponent } from './components/router-wrapper/router-wrapper.component';
 import { GameSonglistComponent } from './components/game-songlist/game-songlist.component';
+import { RouterModule } from '@angular/router';
 
 @NgModule({
   declarations: [ListComponent, RouterWrapperComponent, GameSonglistComponent],
@@ -18,6 +19,7 @@ import { GameSonglistComponent } from './components/game-songlist/game-songlist.
     EffectsModule.forFeature([ScmEffects]),
     HttpClientModule,
     MaterialModule,
+    RouterModule,
   ],
   exports: [ListComponent],
 })
