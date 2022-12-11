@@ -1,0 +1,11 @@
+<div>
+  <ul>
+    <li *ngFor="let s of songs$ | async">
+      {{ s.song_id }} - {{ s.song_name }}
+    </li>
+    <div *ngIf="songlist$ | async as sl">
+      {{ sl.game_name }}
+      <
+    </div>
+  </ul>
+</div>

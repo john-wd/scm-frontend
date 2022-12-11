@@ -7,9 +7,11 @@ import { HttpClientModule } from '@angular/common/http';
 import { StoreModule } from '@ngrx/store';
 import { scmFeatureKey, scmReducer } from './state/scm.reducer';
 import { MaterialModule } from '../material.module';
+import { RouterWrapperComponent } from './components/router-wrapper/router-wrapper.component';
+import { GameSonglistComponent } from './components/game-songlist/game-songlist.component';
 
 @NgModule({
-  declarations: [ListComponent],
+  declarations: [ListComponent, RouterWrapperComponent, GameSonglistComponent],
   imports: [
     CommonModule,
     StoreModule.forFeature(scmFeatureKey, scmReducer),

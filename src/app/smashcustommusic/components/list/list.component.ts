@@ -9,6 +9,7 @@ import {
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
+import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { map, Observable, ReplaySubject, Subscription, tap } from 'rxjs';
 import { GameList } from '../../models/scm.model';
@@ -36,7 +37,7 @@ export class ListComponent implements OnInit, OnDestroy {
   constructor(
     private store: Store<any>,
     private loadingService: LoadingService,
-    public api: ScmApiService
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -81,6 +82,7 @@ export class ListComponent implements OnInit, OnDestroy {
   }
 
   onRowClicked(row: any) {
+    this.router.navigate(['/gamelist', row.game_id]);
     console.log(row);
   }
 }

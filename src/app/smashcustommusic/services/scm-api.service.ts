@@ -7,16 +7,16 @@ import { SongList, GameList, Song } from '../models/scm.model';
   providedIn: 'root',
 })
 export class ScmApiService {
-  private _baseUrl = 'https://smashcustommusic.net/json';
+  private _baseUrl = 'https://smashcustommusic.net';
   constructor(private _http: HttpClient) {}
 
   fetchGamelist(): Observable<GameList.Root> {
-    return this._http.get<GameList.Root>(`${this._baseUrl}/gamelist/`);
+    return this._http.get<GameList.Root>(`${this._baseUrl}/json/gamelist/`);
   }
 
   fetchSonglist(gameId: number): Observable<SongList.Root> {
     return this._http
-      .get<SongList.Root>(`${this._baseUrl}/game/${gameId}`)
+      .get<SongList.Root>(`${this._baseUrl}/json/game/${gameId}`)
       .pipe(
         map((game) => ({
           ...game,
@@ -26,11 +26,17 @@ export class ScmApiService {
   }
 
   fetchSongDetails(songId: number): Observable<Song> {
-    return this._http.get<Song>(`${this._baseUrl}/game/${songId}`).pipe(
+    return this._http.get<Song>(`${this._baseUrl}/json/game/${songId}`).pipe(
       map((song) => ({
         ...song,
         song_id: songId,
       }))
     );
+  }
+
+  fetchBanner(gameId: number): Observable<Blob> {
+    return this._http.get(`${this._baseUrl}/logos/${gameId}`, {
+      responseType: 'blob',
+    });
   }
 }
