@@ -17,5 +17,5 @@ export const getSonglist = createSelector(
 
 export const getSelection = createSelector(
   getState,
-  (state: State) => state.selection
+  (state: State) => state.selected
 );

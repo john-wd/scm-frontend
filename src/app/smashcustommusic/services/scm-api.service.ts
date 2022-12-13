@@ -26,7 +26,7 @@ export class ScmApiService {
   }
 
   fetchSongDetails(songId: number): Observable<Song> {
-    return this._http.get<Song>(`${this._baseUrl}/json/game/${songId}`).pipe(
+    return this._http.get<Song>(`${this._baseUrl}/json/song/${songId}`).pipe(
       map((song) => ({
         ...song,
         song_id: songId,

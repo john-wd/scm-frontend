@@ -13,7 +13,7 @@ export interface State {
   };
   gamelist: GameList.Root;
   songlist: { [gameId: number]: SongList.Root };
-  selection: { [songId: number]: Song };
+  selected: { [songId: number]: Song };
 }
 
 export const initialState: State = {
@@ -28,7 +28,7 @@ export const initialState: State = {
     total_song_count: 0,
   },
   songlist: {},
-  selection: {},
+  selected: {},
 };
 
 export const scmReducer = createReducer(
@@ -56,7 +56,7 @@ export const scmReducer = createReducer(
       loaded: true,
       loading: false,
     },
-    selection: {
+    selected: {
       [song.song_id]: song,
     },
   })),

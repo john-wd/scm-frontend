@@ -1,23 +1,15 @@
-import {
-  Component,
-  Input,
-  OnDestroy,
-  OnInit,
-  Sanitizer,
-  ViewChild,
-} from '@angular/core';
+import { Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
-import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { map, Observable, Subscription } from 'rxjs';
-import { SongList } from '../../models/scm.model';
+import { map, Observable, Subscription, tap } from 'rxjs';
+import { Song, SongList } from '../../models/scm.model';
 import { LoadingService } from '../../services/loading.service';
 import { ScmApiService } from '../../services/scm-api.service';
-import { fetchSonglist } from '../../state/scm.actions';
-import { getSonglist } from '../../state/scm.selector';
+import { fetchSongDetails, fetchSonglist } from '../../state/scm.actions';
+import { getSonglist, getSelection } from '../../state/scm.selector';
 
 @Component({
   selector: 'app-game-songlist',
@@ -32,6 +24,9 @@ export class GameSonglistComponent implements OnInit, OnDestroy {
   loading$: Observable<boolean>;
   loaded$: Observable<boolean>;
   songs$: Observable<SongList.Entry[]>;
+
+  selectedSongId: number;
+  selectedSong$: Observable<Song>;
 
   columsToDisplay: string[] = [
     'song_name',
@@ -56,6 +51,9 @@ export class GameSonglistComponent implements OnInit, OnDestroy {
     this.songlist$ = this.store
       .select(getSonglist)
       .pipe(map((state) => state[this.gameId]));
+    this.selectedSong$ = this.store
+      .select(getSelection)
+      .pipe(map((state: any) => state[this.selectedSongId]));
     this.songs$ = this.songlist$.pipe(map((list) => (list ? list.songs : [])));
     this.loading$ = this.loadingService.loading$;
     this.loaded$ = this.loadingService.loaded$;
@@ -93,7 +91,8 @@ export class GameSonglistComponent implements OnInit, OnDestroy {
     }
   }
   onRowClicked(row: any) {
-    console.log(row);
+    this.selectedSongId = row.song_id;
+    this.store.dispatch(fetchSongDetails.action({ songId: row.song_id }));
   }
 
   bannerUrl(gameId: number): string {
