@@ -10,6 +10,10 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatListModule } from '@angular/material/list';
+import { MatCardModule } from '@angular/material/card';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { MatSliderModule } from '@angular/material/slider';
+import { MatToolbarModule } from '@angular/material/toolbar';
 
 @NgModule({
   exports: [
@@ -23,6 +27,10 @@ import { MatListModule } from '@angular/material/list';
     MatButtonModule,
     MatGridListModule,
     MatListModule,
+    MatCardModule,
+    MatProgressBarModule,
+    MatSliderModule,
+    MatToolbarModule,
     CdkTableModule,
   ],
 })

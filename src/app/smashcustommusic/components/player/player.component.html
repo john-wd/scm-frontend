@@ -1,0 +1,66 @@
+<div class="bar" [class.main]="toggled">
+  <div class="toggle" (click)="onToggle()">
+    <mat-icon>{{ toggled ? "expand_more" : "expand_less" }}</mat-icon>
+  </div>
+
+  <ng-container *ngIf="!toggled">
+    <ng-template [ngTemplateOutlet]="mediaButtons"></ng-template>
+    <ng-template [ngTemplateOutlet]="seekBar"></ng-template>
+    <ng-template [ngTemplateOutlet]="trackInfo"></ng-template>
+  </ng-container>
+
+  <div *ngIf="toggled">
+    <div class="full-player">
+      <div>
+        <img class="disk" src="/assets/vinyl.svg" />
+      </div>
+      <div class="full-track-info">
+        <ng-template [ngTemplateOutlet]="trackInfo"></ng-template>
+      </div>
+      <div>
+        <ng-template [ngTemplateOutlet]="seekBar"></ng-template>
+      </div>
+      <div>
+        <ng-template [ngTemplateOutlet]="mediaButtons"></ng-template>
+      </div>
+    </div>
+    <div class="playlist"></div>
+  </div>
+</div>
+
+<!-- Templates -->
+
+<ng-template #mediaButtons>
+  <span class="media-buttons">
+    <button mat-icon-button (click)="previous()">
+      <mat-icon>skip_previous</mat-icon>
+    </button>
+    <button mat-icon-button (click)="playPause()" class="play-pause">
+      <mat-icon>{{ paused ? "play_arrow" : "pause" }}</mat-icon>
+    </button>
+    <button mat-icon-button>
+      <mat-icon>skip_next</mat-icon>
+    </button>
+  </span>
+</ng-template>
+
+<ng-template #seekBar>
+  <span *ngIf="playing" class="seekbar">
+    <span class="time time-elapsed">{{ timeElapsed | date : "mm:ss" }}</span>
+    <div class="progress-bar">
+      <mat-progress-bar
+        mode="determinate"
+        [value]="percElapsed()"
+        (click)="seek($event)"
+      ></mat-progress-bar>
+    </div>
+    <span class="time time-total">{{ timeTotal | date : "mm:ss" }}</span>
+  </span>
+  <span *ngIf="!playing"> Nothing is playing </span>
+</ng-template>
+
+<ng-template #trackInfo>
+  <span class="track-info" *ngIf="playing">
+    {{ playing.name }} · {{ playing.game_name }} ({{ playing.uploader }})
+  </span>
+</ng-template>

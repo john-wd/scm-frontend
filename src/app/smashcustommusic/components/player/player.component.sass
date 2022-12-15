@@ -1,0 +1,67 @@
+$border-color: rgba(0,0,0,.12)
+$border-radius: 3px
+
+.bar
+    width: 100%
+    left:0
+    right: 0
+    bottom: 0
+
+    margin: auto
+    display: block
+    position: sticky
+
+    border-top: 1px solid $border-color
+    background-color: white
+
+.main
+    height: 92%
+
+.toggle
+    float: right
+    right: 2em
+    bottom: 2.14ex // wtf?
+    height: 2ex
+
+    background-color: white
+    border: 1px solid $border-color
+    border-bottom: none
+    border-top-left-radius: $border-radius
+    border-top-right-radius: $border-radius
+
+    padding-left: 1em
+    padding-right: 1em
+
+    position: relative
+    cursor: pointer
+
+.seekbar
+    .progress-bar
+        width: 30%
+        display: inline-block
+
+        mat-progress-bar
+            height: 1.5ex
+            border-radius: $border-radius
+
+    .time
+        margin-left: 1em
+        margin-right: 1em
+
+.media-buttons
+    .play-pause
+
+.full-player
+    margin-top: 5ex
+    width: 40%
+    text-align: center
+
+.playlist
+
+.disk
+    width: 40%
+    padding-top: 2ex
+    padding-bottom: 2ex
+
+.full-track-info
+    overflow: hidden

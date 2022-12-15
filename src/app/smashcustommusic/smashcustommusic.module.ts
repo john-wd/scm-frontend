@@ -10,9 +10,15 @@ import { MaterialModule } from '../material.module';
 import { RouterWrapperComponent } from './components/router-wrapper/router-wrapper.component';
 import { GameSonglistComponent } from './components/game-songlist/game-songlist.component';
 import { RouterModule } from '@angular/router';
+import { PlayerComponent } from './components/player/player.component';
 
 @NgModule({
-  declarations: [ListComponent, RouterWrapperComponent, GameSonglistComponent],
+  declarations: [
+    ListComponent,
+    RouterWrapperComponent,
+    GameSonglistComponent,
+    PlayerComponent,
+  ],
   imports: [
     CommonModule,
     StoreModule.forFeature(scmFeatureKey, scmReducer),
@@ -21,6 +27,6 @@ import { RouterModule } from '@angular/router';
     MaterialModule,
     RouterModule,
   ],
-  exports: [ListComponent],
+  exports: [ListComponent, PlayerComponent],
 })
 export class SmashcustommusicModule {}
