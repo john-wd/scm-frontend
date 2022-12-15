@@ -1,4 +1,11 @@
-import { Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  Input,
+  OnDestroy,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
@@ -7,6 +14,7 @@ import { Store } from '@ngrx/store';
 import { map, Observable, Subscription, tap } from 'rxjs';
 import { Song, SongList } from '../../models/scm.model';
 import { LoadingService } from '../../services/loading.service';
+import { PlayerService } from '../../services/player.service';
 import { ScmApiService } from '../../services/scm-api.service';
 import { fetchSongDetails, fetchSonglist } from '../../state/scm.actions';
 import { getSonglist, getSelection } from '../../state/scm.selector';
@@ -19,6 +27,9 @@ import { getSonglist, getSelection } from '../../state/scm.selector';
 export class GameSonglistComponent implements OnInit, OnDestroy {
   @Input('gameId')
   gameId: number;
+
+  @ViewChild('gameName')
+  gameName: ElementRef;
 
   songlist$: Observable<SongList.Root>;
   loading$: Observable<boolean>;
@@ -34,6 +45,7 @@ export class GameSonglistComponent implements OnInit, OnDestroy {
     'song_loop',
     'song_uploader',
     'song_downloads',
+    'actions',
   ];
   dataSource = new MatTableDataSource<any>();
 
@@ -43,7 +55,7 @@ export class GameSonglistComponent implements OnInit, OnDestroy {
     private store: Store<any>,
     private loadingService: LoadingService,
     private scmApi: ScmApiService,
-    private router: Router
+    private playerService: PlayerService
   ) {}
 
   ngOnInit(): void {
@@ -90,9 +102,19 @@ export class GameSonglistComponent implements OnInit, OnDestroy {
       }
     }
   }
-  onRowClicked(row: any) {
+  onRowClicked(row: Song) {
     this.selectedSongId = row.song_id;
     this.store.dispatch(fetchSongDetails.action({ songId: row.song_id }));
+  }
+
+  onPlay(song: SongList.Entry) {
+    console.log(song.song_name, this.gameName.nativeElement.textContent);
+    this.playerService.play({
+      name: song.song_name,
+      game_id: String(this.gameId),
+      song_id: song.song_id,
+      game_name: this.gameName.nativeElement.textContent,
+    } as Song);
   }
 
   bannerUrl(gameId: number): string {
