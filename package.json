@@ -23,10 +23,11 @@
     "@ngrx/effects": "^14.3.2",
     "@ngrx/store": "^14.3.2",
     "@ngrx/store-devtools": "^14.3.2",
+    "revolving-door-brstm": "john-wd/revolving-door-brstm#dev",
     "rxjs": "~7.5.0",
     "tslib": "^2.3.0",
-    "zone.js": "~0.12.0",
-    "revolving-door-brstm": "john-wd/revolving-door-brstm#dev"
+    "xng-breadcrumb": "^8.0.0",
+    "zone.js": "~0.12.0"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "^14.0.1",

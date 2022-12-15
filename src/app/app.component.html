@@ -10,6 +10,15 @@
     </button>
   </mat-toolbar-row>
 </mat-toolbar>
+
+<xng-breadcrumb>
+  <ng-container
+    *xngBreadcrumbItem="let breadcrumb; let info = info; let first = first"
+  >
+    <mat-icon *ngIf="info">{{ info.icon }}</mat-icon>
+    <ng-container *ngIf="!first">{{ breadcrumb }}</ng-container>
+  </ng-container>
+</xng-breadcrumb>
 <router-outlet></router-outlet>
 
 <app-player></app-player>

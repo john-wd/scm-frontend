@@ -11,6 +11,7 @@ import { RouterWrapperComponent } from './components/router-wrapper/router-wrapp
 import { GameSonglistComponent } from './components/game-songlist/game-songlist.component';
 import { RouterModule } from '@angular/router';
 import { PlayerComponent } from './components/player/player.component';
+import { MainComponent } from './components/main/main.component';
 
 @NgModule({
   declarations: [
@@ -18,6 +19,7 @@ import { PlayerComponent } from './components/player/player.component';
     RouterWrapperComponent,
     GameSonglistComponent,
     PlayerComponent,
+    MainComponent,
   ],
   imports: [
     CommonModule,
