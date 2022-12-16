@@ -1,12 +1,29 @@
-.spacer
-    flex: 1 1 auto
+$linkColor: lightgray
 
-.title
-    height: 5ex
-    display: flex
-    align-items: center
-    cursor: pointer
-    .icon
-        height: 50%
-        margin-bottom: .8ex // hack-y way to align with text
-        padding: .5ex
+.toolbar
+    .spacer
+        flex: 1 1 auto
+
+    .title
+        height: 5ex
+        margin-right: .5em
+        display: flex
+        align-items: center
+        cursor: pointer
+        .icon
+            height: 50%
+            margin-bottom: .8ex // hack-y way to align with text
+            padding: .5ex
+
+    .links
+        a
+            cursor: pointer
+            margin-left: .5em
+            margin-right: .5em
+            font-size: 10pt
+            color: $linkColor
+            text-decoration: none
+
+        .active
+            color: inherit
+

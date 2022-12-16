@@ -10,7 +10,6 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MaterialModule } from './material.module';
 import { BreadcrumbModule } from 'xng-breadcrumb';
-import { RouterModule } from '@angular/router';
 
 @NgModule({
   declarations: [AppComponent],

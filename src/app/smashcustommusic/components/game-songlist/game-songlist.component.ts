@@ -117,6 +117,10 @@ export class GameSonglistComponent implements OnInit, OnDestroy {
     } as Song);
   }
 
+  onAddToPlaylist(song: SongList.Entry) {
+
+  }
+
   bannerUrl(gameId: number): string {
     return this.scmApi.getBannerUrl(gameId);
   }

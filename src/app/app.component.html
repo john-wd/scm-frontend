@@ -1,9 +1,15 @@
-<mat-toolbar color="primary">
+<mat-toolbar color="primary" class="toolbar">
   <mat-toolbar-row>
     <span class="title" routerLink="/">
       <img class="icon" src="assets/sb-w.png" />
       <span>Smash custom music</span>
     </span>
+
+    <span class="links">
+      <a routerLink="/gamelist" routerLinkActive="active">Game list</a>
+      <a routerLink="/about" routerLinkActive="active">About</a>
+    </span>
+
     <span class="spacer"></span>
     <button mat-icon-button>
       <mat-icon>menu</mat-icon>
@@ -11,14 +17,6 @@
   </mat-toolbar-row>
 </mat-toolbar>
 
-<xng-breadcrumb>
-  <ng-container
-    *xngBreadcrumbItem="let breadcrumb; let info = info; let first = first"
-  >
-    <mat-icon *ngIf="info">{{ info.icon }}</mat-icon>
-    <ng-container *ngIf="!first">{{ breadcrumb }}</ng-container>
-  </ng-container>
-</xng-breadcrumb>
-<router-outlet></router-outlet>
-
+<router-outlet ></router-outlet>
 <app-player></app-player>
+

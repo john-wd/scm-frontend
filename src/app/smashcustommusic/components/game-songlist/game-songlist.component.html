@@ -1,11 +1,4 @@
-<button
-  class="back"
-  mat-icon-button
-  [routerLink]="['..']"
-  routerLinkActive="router-link-active"
->
-  <mat-icon>arrow_back</mat-icon>
-</button>
+
 
 <div class="songlist">
   <div *ngIf="loaded$ | async" class="flex-container">
@@ -75,9 +68,14 @@
           >
           <mat-cell
             *matCellDef="let el"
-            (click)="onPlay(el); $event.stopPropagation()"
           >
-            <mat-icon aria-hidden="false" fontIcon="play_arrow"></mat-icon>
+            <mat-icon class="button"
+            (click)="onPlay(el); $event.stopPropagation()"
+            >play_arrow</mat-icon>
+            <mat-icon class="button"
+            (click)="onAddToPlaylist(el); $event.stopPropagation()"
+            >playlist_add</mat-icon>
+
           </mat-cell>
         </ng-container>
 
