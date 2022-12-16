@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { AboutComponent } from './components/about/about.component';
 import { HomeComponent } from './components/home/home.component';
 import { ListComponent } from './smashcustommusic/components/list/list.component';
 import { MainComponent } from './smashcustommusic/components/main/main.component';
@@ -23,6 +24,15 @@ const routes: Routes = [
     ],
   },
   {
+    path: 'about',
+    component: AboutComponent,
+    data: {
+      breadcrumb: {
+        label: 'About',
+      },
+    },
+  },
+  {
     path: '',
     component: HomeComponent,
     pathMatch: 'full',
@@ -34,6 +44,7 @@ const routes: Routes = [
     },
   },
 ];
+
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],

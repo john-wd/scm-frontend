@@ -12,6 +12,7 @@ import { GameSonglistComponent } from './components/game-songlist/game-songlist.
 import { RouterModule } from '@angular/router';
 import { PlayerComponent } from './components/player/player.component';
 import { MainComponent } from './components/main/main.component';
+import { BreadcrumbModule } from 'xng-breadcrumb';
 
 @NgModule({
   declarations: [
@@ -28,6 +29,7 @@ import { MainComponent } from './components/main/main.component';
     HttpClientModule,
     MaterialModule,
     RouterModule,
+    BreadcrumbModule,
   ],
   exports: [ListComponent, PlayerComponent],
 })
