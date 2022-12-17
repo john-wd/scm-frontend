@@ -1,5 +1,6 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { saveAs } from 'file-saver';
 import { map, Observable } from 'rxjs';
 import { SongList, GameList, Song } from '../models/scm.model';
 
@@ -40,6 +41,10 @@ export class ScmApiService {
 
   downloadSong(type: string, songId: number) {
     let url = `${this._baseUrl}/${type}/${songId}`;
-    this._http.get<BlobPart>(url).subscribe((x) => console.log(x));
+    const a = document.createElement('a');
+    a.href = url;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
   }
 }

@@ -1,18 +1,24 @@
 <ng-container *ngIf="song">
+  <p class="title">Song details</p>
   <div class="song-id">{{ song.song_id }}</div>
 
   <div class="download">
-    <mat-form-field appearance="fill">
-      <mat-label>Format</mat-label>
-      <mat-select [(value)]="selectedDownloadType">
-        <mat-option *ngFor="let type of downloadTypes" [value]="type">
-          {{ downloadTypesMap[type] }}
-        </mat-option>
-      </mat-select>
-    </mat-form-field>
-    <button mat-flat-button color="primary" (click)="onDownload()">
-      <mat-icon>download</mat-icon>
-    </button>
+    <p>Download</p>
+    <div>
+      <mat-form-field appearance="fill">
+        <mat-label>Format</mat-label>
+        <mat-select [(value)]="selectedDownloadType">
+          <mat-option *ngFor="let type of downloadTypes" [value]="type">
+            {{ downloadTypesMap[type] }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+    <div>
+      <button mat-flat-button color="primary" (click)="onDownload()">
+        <mat-icon>download</mat-icon>
+      </button>
+    </div>
   </div>
 
   <ul>
