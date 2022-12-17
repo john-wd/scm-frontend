@@ -14,6 +14,8 @@ import { MatCardModule } from '@angular/material/card';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatSliderModule } from '@angular/material/slider';
 import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatSelectModule } from '@angular/material/select';
 
 @NgModule({
   exports: [
@@ -31,6 +33,8 @@ import { MatToolbarModule } from '@angular/material/toolbar';
     MatProgressBarModule,
     MatSliderModule,
     MatToolbarModule,
+    MatCheckboxModule,
+    MatSelectModule,
     CdkTableModule,
   ],
 })

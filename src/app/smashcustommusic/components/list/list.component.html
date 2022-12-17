@@ -28,7 +28,9 @@
 
       <mat-header-row *matHeaderRowDef="columsToDisplay"></mat-header-row>
       <mat-row
+        matRipple
         *matRowDef="let row; columns: columsToDisplay"
+        class="highlighted-item"
         (click)="onRowClicked(row)"
       ></mat-row>
 

@@ -3,21 +3,17 @@
 <div class="songlist">
   <div *ngIf="loaded$ | async" class="flex-container">
     <div *ngFor="let game of [songlist$ | async]" class="flex-left">
+
+      <h1 #gameName>{{ game?.game_name }}</h1>
+      <p>Number of songs: {{ game?.track_count }}</p>
       <div *ngIf="game?.game_banner_exists">
         <img class="banner" [src]="bannerUrl(gameId)" />
       </div>
-      <h1 #gameName>{{ game?.game_name }}</h1>
-      <p>Number of songs: {{ game?.track_count }}</p>
-      <div *ngIf="selectedSong$ | async as song">
-        <ul>
-          <li *ngFor="let s of song | keyvalue">
-            <b>{{ s.key }}:</b> {{ s.value }}
-          </li>
-        </ul>
-      </div>
+
+      <app-song-details [song]="selectedSong$ | async"></app-song-details>
     </div>
 
-    <div class="flex-right song_list">
+    <div class="flex-right">
       <mat-form-field appearance="outline">
         <mat-icon matPrefix>search</mat-icon>
 
@@ -81,7 +77,9 @@
 
         <mat-header-row *matHeaderRowDef="columsToDisplay"></mat-header-row>
         <mat-row
+          matRipple
           *matRowDef="let row; columns: columsToDisplay"
+          class="highlighted-item"
           (click)="onRowClicked(row)"
         ></mat-row>
 

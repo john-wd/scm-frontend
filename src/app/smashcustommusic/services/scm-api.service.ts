@@ -37,4 +37,9 @@ export class ScmApiService {
   getBannerUrl(gameId: number): string {
     return `${this._baseUrl}/logos/${gameId}`;
   }
+
+  downloadSong(type: string, songId: number) {
+    let url = `${this._baseUrl}/${type}/${songId}`;
+    this._http.get<BlobPart>(url).subscribe((x) => console.log(x));
+  }
 }

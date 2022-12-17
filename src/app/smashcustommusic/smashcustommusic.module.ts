@@ -13,6 +13,8 @@ import { RouterModule } from '@angular/router';
 import { PlayerComponent } from './components/player/player.component';
 import { MainComponent } from './components/main/main.component';
 import { BreadcrumbModule } from 'xng-breadcrumb';
+import { SongDetailsComponent } from './components/song-details/song-details.component';
+import { NgxFilesizeModule } from 'ngx-filesize';
 
 @NgModule({
   declarations: [
@@ -21,6 +23,7 @@ import { BreadcrumbModule } from 'xng-breadcrumb';
     GameSonglistComponent,
     PlayerComponent,
     MainComponent,
+    SongDetailsComponent,
   ],
   imports: [
     CommonModule,
@@ -30,6 +33,7 @@ import { BreadcrumbModule } from 'xng-breadcrumb';
     MaterialModule,
     RouterModule,
     BreadcrumbModule,
+    NgxFilesizeModule,
   ],
   exports: [ListComponent, PlayerComponent],
 })
