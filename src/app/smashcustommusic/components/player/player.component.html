@@ -9,8 +9,8 @@
     <ng-template [ngTemplateOutlet]="trackInfo"></ng-template>
   </ng-container>
 
-  <div *ngIf="toggled">
-    <div class="full-player">
+  <div class="full-player" *ngIf="toggled">
+    <div class="controls">
       <div>
         <img class="disk" src="/assets/vinyl.svg" />
       </div>
@@ -24,21 +24,31 @@
         <ng-template [ngTemplateOutlet]="mediaButtons"></ng-template>
       </div>
     </div>
-    <div class="playlist"></div>
+    <div class="playlist">
+      <h1>Playlist</h1>
+      <mat-selection-list [multiple]="false">
+        <mat-list-option
+          (click)="playAtIndex(i)"
+          *ngFor="let song of playlist; let i = index"
+          [value]="song"
+        >
+          {{ song.name }}
+        </mat-list-option>
+      </mat-selection-list>
+    </div>
   </div>
 </div>
 
 <!-- Templates -->
-
 <ng-template #mediaButtons>
   <span class="media-buttons">
     <button mat-icon-button (click)="previous()">
       <mat-icon>skip_previous</mat-icon>
     </button>
     <button mat-icon-button (click)="playPause()" class="play-pause">
-      <mat-icon>{{ paused ? "play_arrow" : "pause" }}</mat-icon>
+      <mat-icon>{{ isPlaying ? "pause" : "play_arrow" }}</mat-icon>
     </button>
-    <button mat-icon-button>
+    <button (click)="next()" mat-icon-button>
       <mat-icon>skip_next</mat-icon>
     </button>
   </span>

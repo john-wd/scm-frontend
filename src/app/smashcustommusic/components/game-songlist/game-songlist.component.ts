@@ -108,17 +108,23 @@ export class GameSonglistComponent implements OnInit, OnDestroy {
   }
 
   onPlay(song: SongList.Entry) {
-    console.log(song.song_name, this.gameName.nativeElement.textContent);
     this.playerService.play({
       name: song.song_name,
       game_id: String(this.gameId),
       song_id: song.song_id,
       game_name: this.gameName.nativeElement.textContent,
+      uploader: song.song_uploader,
     } as Song);
   }
 
   onAddToPlaylist(song: SongList.Entry) {
-
+    this.playerService.addToPlaylist({
+      name: song.song_name,
+      song_id: song.song_id,
+      game_id: String(this.gameId),
+      game_name: this.gameName.nativeElement.textContent,
+      uploader: song.song_uploader,
+    } as Song);
   }
 
   bannerUrl(gameId: number): string {

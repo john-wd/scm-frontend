@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { map, Observable, Subscription, tap } from 'rxjs';
 import { Song } from '../../models/scm.model';
 import { PlayerService } from '../../services/player.service';
 
@@ -9,23 +10,9 @@ import { PlayerService } from '../../services/player.service';
 })
 export class PlayerComponent implements OnInit {
   toggled = false;
-  paused = true;
-  playing: Song;
-  timeElapsed: number; // in milliseconds
-  timeTotal: number; // in milliseconds
+  private subscriptions: Subscription[] = [];
 
-  constructor(private playerService: PlayerService) {
-    this.timeElapsed = 0 * 1e3;
-    this.timeTotal = 125 * 1e3;
-    setInterval(() => {
-      if (this.paused) return;
-      if (this.timeElapsed > this.timeTotal) {
-        this.paused = true;
-        return;
-      }
-      this.timeElapsed += 1e3;
-    }, 1e3);
-  }
+  constructor(private playerService: PlayerService) {}
 
   onToggle() {
     this.toggled = !this.toggled;
@@ -36,19 +23,17 @@ export class PlayerComponent implements OnInit {
   }
 
   percElapsed(): number {
-    if (!this.timeTotal) return 0;
-    return (100 * this.timeElapsed) / this.timeTotal;
+    return (this.timeElapsed / this.timeTotal) * 100;
   }
 
   playPause() {
-    this.paused = !this.paused;
-    this.playing = {
-      song_id: 123,
-      name: 'test',
-      game_name: 'Game',
-      uploader: 'me',
-    } as Song;
+    this.playerService.playPause();
   }
+
+  playAtIndex(idx: number) {
+    this.playerService.playAtIndex(idx);
+  }
+
   seek($event: any) {
     let percentage = $event.layerX / ($event.target.offsetWidth - 3);
 
@@ -57,11 +42,42 @@ export class PlayerComponent implements OnInit {
     } else if (percentage < 0) {
       percentage = 0;
     }
-    this.timeElapsed = percentage * this.timeTotal;
+    this.playerService.seek((percentage * this.timeTotal) / 1e3);
   }
-  stop() {}
-  next() {}
-  previous() {}
 
-  ngOnInit(): void {}
+  stop() {
+    this.playerService.stop();
+  }
+  next() {
+    this.playerService.next();
+  }
+  previous() {
+    this.playerService.previous();
+  }
+
+  isPlaying: boolean;
+  playing: Song;
+  playlist: Song[];
+  timeElapsed: number;
+  timeTotal: number;
+
+  ngOnInit(): void {
+    this.subscriptions.push(
+      this.playerService.state$.subscribe((state) => {
+        this.isPlaying = !state.paused;
+        this.timeElapsed = state.curTime * 1e3;
+        this.timeTotal = state.totalTime * 1e3;
+      })
+    );
+    this.subscriptions.push(
+      this.playerService.playing$.subscribe(
+        (playing) => (this.playing = playing)
+      )
+    );
+    this.subscriptions.push(
+      this.playerService.playlist$.subscribe(
+        (playlist) => (this.playlist = playlist)
+      )
+    );
+  }
 }
