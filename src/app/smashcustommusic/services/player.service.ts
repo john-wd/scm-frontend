@@ -31,7 +31,7 @@ export interface State {
 })
 export class PlayerService implements OnDestroy {
   private _player: any;
-  private _apiUrl = 'https://smashcustommusic.net/brstm';
+  private _apiUrl = 'http://localhost:9999/brstm';
 
   state$: Observable<State>;
   playlist$: Observable<Song[]>;
@@ -76,7 +76,7 @@ export class PlayerService implements OnDestroy {
 
   private toInternalSong(song: Song): InternalSong {
     return {
-      id: song.song_id,
+      song_id: song.song_id,
       name: song.name,
       uploader: song.uploader,
       game_name: song.game_name,
@@ -84,7 +84,7 @@ export class PlayerService implements OnDestroy {
   }
 
   play(song: Song) {
-    this._player.init(this.toInternalSong(song));
+    this._player.play(this.toInternalSong(song));
   }
 
   playAtIndex(idx: number) {
@@ -122,6 +122,10 @@ export class PlayerService implements OnDestroy {
   removeFromPlaylist(songId: number) {
     this._player.removeFromPlaylist(songId);
     this.playlistSubject.next(this._player.playlist);
+  }
+
+  currentIndex(): number {
+    return this._player.currentIndex;
   }
 
   seek(to: number) {

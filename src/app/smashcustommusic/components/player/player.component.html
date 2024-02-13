@@ -26,15 +26,26 @@
     </div>
     <div class="playlist">
       <h1>Playlist</h1>
-      <mat-selection-list [multiple]="false">
-        <mat-list-option
-          (click)="playAtIndex(i)"
-          *ngFor="let song of playlist; let i = index"
-          [value]="song"
-        >
-          {{ song.name }}
+      <table>
+        <tr class="playlist-item" (click)="playAtIndex(i)" *ngFor="let song of playlist; let i = index">
+          <td>
+            <mat-icon *ngIf="i === currentIndex()" inline=true>play_arrow</mat-icon>
+          </td>
+          <td>{{i}}</td>
+          <td>{{song.name}} — {{song.game_name}}</td>
+          <!-- Actions -->
+          <td class="playlist-remove" (click)="remove(song.song_id)">
+            <mat-icon inline=true>cancel</mat-icon>
+          </td>
+        </tr>
+      </table>
+      <!-- <mat-selection-list [multiple]="false">
+        <mat-list-option (click)="playAtIndex(i)" *ngFor="let song of playlist; let i = index" [value]="song">
+          <span class="playlist-item">
+            <mat-icon *ngIf="i === currentIndex()">play_arrow</mat-icon> {{ song.name }}
+          </span>
         </mat-list-option>
-      </mat-selection-list>
+      </mat-selection-list> -->
     </div>
   </div>
 </div>
@@ -58,11 +69,7 @@
   <span *ngIf="playing" class="seekbar">
     <span class="time time-elapsed">{{ timeElapsed | date : "mm:ss" }}</span>
     <div class="progress-bar">
-      <mat-progress-bar
-        mode="determinate"
-        [value]="percElapsed()"
-        (click)="seek($event)"
-      ></mat-progress-bar>
+      <mat-progress-bar mode="determinate" [value]="percElapsed()" (click)="seek($event)"></mat-progress-bar>
     </div>
     <span class="time time-total">{{ timeTotal | date : "mm:ss" }}</span>
   </span>

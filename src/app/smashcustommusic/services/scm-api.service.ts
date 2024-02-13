@@ -8,7 +8,7 @@ import { SongList, GameList, Song } from '../models/scm.model';
   providedIn: 'root',
 })
 export class ScmApiService {
-  private _baseUrl = 'https://smashcustommusic.net';
+  private _baseUrl = 'http://localhost:9999';
   constructor(private _http: HttpClient) {}
 
   fetchGamelist(): Observable<GameList.Root> {

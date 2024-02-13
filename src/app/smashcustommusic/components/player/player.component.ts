@@ -12,7 +12,7 @@ export class PlayerComponent implements OnInit {
   toggled = false;
   private subscriptions: Subscription[] = [];
 
-  constructor(private playerService: PlayerService) {}
+  constructor(private playerService: PlayerService) { }
 
   onToggle() {
     this.toggled = !this.toggled;
@@ -34,6 +34,10 @@ export class PlayerComponent implements OnInit {
     this.playerService.playAtIndex(idx);
   }
 
+  currentIndex(): number {
+    return this.playerService.currentIndex();
+  }
+
   seek($event: any) {
     let percentage = $event.layerX / ($event.target.offsetWidth - 3);
 
@@ -53,6 +57,9 @@ export class PlayerComponent implements OnInit {
   }
   previous() {
     this.playerService.previous();
+  }
+  remove(songId: number) {
+    this.playerService.removeFromPlaylist(songId)
   }
 
   isPlaying: boolean;

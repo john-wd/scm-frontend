@@ -56,7 +56,7 @@ export class GameSonglistComponent implements OnInit, OnDestroy {
     private loadingService: LoadingService,
     private scmApi: ScmApiService,
     private playerService: PlayerService
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.store.dispatch(fetchSonglist.action({ gameId: this.gameId }));
