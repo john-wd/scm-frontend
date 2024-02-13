@@ -9,10 +9,10 @@ import { SmashcustommusicModule } from './smashcustommusic/smashcustommusic.modu
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MaterialModule } from './material.module';
-import { BreadcrumbModule } from 'xng-breadcrumb';
+import { ThemeToggleComponent } from './components/theme-toggle/theme-toggle.component';
 
 @NgModule({
-  declarations: [AppComponent],
+  declarations: [AppComponent, ThemeToggleComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,
@@ -26,9 +26,8 @@ import { BreadcrumbModule } from 'xng-breadcrumb';
     }),
     BrowserAnimationsModule,
     MaterialModule,
-    BreadcrumbModule,
   ],
   providers: [],
   bootstrap: [AppComponent],
 })
-export class AppModule {}
+export class AppModule { }

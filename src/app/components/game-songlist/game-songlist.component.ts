@@ -12,12 +12,12 @@ import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { map, Observable, Subscription, tap } from 'rxjs';
-import { Song, SongList } from '../../models/scm.model';
-import { LoadingService } from '../../services/loading.service';
-import { PlayerService } from '../../services/player.service';
-import { ScmApiService } from '../../services/scm-api.service';
-import { fetchSongDetails, fetchSonglist } from '../../state/scm.actions';
-import { getSonglist, getSelection } from '../../state/scm.selector';
+import { Song, SongList } from '../../smashcustommusic/models/scm.model';
+import { LoadingService } from '../../smashcustommusic/services/loading.service';
+import { PlayerService } from '../../smashcustommusic/services/player.service';
+import { ScmApiService } from '../../smashcustommusic/services/scm-api.service';
+import { fetchSongDetails, fetchSonglist } from '../../smashcustommusic/state/scm.actions';
+import { getSonglist, getSelection } from '../../smashcustommusic/state/scm.selector';
 
 @Component({
   selector: 'app-game-songlist',

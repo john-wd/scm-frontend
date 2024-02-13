@@ -28,7 +28,6 @@
     "revolving-door-brstm": "john-wd/revolving-door-brstm#dev",
     "rxjs": "~7.5.0",
     "tslib": "^2.3.0",
-    "xng-breadcrumb": "^8.0.0",
     "zone.js": "~0.12.0"
   },
   "devDependencies": {

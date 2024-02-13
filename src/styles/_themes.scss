@@ -1,0 +1,61 @@
+//shortcuts
+$primary: 'primary';
+$bg: 'bg';
+$card-bg: 'card-bg';
+$card-border: 'card-border';
+$text: 'text';
+$text-secondary: 'text-secondary';
+$text-accent: 'text-accent';
+$text-accent-inv: 'text-accent-inv';
+$link: 'link';
+$gray: 'gray';
+$hover: 'hover';
+$logo: 'logo';
+
+$primary-color: #3f51b5;
+$themes: (
+  default: (logo: url("../assets/sb-b.png"),
+    primary: $primary-color,
+    bg: #f7f7f7,
+    card-bg: #f2f2f2,
+    text: #0f0f0f,
+    text-secondary: #a1a1a1,
+    link: $primary-color,
+    gray: #e0e0e0,
+    hover: #e0e0e0,
+    text-accent: #000,
+    text-accent-inv: #fff),
+  dark: (logo: url("../assets/sb-w.png"),
+    primary: $primary-color,
+    bg: #080808,
+    card-bg: #121212,
+    text: #f6f6f6,
+    text-secondary: #5e5e5e,
+    link: $primary-color,
+    gray: #262626,
+    hover: #262626,
+    text-accent: #fff,
+    text-accent-inv: #000),
+);
+
+@mixin themefy($themes: $themes) {
+  @each $theme, $map in $themes {
+    &.theme--#{$theme} {
+      $theme-map: (
+        ) !global;
+
+      @each $key, $submap in $map {
+        $value: map-get(map-get($themes, $theme), '#{$key}'
+        );
+      $theme-map: map-merge($theme-map, ($key: $value)) !global;
+    }
+
+    @content;
+    $theme-map: null !global;
+  }
+}
+}
+
+@function themed($key) {
+  @return map-get($theme-map, $key);
+}
