@@ -8,7 +8,7 @@ import { firstValueFrom, map } from 'rxjs';
 })
 export class RouterWrapperComponent implements AfterViewInit {
   gameId: number;
-  constructor(private route: ActivatedRoute) {}
+  constructor(private route: ActivatedRoute) { }
 
   ngAfterViewInit(): void {
     firstValueFrom(

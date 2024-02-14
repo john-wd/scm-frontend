@@ -2,14 +2,13 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AboutComponent } from './components/about/about.component';
 import { HomeComponent } from './components/home/home.component';
-import { ListComponent } from './components/list/list.component';
-import { MainComponent } from './components/main/main.component';
-import { RouterWrapperComponent } from './components/router-wrapper/router-wrapper.component';
+import { ListComponent } from './smashcustommusic/components/list/list.component';
+import { RouterWrapperComponent } from './smashcustommusic/components/router-wrapper/router-wrapper.component';
 
 const routes: Routes = [
   {
     path: 'gamelist',
-    component: MainComponent,
+    component: ListComponent,
     children: [
       {
         path: '',

@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { Song } from '../../smashcustommusic/models/scm.model';
-import { ScmApiService } from '../../smashcustommusic/services/scm-api.service';
+import { Song } from '../../models/scm.model';
+import { ScmApiService } from '../../services/scm-api.service';
 
 @Component({
   selector: 'app-song-details',

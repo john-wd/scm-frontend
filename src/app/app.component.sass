@@ -1,34 +1,13 @@
-$linkColor: lightgray
+.app
+  display: flex
+  flex-direction: row
 
-.toolbar
-  position: fixed
-  z-index: 50
+  #sidebar
+    flex-grow: 1
 
-  .spacer
-    flex: 1 1 auto
-
-  .title
-    height: 5ex
-    margin-right: .5em
-    display: flex
-    align-items: center
-    cursor: pointer
-    .icon
-      height: 50%
-      margin-bottom: .8ex // hack-y way to align with text
-      padding: .5ex
-
-  .links
-    a
-      cursor: pointer
-      margin-left: .5em
-      margin-right: .5em
-      font-size: 10pt
-      color: $linkColor
-      text-decoration: none
-
-      .active
-        color: inherit
-
-.body
-  padding-top: 8vh
+  #main
+    margin: 8px
+    padding: 16px
+    flex-grow: 3
+    border-radius: 16px
+    background-color: #f2f2f2

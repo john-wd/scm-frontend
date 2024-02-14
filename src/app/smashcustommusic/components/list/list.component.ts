@@ -12,11 +12,11 @@ import { MatTableDataSource } from '@angular/material/table';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { map, Observable, ReplaySubject, Subscription, tap } from 'rxjs';
-import { GameList } from '../../smashcustommusic/models/scm.model';
-import { LoadingService } from '../../smashcustommusic/services/loading.service';
-import { ScmApiService } from '../../smashcustommusic/services/scm-api.service';
-import * as fromActions from '../../smashcustommusic/state/scm.actions';
-import { getGamelist } from '../../smashcustommusic/state/scm.selector';
+import { GameList } from '../../models/scm.model';
+import { LoadingService } from '../../services/loading.service';
+import { ScmApiService } from '../../services/scm-api.service';
+import * as fromActions from '../../state/scm.actions';
+import { getGamelist } from '../../state/scm.selector';
 
 @Component({
   selector: 'scm-list',

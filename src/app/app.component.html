@@ -1,24 +1,8 @@
-<mat-toolbar color="primary" class="toolbar">
-  <mat-toolbar-row>
-    <span class="title" routerLink="/">
-      <img class="icon" src="assets/sb-w.png" />
-      <span>Smash custom music</span>
-    </span>
-
-    <span class="links">
-      <a routerLink="/gamelist" routerLinkActive="active">Game list</a>
-      <a routerLink="/about" routerLinkActive="active">About</a>
-    </span>
-
-    <span class="spacer"></span>
-    <button mat-icon-button>
-      <mat-icon>menu</mat-icon>
-    </button>
-  </mat-toolbar-row>
-</mat-toolbar>
-
-<div class="body">
-  <app-theme-toggle></app-theme-toggle>
-  <router-outlet></router-outlet>
-  <app-player class="background"></app-player>
+<div class="app">
+  <app-sidebar id="sidebar"></app-sidebar>
+  <app-main-nav id="main">
+    <router-outlet></router-outlet>
+  </app-main-nav>
 </div>
+<!-- <app-theme-toggle></app-theme-toggle> -->
+<app-player class="background"></app-player>

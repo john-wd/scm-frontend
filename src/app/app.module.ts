@@ -10,9 +10,11 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MaterialModule } from './material.module';
 import { ThemeToggleComponent } from './components/theme-toggle/theme-toggle.component';
+import { SidebarComponent } from './components/sidebar/sidebar.component';
+import { MainNavComponent } from './components/main-nav/main-nav.component';
 
 @NgModule({
-  declarations: [AppComponent, ThemeToggleComponent],
+  declarations: [AppComponent, ThemeToggleComponent, SidebarComponent, MainNavComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,
