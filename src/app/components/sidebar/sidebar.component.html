@@ -1,1 +1,41 @@
-<p>sidebar works!</p>
+<div class="container">
+  <div id="logo">
+    <img src="assets/sb-b.png">
+    <span>Smash Custom Music</span>
+  </div>
+
+  <div class="card container">
+    <button mat-button class="button">
+      <mat-icon [inline]="true">home</mat-icon>
+      <span> Home</span>
+    </button>
+    <button mat-button class="button">
+      <mat-icon [inline]="true">upload</mat-icon>
+      <span> Upload</span>
+    </button>
+    <button mat-button class="button">
+      <mat-icon [inline]="true">explore</mat-icon>
+      <span> Explore</span>
+    </button>
+    <button mat-button class="button sub-button">
+      <mat-icon [inline]="true">subdirectory_arrow_right</mat-icon>
+      <span> By series</span>
+    </button>
+    <button mat-button class="button sub-button">
+      <mat-icon [inline]="true">subdirectory_arrow_right</mat-icon>
+      <span> By console</span>
+    </button>
+    <button mat-button class="button sub-button">
+      <mat-icon [inline]="true">subdirectory_arrow_right</mat-icon>
+      <span> By game</span>
+    </button>
+  </div>
+</div>
+
+<div class="card container">
+  <div class="label">Playlists</div>
+  <button mat-button class="button">
+    <mat-icon [inline]="true">add</mat-icon>
+    <span> New playlist</span>
+  </button>
+</div>
