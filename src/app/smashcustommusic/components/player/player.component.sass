@@ -57,16 +57,17 @@ $border-radius: 8px
 
 .full-player
   display: flex
+  flex-direction: row
   margin-top: 5ex
 
   .controls
-    display: block
-    width: 40%
+    flex-grow: 1
     text-align: center
+    margin-left: 140px
 
-    .playlist
-      display: block
-      width: 60%
+  .playlist
+    flex-grow: 2
+    margin-right: 140px
 
 .disk
   width: 40%
