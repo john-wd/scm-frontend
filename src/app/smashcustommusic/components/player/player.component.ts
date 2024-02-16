@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { map, Observable, Subscription, tap } from 'rxjs';
+import { Subscription } from 'rxjs';
 import { Song } from '../../models/scm.model';
 import { PlayerService } from '../../services/player.service';
 
@@ -10,7 +10,22 @@ import { PlayerService } from '../../services/player.service';
 })
 export class PlayerComponent implements OnInit {
   toggled = false;
+  hoverIdx = -1;
   private subscriptions: Subscription[] = [];
+
+  isPlaying: boolean;
+  playing: Song;
+  playlist: Song[];
+  timeElapsed: number;
+  timeTotal: number;
+
+  tableColumns: string[] = [
+    "itemNumber",
+    "songName",
+    "gameName",
+    "length",
+    "menu"
+  ]
 
   constructor(private playerService: PlayerService) { }
 
@@ -62,11 +77,6 @@ export class PlayerComponent implements OnInit {
     this.playerService.removeFromPlaylist(songId)
   }
 
-  isPlaying: boolean;
-  playing: Song;
-  playlist: Song[];
-  timeElapsed: number;
-  timeTotal: number;
 
   ngOnInit(): void {
     this.subscriptions.push(
@@ -86,5 +96,13 @@ export class PlayerComponent implements OnInit {
         (playlist) => (this.playlist = playlist)
       )
     );
+  }
+
+  hover(idx: number) {
+    this.hoverIdx = idx
+  }
+
+  nohover() {
+    this.hoverIdx = -1
   }
 }

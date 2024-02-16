@@ -26,39 +26,39 @@
     </div>
     <div class="playlist">
       <h1>Playlist</h1>
-
-      <table mat-table [dataSource]="playlist">
+      <table>
         <!-- Pos / Music name + uploader / Game name / Length / Options menu -->
-        <ng-container matColumnDef="itemNumber">
-          <td mat-cell *matCellDef="let i = index">
-            @if (i === hoverIdx) {
-            <mat-icon [inline]="true">drag_handle</mat-icon>
-            } @else if (i === currentIndex) {
-            <mat-icon [inline]="true">play_arrow</mat-icon>
-            } @else {
-            {{i+1}}
-            }
+        <tr class="playlist-item" (click)="playAtIndex(i)" (mouseenter)="hover(i)" (mouseleave)="nohover()"
+          *ngFor="let song of playlist; let i = index">
+          <!-- Content -->
+          <ng-template #playingIcon>
+            <td><mat-icon inline=true>play_arrow</mat-icon></td>
+          </ng-template>
+          <ng-template #itemNo>
+            <td>{{i+1}}</td>
+          </ng-template>
+          <ng-template #hoverIcon>
+            <td><mat-icon inline=true>drag_handle</mat-icon></td>
+          </ng-template>
+          <ng-template #elseBlock [ngIf]="hoverIdx === i" [ngIfElse]="itemNo" [ngIfThen]="hoverIcon">
+          </ng-template>
+          <!--  End content -->
+          <td *ngIf="i === currentIndex(); then playingIcon else elseBlock"> </td>
+          <td>{{song.name}}</td>
+          <td>{{song.game_name}}</td>
+          <td>{{song.length | date : "mm:ss"}}</td>
+          <td>
+            <mat-icon inline=true>more_horiz</mat-icon>
           </td>
-        </ng-container>
-        <ng-container matColumnDef="songName">
-          <td mat-cell *matCellDef="let song">
-            <div>{{song.name}}</div>
-          </td>
-        </ng-container>
-        <ng-container matColumnDef="gameName">
-          <td mat-cell *matCellDef="let song">{{song.game_name}}</td>
-        </ng-container>
-        <ng-container matColumnDef="length">
-          <td mat-cell *matCellDef="let song">{{song.length | date: "mm:ss"}}</td>
-        </ng-container>
-        <ng-container matColumnDef="menu">
-          <td mat-cell *matCellDef="let i = index">
-            <button mat-icon-button><mat-icon>more_horiz</mat-icon></button>
-          </td>
-        </ng-container>
-
-        <tr mat-row *matRowDef="let row; columns: tableColumns;"></tr>
+        </tr>
       </table>
+      <!-- <mat-selection-list [multiple]="false">
+        <mat-list-option (click)="playAtIndex(i)" *ngFor="let song of playlist; let i = index" [value]="song">
+          <span class="playlist-item">
+            <mat-icon *ngIf="i === currentIndex()">play_arrow</mat-icon> {{ song.name }}
+          </span>
+        </mat-list-option>
+      </mat-selection-list> -->
     </div>
   </div>
 </div>

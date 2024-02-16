@@ -1,10 +1,11 @@
 import { Injectable, OnDestroy } from '@angular/core';
 import { Song } from '../models/scm.model';
-// const br = require('revolving-door-brstm/built/player');
 import {
   BrstmPlayer,
   Song as InternalSong,
 } from 'revolving-door-brstm/dist/player';
+
+import mockData from './playlist.mock.data.json'
 
 import {
   fromEvent,
@@ -13,7 +14,6 @@ import {
   of,
   Subject,
   Subscription,
-  tap,
 } from 'rxjs';
 
 export interface State {
@@ -59,7 +59,8 @@ export class PlayerService implements OnDestroy {
       })
     );
     this.playlistSubject = new Subject<Song[]>();
-    this.playlist$ = this.playlistSubject.asObservable();
+    // this.playlist$ = this.playlistSubject.asObservable();
+    this.playlist$ = of(mockData as Song[])
 
     this.subscriptions.push(
       fromEvent(document, 'brstm_playlist_add').subscribe((evt: any) => {
