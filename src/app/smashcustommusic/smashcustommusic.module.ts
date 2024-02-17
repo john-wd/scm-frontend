@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { EffectsModule } from '@ngrx/effects';
 import { ScmEffects } from './state/scm.effects';
-import { ListComponent } from './components/list/list.component';
+import { GamelistComponent } from './components/gamelist/gamelist.component';
 import { HttpClientModule } from '@angular/common/http';
 import { StoreModule } from '@ngrx/store';
 import { scmFeatureKey, scmReducer } from './state/scm.reducer';
@@ -16,7 +16,7 @@ import { SongDetailsComponent } from './components/song-details/song-details.com
 
 @NgModule({
   declarations: [
-    ListComponent,
+    GamelistComponent,
     RouterWrapperComponent,
     GameSonglistComponent,
     PlayerComponent,
@@ -31,6 +31,6 @@ import { SongDetailsComponent } from './components/song-details/song-details.com
     RouterModule,
     NgxFilesizeModule,
   ],
-  exports: [ListComponent, PlayerComponent],
+  exports: [GamelistComponent, PlayerComponent],
 })
 export class SmashcustommusicModule { }

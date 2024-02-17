@@ -1,6 +1,4 @@
-import { DataSource } from '@angular/cdk/collections';
 import {
-  AfterViewInit,
   Component,
   OnDestroy,
   OnInit,
@@ -11,19 +9,18 @@ import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { map, Observable, ReplaySubject, Subscription, tap } from 'rxjs';
+import { map, Observable, Subscription, } from 'rxjs';
 import { GameList } from '../../models/scm.model';
 import { LoadingService } from '../../services/loading.service';
-import { ScmApiService } from '../../services/scm-api.service';
 import * as fromActions from '../../state/scm.actions';
 import { getGamelist } from '../../state/scm.selector';
 
 @Component({
   selector: 'scm-list',
-  templateUrl: './list.component.html',
-  styleUrls: ['./list.component.sass'],
+  templateUrl: './gamelist.component.html',
+  styleUrls: ['./gamelist.component.sass'],
 })
-export class ListComponent implements OnInit, OnDestroy {
+export class GamelistComponent implements OnInit, OnDestroy {
   gamelist$: Observable<GameList.Root>;
   loading$: Observable<boolean>;
   loaded$: Observable<boolean>;
@@ -80,11 +77,5 @@ export class ListComponent implements OnInit, OnDestroy {
         this.dataSource.paginator.firstPage();
       }
     }
-  }
-
-  onRowClicked(row: any) {
-    this.router.navigate(['./', row.game_id], {
-      relativeTo: this.route,
-    });
   }
 }

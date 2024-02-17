@@ -1,9 +1,3 @@
-<!--
-  Top global nav bar
-
-  This contains:
-    back button  -  search  --//spacer//--  settings + user
--->
 <div class="container">
   <button class="back" mat-icon-button (click)="onBack()" routerLinkActive="router-link-active">
     <mat-icon>arrow_back</mat-icon>
@@ -19,10 +13,10 @@
   <button mat-icon-button>
     <mat-icon>settings</mat-icon>
   </button>
-  <button mat-flat-button color="primary">
+  <button mat-flat-button color="primary" style="align-self: center;">
     <mat-icon>login</mat-icon>
     Login
   </button>
 
 </div>
-<ng-content> </ng-content>
+<ng-content></ng-content>

@@ -1,0 +1,19 @@
+<ng-container *ngIf="loaded$ | async">
+  <div class="gamelist">
+    <mat-table matSort [dataSource]="dataSource">
+      <ng-container matColumnDef="game_name">
+        <mat-header-cell mat-sort-header *matHeaderCellDef>Game name</mat-header-cell>
+        <mat-cell *matCellDef="let el">{{ el.game_name }}</mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="song_count">
+        <mat-header-cell mat-sort-header *matHeaderCellDef>Song count</mat-header-cell>
+        <mat-cell *matCellDef="let el">{{ el.song_count }}</mat-cell>
+      </ng-container>
+
+      <mat-header-row *matHeaderRowDef="columsToDisplay"></mat-header-row>
+      <mat-row matRipple *matRowDef="let row; columns: columsToDisplay" class="highlighted-item"
+        [routerLink]="'./'+row.game_id"></mat-row>
+
+    </mat-table>
+  </div>
+</ng-container>
