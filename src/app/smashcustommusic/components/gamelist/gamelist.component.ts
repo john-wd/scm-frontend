@@ -7,7 +7,6 @@ import {
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
-import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { map, Observable, Subscription, } from 'rxjs';
 import { GameList } from '../../models/scm.model';
@@ -29,13 +28,11 @@ export class GamelistComponent implements OnInit, OnDestroy {
   columsToDisplay: string[] = ['game_name', 'song_count'];
   dataSource = new MatTableDataSource<any>();
 
-  subscriptions: Subscription[] = [];
+  private subscriptions: Subscription[] = [];
 
   constructor(
     private store: Store<any>,
     private loadingService: LoadingService,
-    private router: Router,
-    private route: ActivatedRoute
   ) { }
 
   ngOnInit(): void {

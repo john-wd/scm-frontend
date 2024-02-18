@@ -13,6 +13,7 @@ import { RouterModule } from '@angular/router';
 import { PlayerComponent } from './components/player/player.component';
 import { NgxFilesizeModule } from 'ngx-filesize';
 import { SongDetailsComponent } from './components/song-details/song-details.component';
+import { ContextMenuComponent } from './components/context-menu/context-menu.component';
 
 @NgModule({
   declarations: [
@@ -30,7 +31,8 @@ import { SongDetailsComponent } from './components/song-details/song-details.com
     MaterialModule,
     RouterModule,
     NgxFilesizeModule,
+    ContextMenuComponent,
   ],
-  exports: [GamelistComponent, PlayerComponent],
+  exports: [GamelistComponent, PlayerComponent, ContextMenuComponent],
 })
 export class SmashcustommusicModule { }

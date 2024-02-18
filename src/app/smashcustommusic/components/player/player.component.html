@@ -56,7 +56,7 @@
         </ng-container>
         <ng-container matColumnDef="menu">
           <mat-cell *matCellDef="let i = index">
-            <button mat-icon-button><mat-icon>more_horiz</mat-icon></button>
+            <button mat-icon-button (click)="openMenu($event)"><mat-icon>more_horiz</mat-icon></button>
           </mat-cell>
         </ng-container>
 
@@ -98,3 +98,7 @@
     {{ playing.name }} · {{ playing.game_name }} ({{ playing.uploader }})
   </span>
 </ng-template>
+
+<div *ngIf="menuShown">
+  <app-context-menu [actions]="menuActions" [position]="menuPosition" (close)="menuShown=false"></app-context-menu>
+</div>

@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { Song } from '../../models/scm.model';
 import { PlayerService } from '../../services/player.service';
+import { Action, Position, Separator } from '../context-menu/context-menu.component';
 
 @Component({
   selector: 'app-player',
@@ -19,6 +20,42 @@ export class PlayerComponent implements OnInit {
   timeElapsed: number;
   timeTotal: number;
 
+  menuShown: boolean = false;
+  menuPosition: Position = { x: 0, y: 0 }
+  menuActions: (Action | string)[] = [
+    {
+      icon: "description",
+      label: "Open details",
+      callbackFn: () => { console.log("deets") }
+    },
+    {
+      icon: "download",
+      label: "Download",
+      callbackFn: () => { }
+    },
+    Separator,
+    {
+      icon: "play_arrow",
+      label: "Play",
+      callbackFn: () => { console.log("play") }
+    },
+    {
+      icon: "playlist_add",
+      label: "Add to playlist",
+      callbackFn: () => { }
+    },
+    Separator,
+    {
+      icon: "arrow_circle_left",
+      label: "Go to game",
+      callbackFn: () => { },
+    },
+    {
+      icon: "share",
+      label: "Share",
+      callbackFn: () => { },
+    },
+  ]
   tableColumns: string[] = [
     "itemNumber",
     "songName",
@@ -104,5 +141,13 @@ export class PlayerComponent implements OnInit {
 
   nohover() {
     this.hoverIdx = -1
+  }
+
+  openMenu(e: MouseEvent) {
+    this.menuPosition = {
+      x: e.clientX,
+      y: e.clientY
+    }
+    this.menuShown = true
   }
 }

@@ -36,6 +36,7 @@ export class GameSonglistComponent implements OnInit, OnDestroy {
   loaded$: Observable<boolean>;
   songs$: Observable<SongList.Entry[]>;
 
+  menuShown: boolean = false;
   selectedSongId: number;
   selectedSong$: Observable<Song>;
 

@@ -1,0 +1,14 @@
+<div class="backdrop" (click)="onclose()">
+  <div class="contextMenu" [style]="stylePosition()">
+    <ng-container *ngFor="let action of actions; let i = index">
+      @if (isAction(action)) {
+      <button mat-button class="item" (click)="onclick(i)">
+        <mat-icon>{{action.icon}}</mat-icon>
+        <span>{{action.label}}</span>
+      </button>
+      } @else if (isSeparator(action)){
+      <hr class="separator" />
+      }
+    </ng-container>
+  </div>
+</div>

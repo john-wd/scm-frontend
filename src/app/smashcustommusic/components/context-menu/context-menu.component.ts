@@ -1,5 +1,6 @@
 import { NgFor } from '@angular/common';
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, HostListener, Input, Output } from '@angular/core';
+import { MatButton } from '@angular/material/button';
 import { MatIcon } from '@angular/material/icon';
 
 export const Separator = "==="
@@ -9,31 +10,58 @@ export interface Action {
   callbackFn: () => void
 }
 
+export type Position = {
+  x: number,
+  y: number,
+}
+
 @Component({
   selector: 'app-context-menu',
   standalone: true,
   imports: [
     NgFor,
-    MatIcon
+    MatIcon,
+    MatButton,
   ],
   templateUrl: './context-menu.component.html',
   styleUrl: './context-menu.component.sass'
 })
 export class ContextMenuComponent {
   @Input('actions') actions: (Action | string)[]
+  @Input('position') position: Position
+  @Output() close = new EventEmitter()
+
+  @HostListener('document:keydown.escape', ['$event']) onKeydownHandler(event: KeyboardEvent) {
+    this.onclose();
+  }
 
   onclick(idx: number) {
     let act = this.actions[idx]
     if (this.isAction(act)) {
       act.callbackFn()
+      this.onclose()
     }
   }
 
+  onclose() {
+    this.close.emit()
+  }
+
   isAction(act: Action | string): act is Action {
-    return "label" in (act as Action)
+    if (act instanceof Object) {
+      return "label" in (act as Action)
+    }
+    return false
   }
 
   isSeparator(act: Action | string): act is string {
     return act === Separator
+  }
+
+  stylePosition() {
+    return {
+      "left": this.position.x.toString() + "px",
+      "top": this.position.y.toString() + "px",
+    }
   }
 }
