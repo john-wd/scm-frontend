@@ -4,12 +4,43 @@ import { saveAs } from 'file-saver';
 import { map, Observable } from 'rxjs';
 import { SongList, GameList, Song } from '../models/scm.model';
 
+
+export type FormatType = {
+  slug: string,
+  label: string,
+}
+
+export const FormatBRSTM: FormatType = {
+  slug: "brstm",
+  label: "BRSTM (Wii)",
+}
+export const FormatBCSTM: FormatType = {
+  slug: "bcstm",
+  label: "BCSTM",
+}
+export const FormatBFSTM: FormatType = {
+  slug: "bfstm",
+  label: "BFSTM (Wii U)"
+}
+export const FormatSWBFSTM: FormatType = {
+  slug: "sw_bfstm",
+  label: "BFSTM (Switch)"
+}
+export const FormatBWAV: FormatType = {
+  slug: "bwav",
+  label: "BWAV"
+}
+export const FormatNUS3AUDIO: FormatType = {
+  slug: "nus3audio",
+  label: "NUS3Audio"
+};
+
 @Injectable({
   providedIn: 'root',
 })
 export class ScmApiService {
   private _baseUrl = 'http://localhost:9999';
-  constructor(private _http: HttpClient) {}
+  constructor(private _http: HttpClient) { }
 
   fetchGamelist(): Observable<GameList.Root> {
     return this._http.get<GameList.Root>(`${this._baseUrl}/json/gamelist/`);
@@ -39,8 +70,8 @@ export class ScmApiService {
     return `${this._baseUrl}/logos/${gameId}`;
   }
 
-  downloadSong(type: string, songId: number) {
-    let url = `${this._baseUrl}/${type}/${songId}`;
+  downloadSong(type: FormatType, song: Song) {
+    let url = `${this._baseUrl}/${type.slug}/${song.song_id}`;
     const a = document.createElement('a');
     a.href = url;
     document.body.appendChild(a);

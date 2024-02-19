@@ -59,8 +59,8 @@ export class PlayerService implements OnDestroy {
       })
     );
     this.playlistSubject = new Subject<Song[]>();
-    // this.playlist$ = this.playlistSubject.asObservable();
-    this.playlist$ = of(mockData as Song[])
+    this.playlist$ = this.playlistSubject.asObservable();
+    // this.playlist$ = of(mockData as Song[])
 
     this.subscriptions.push(
       fromEvent(document, 'brstm_playlist_add').subscribe((evt: any) => {
@@ -81,6 +81,7 @@ export class PlayerService implements OnDestroy {
       name: song.name,
       uploader: song.uploader,
       game_name: song.game_name,
+      game_id: Number(song.game_id),
     };
   }
 

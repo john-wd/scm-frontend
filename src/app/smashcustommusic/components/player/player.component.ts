@@ -3,6 +3,8 @@ import { Subscription } from 'rxjs';
 import { Song } from '../../models/scm.model';
 import { PlayerService } from '../../services/player.service';
 import { Action, ContextMenuService, Separator } from 'src/app/shared/services/context-menu-service.service';
+import { Router } from '@angular/router';
+import { FormatBRSTM, ScmApiService } from '../../services/scm-api.service';
 
 @Component({
   selector: 'app-player',
@@ -20,40 +22,57 @@ export class PlayerComponent implements OnInit {
   timeElapsed: number;
   timeTotal: number;
 
-  menuActions: (Action | string)[] = [
-    {
-      icon: "description",
-      label: "Open details",
-      callbackFn: () => { console.log("deets") }
-    },
-    {
-      icon: "download",
-      label: "Download",
-      callbackFn: () => { }
-    },
-    Separator,
-    {
-      icon: "play_arrow",
-      label: "Play",
-      callbackFn: () => { console.log("play") }
-    },
-    {
-      icon: "playlist_add",
-      label: "Add to playlist",
-      callbackFn: () => { }
-    },
-    Separator,
-    {
-      icon: "arrow_circle_left",
-      label: "Go to game",
-      callbackFn: () => { },
-    },
-    {
-      icon: "share",
-      label: "Share",
-      callbackFn: () => { },
-    },
-  ]
+  menuActionsAtIdx(idx: number): (Action | string)[] {
+    return [
+
+      {
+        icon: "play_arrow",
+        label: "Play",
+        callbackFn: () => { this.playAtIndex(idx) }
+      },
+      {
+        icon: "delete",
+        label: "Remove",
+        callbackFn: () => {
+          let song = this.playlist.at(idx)
+          if (song)
+            this.remove(song.song_id)
+        }
+      },
+      Separator,
+      {
+        icon: "description",
+        label: "Open details",
+        callbackFn: () => { console.log("deets") }
+      },
+      {
+        icon: "download",
+        label: "Download",
+        callbackFn: () => {
+          let song = this.playlist.at(idx)
+          if (song)
+            this.apiService.downloadSong(FormatBRSTM, song)
+        }
+      },
+      Separator,
+      {
+        icon: "arrow_circle_left",
+        label: "Go to game",
+        callbackFn: () => {
+          let song = this.playlist.at(idx)
+          if (song) {
+            console.log(song)
+            this.router.navigate(["gamelist", song.game_id])
+          }
+        },
+      },
+      {
+        icon: "share",
+        label: "Share",
+        callbackFn: () => { },
+      },
+    ]
+  }
   tableColumns: string[] = [
     "itemNumber",
     "songName",
@@ -112,7 +131,11 @@ export class PlayerComponent implements OnInit {
   }
 
 
-  constructor(private playerService: PlayerService, private menuService: ContextMenuService) { }
+  constructor(
+    private playerService: PlayerService,
+    private apiService: ScmApiService,
+    private router: Router,
+  ) { }
   ngOnInit(): void {
     this.subscriptions.push(
       this.playerService.state$.subscribe((state) => {

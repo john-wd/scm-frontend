@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Song } from '../../models/scm.model';
-import { ScmApiService } from '../../services/scm-api.service';
+import { FormatBCSTM, FormatBFSTM, FormatBRSTM, FormatBWAV, FormatNUS3AUDIO, FormatSWBFSTM, FormatType, ScmApiService } from '../../services/scm-api.service';
 
 @Component({
   selector: 'app-song-details',
@@ -81,15 +81,15 @@ export class SongDetailsComponent implements OnInit {
   };
 
   downloadTypes = ['brstm', 'bcstm', 'bfstm', 'sw_bfstm', 'bwav', 'nus3audio'];
-  downloadTypesMap: { [type: string]: string } = {
-    brstm: 'BRSTM',
-    bcstm: 'BCSTM',
-    bfstm: 'BFSTM (Wii U)',
-    sw_bfstm: 'BFSTM (Switch)',
-    bwav: 'BWAV',
-    nus3audio: 'NUS3Audio',
+  downloadTypesMap: { [type: string]: FormatType } = {
+    brstm: FormatBRSTM,
+    bcstm: FormatBCSTM,
+    bfstm: FormatBFSTM,
+    sw_bfstm: FormatSWBFSTM,
+    bwav: FormatBWAV,
+    nus3audio: FormatNUS3AUDIO,
   };
-  selectedDownloadType = 'brstm';
+  selectedDownloadType = FormatBRSTM;
 
   constructor(private scmApi: ScmApiService) { }
 
@@ -106,6 +106,6 @@ export class SongDetailsComponent implements OnInit {
 
   onDownload() {
     if (!this.song) return;
-    this.scmApi.downloadSong(this.selectedDownloadType, this.song.song_id);
+    this.scmApi.downloadSong(this.selectedDownloadType, this.song);
   }
 }

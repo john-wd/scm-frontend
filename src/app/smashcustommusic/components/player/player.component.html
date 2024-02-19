@@ -56,7 +56,7 @@
         </ng-container>
         <ng-container matColumnDef="menu">
           <mat-cell *matCellDef="let i = index">
-            <context-menu-button [actions]="menuActions"></context-menu-button>
+            <context-menu-button [actions]="menuActionsAtIdx(i)"></context-menu-button>
           </mat-cell>
         </ng-container>
 
