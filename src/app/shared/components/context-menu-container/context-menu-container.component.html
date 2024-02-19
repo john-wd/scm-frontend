@@ -1,0 +1,3 @@
+<div *ngIf="menuShown$ | async">
+  <context-menu [actions]="actions" [position]="position" (close)="close()"></context-menu>
+</div>

@@ -2,21 +2,10 @@ import { NgFor } from '@angular/common';
 import { Component, EventEmitter, HostListener, Input, Output } from '@angular/core';
 import { MatButton } from '@angular/material/button';
 import { MatIcon } from '@angular/material/icon';
-
-export const Separator = "==="
-export interface Action {
-  icon: string,
-  label: string,
-  callbackFn: () => void
-}
-
-export type Position = {
-  x: number,
-  y: number,
-}
+import { Action, Position, Separator } from '../../services/context-menu-service.service';
 
 @Component({
-  selector: 'app-context-menu',
+  selector: 'context-menu',
   standalone: true,
   imports: [
     NgFor,

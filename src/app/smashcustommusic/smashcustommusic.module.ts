@@ -13,7 +13,8 @@ import { RouterModule } from '@angular/router';
 import { PlayerComponent } from './components/player/player.component';
 import { NgxFilesizeModule } from 'ngx-filesize';
 import { SongDetailsComponent } from './components/song-details/song-details.component';
-import { ContextMenuComponent } from './components/context-menu/context-menu.component';
+import { ContextMenuComponent } from '../shared/components/context-menu/context-menu.component';
+import { SharedModule } from '../shared/shared.module';
 
 @NgModule({
   declarations: [
@@ -25,6 +26,7 @@ import { ContextMenuComponent } from './components/context-menu/context-menu.com
   ],
   imports: [
     CommonModule,
+    SharedModule,
     StoreModule.forFeature(scmFeatureKey, scmReducer),
     EffectsModule.forFeature([ScmEffects]),
     HttpClientModule,

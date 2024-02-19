@@ -1,8 +1,8 @@
-import { Component, HostListener, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { Song } from '../../models/scm.model';
 import { PlayerService } from '../../services/player.service';
-import { Action, Position, Separator } from '../context-menu/context-menu.component';
+import { Action, ContextMenuService, Separator } from 'src/app/shared/services/context-menu-service.service';
 
 @Component({
   selector: 'app-player',
@@ -20,8 +20,6 @@ export class PlayerComponent implements OnInit {
   timeElapsed: number;
   timeTotal: number;
 
-  menuShown: boolean = false;
-  menuPosition: Position = { x: 0, y: 0 }
   menuActions: (Action | string)[] = [
     {
       icon: "description",
@@ -64,7 +62,6 @@ export class PlayerComponent implements OnInit {
     "menu"
   ]
 
-  constructor(private playerService: PlayerService) { }
 
   onToggle() {
     this.toggled = !this.toggled;
@@ -115,6 +112,7 @@ export class PlayerComponent implements OnInit {
   }
 
 
+  constructor(private playerService: PlayerService, private menuService: ContextMenuService) { }
   ngOnInit(): void {
     this.subscriptions.push(
       this.playerService.state$.subscribe((state) => {
@@ -141,13 +139,5 @@ export class PlayerComponent implements OnInit {
 
   nohover() {
     this.hoverIdx = -1
-  }
-
-  openMenu(e: MouseEvent) {
-    this.menuPosition = {
-      x: e.clientX,
-      y: e.clientY
-    }
-    this.menuShown = true
   }
 }
