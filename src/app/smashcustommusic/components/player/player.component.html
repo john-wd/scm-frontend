@@ -3,19 +3,24 @@
     <mat-icon>{{ toggled ? "expand_more" : "expand_less" }}</mat-icon>
   </div>
 
-  <ng-container *ngIf="!toggled">
+  <div class="small-player" *ngIf="!toggled">
     <ng-template [ngTemplateOutlet]="mediaButtons"></ng-template>
     <ng-template [ngTemplateOutlet]="seekBar"></ng-template>
     <ng-template [ngTemplateOutlet]="trackInfo"></ng-template>
-  </ng-container>
+  </div>
 
   <div class="full-player" *ngIf="toggled">
     <div class="controls">
       <div>
         <img class="disk" src="/assets/vinyl.svg" />
       </div>
-      <div class="full-track-info">
-        <ng-template [ngTemplateOutlet]="trackInfo"></ng-template>
+      <div class="full-track-info" *ngIf="playing">
+        <h4 class="song-name">
+          {{playing.name}}
+        </h4>
+        <p class="game-name">
+          {{playing.game_name}}
+        </p>
       </div>
       <div>
         <ng-template [ngTemplateOutlet]="seekBar"></ng-template>
@@ -70,6 +75,9 @@
 <!-- Templates -->
 <ng-template #mediaButtons>
   <span class="media-buttons">
+    <button mat-icon-button>
+      <mat-icon>shuffle</mat-icon>
+    </button>
     <button mat-icon-button (click)="previous()">
       <mat-icon>skip_previous</mat-icon>
     </button>
@@ -79,6 +87,9 @@
     <button (click)="next()" mat-icon-button>
       <mat-icon>skip_next</mat-icon>
     </button>
+    <button mat-icon-button>
+      <mat-icon>repeat</mat-icon>
+    </button>
   </span>
 </ng-template>
 
@@ -86,7 +97,9 @@
   <span *ngIf="playing" class="seekbar">
     <span class="time time-elapsed">{{ timeElapsed | date : "mm:ss" }}</span>
     <div class="progress-bar">
-      <mat-progress-bar mode="determinate" [value]="percElapsed()" (click)="seek($event)"></mat-progress-bar>
+      <mat-slider>
+        <input matSliderThumb [value]="percElapsed()" (click)="seek(elapsedSlider.value)" #elapsedSlider>
+      </mat-slider>
     </div>
     <span class="time time-total">{{ timeTotal | date : "mm:ss" }}</span>
   </span>
@@ -95,7 +108,7 @@
 
 <ng-template #trackInfo>
   <span class="track-info" *ngIf="playing">
-    {{ playing.name }} · {{ playing.game_name }} ({{ playing.uploader }})
+    {{ playing.name }} ({{ playing.uploader }}) · <span class="game-name">{{ playing.game_name }}</span>
   </span>
 </ng-template>
 

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { Song } from '../../models/scm.model';
 import { PlayerService } from '../../services/player.service';
@@ -12,15 +12,18 @@ import { FormatBRSTM, ScmApiService } from '../../services/scm-api.service';
   styleUrls: ['./player.component.sass'],
 })
 export class PlayerComponent implements OnInit {
+  @HostListener('document:keydown.escape', ['$event']) onKeydownHandler(event: KeyboardEvent) { this.toggled = false }
   toggled = false;
+
   hoverIdx = -1;
   private subscriptions: Subscription[] = [];
 
   isPlaying: boolean;
   playing: Song;
   playlist: Song[];
-  timeElapsed: number;
-  timeTotal: number;
+  timeElapsedPerc: number;
+  timeElapsed: number = 0;
+  timeTotal: number = 0;
 
   menuActionsAtIdx(idx: number): (Action | string)[] {
     return [
@@ -62,6 +65,7 @@ export class PlayerComponent implements OnInit {
           let song = this.playlist.at(idx)
           if (song) {
             console.log(song)
+            this.toggled = false
             this.router.navigate(["gamelist", song.game_id])
           }
         },
@@ -106,8 +110,8 @@ export class PlayerComponent implements OnInit {
     return this.playerService.currentIndex();
   }
 
-  seek($event: any) {
-    let percentage = $event.layerX / ($event.target.offsetWidth - 3);
+  seek(perc: string) {
+    let percentage = Number(perc) / 100
 
     if (percentage > 1) {
       percentage = 1;

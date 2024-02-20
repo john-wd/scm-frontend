@@ -41,19 +41,36 @@ $border-radius: 8px
 
 .seekbar
   .progress-bar
-    width: 30%
     display: inline-block
 
-  mat-progress-bar
-    height: 1.5ex
-    border-radius: $border-radius
+    .mat-mdc-slider
+      width: 300px
+
+    ::ng-deep .mat-mdc-slider .mdc-slider__thumb
+      opacity: 0 !important
+
+    ::ng-deep .mat-mdc-slider:hover .mdc-slider__thumb
+      opacity: 1 !important
 
   .time
+    color: $text-secondary
     margin-left: 1em
     margin-right: 1em
 
 .media-buttons
   .play-pause
+    scale: 150%
+
+.game-name
+  color: $text-secondary
+
+.small-player
+  display: flex
+  flex-direction: row
+  align-items: center
+
+  .track-info
+    margin-left: 35px
 
 .full-player
   display: flex
@@ -61,6 +78,10 @@ $border-radius: 8px
   margin-top: 5ex
 
   .controls
+    max-width: fit-content
+    display: flex
+    flex-direction: column
+
     flex-grow: 1
     text-align: center
     margin-left: 140px
@@ -70,9 +91,14 @@ $border-radius: 8px
     margin-right: 140px
 
 .disk
-  width: 40%
-  padding-top: 2ex
-  padding-bottom: 2ex
+  width: 60%
+  padding-top: 8px
+  padding-bottom: 16px
 
 .full-track-info
   overflow: hidden
+  text-align: left
+
+h1, h4
+  margin-top: 4px
+  margin-bottom: 4px
