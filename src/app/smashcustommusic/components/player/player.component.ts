@@ -2,7 +2,6 @@ import { Component, HostListener, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { Song } from '../../models/scm.model';
 import { PlayerService } from '../../services/player.service';
-import { Action, ContextMenuService, Separator } from 'src/app/shared/services/context-menu-service.service';
 import { Router } from '@angular/router';
 import { FormatBRSTM, ScmApiService } from '../../services/scm-api.service';
 
@@ -25,58 +24,6 @@ export class PlayerComponent implements OnInit {
   timeElapsed: number = 0;
   timeTotal: number = 0;
 
-  menuActionsAtIdx(idx: number): (Action | string)[] {
-    return [
-
-      {
-        icon: "play_arrow",
-        label: "Play",
-        callbackFn: () => { this.playAtIndex(idx) }
-      },
-      {
-        icon: "delete",
-        label: "Remove",
-        callbackFn: () => {
-          let song = this.playlist.at(idx)
-          if (song)
-            this.remove(song.song_id)
-        }
-      },
-      Separator,
-      {
-        icon: "description",
-        label: "Open details",
-        callbackFn: () => { console.log("deets") }
-      },
-      {
-        icon: "download",
-        label: "Download",
-        callbackFn: () => {
-          let song = this.playlist.at(idx)
-          if (song)
-            this.apiService.downloadSong(FormatBRSTM, song)
-        }
-      },
-      Separator,
-      {
-        icon: "arrow_circle_left",
-        label: "Go to game",
-        callbackFn: () => {
-          let song = this.playlist.at(idx)
-          if (song) {
-            console.log(song)
-            this.toggled = false
-            this.router.navigate(["gamelist", song.game_id])
-          }
-        },
-      },
-      {
-        icon: "share",
-        label: "Share",
-        callbackFn: () => { },
-      },
-    ]
-  }
   tableColumns: string[] = [
     "itemNumber",
     "songName",
@@ -85,7 +32,10 @@ export class PlayerComponent implements OnInit {
     "menu"
   ]
 
-
+  routeToGame(gameId: number) {
+    this.toggled = false
+    this.router.navigate(["gamelist", gameId])
+  }
   onToggle() {
     this.toggled = !this.toggled;
   }
@@ -132,6 +82,10 @@ export class PlayerComponent implements OnInit {
   }
   remove(songId: number) {
     this.playerService.removeFromPlaylist(songId)
+  }
+
+  downloadSong(song: Song) {
+    this.apiService.downloadSong(FormatBRSTM, song)
   }
 
 

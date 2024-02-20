@@ -16,6 +16,7 @@ import { MatSliderModule } from '@angular/material/slider';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatSelectModule } from '@angular/material/select';
+import { MatMenuModule } from '@angular/material/menu';
 
 @NgModule({
   exports: [
@@ -35,7 +36,8 @@ import { MatSelectModule } from '@angular/material/select';
     MatToolbarModule,
     MatCheckboxModule,
     MatSelectModule,
+    MatMenuModule,
     CdkTableModule,
   ],
 })
-export class MaterialModule {}
+export class MaterialModule { }

@@ -14,6 +14,7 @@
       <div>
         <img class="disk" src="/assets/vinyl.svg" />
       </div>
+      <p *ngIf="!playing"> Nothing is playing </p>
       <div class="full-track-info" *ngIf="playing">
         <h4 class="song-name">
           {{playing.name}}
@@ -30,7 +31,7 @@
       </div>
     </div>
     <div class="playlist">
-      <h1>Playlist</h1>
+      <h4>Play queue</h4>
 
       <mat-table [dataSource]="playlist">
         <!-- Pos / Music name + uploader / Game name / Length / Options menu -->
@@ -61,7 +62,9 @@
         </ng-container>
         <ng-container matColumnDef="menu">
           <mat-cell *matCellDef="let i = index">
-            <context-menu-button [actions]="menuActionsAtIdx(i)"></context-menu-button>
+            <button mat-icon-button [matMenuTriggerFor]="songMenu" [matMenuTriggerData]="{song: playlist[i], index: i}">
+              <mat-icon>more_horiz</mat-icon>
+            </button>
           </mat-cell>
         </ng-container>
 
@@ -94,7 +97,7 @@
 </ng-template>
 
 <ng-template #seekBar>
-  <span *ngIf="playing" class="seekbar">
+  <span class="seekbar">
     <span class="time time-elapsed">{{ timeElapsed | date : "mm:ss" }}</span>
     <div class="progress-bar">
       <mat-slider>
@@ -103,7 +106,6 @@
     </div>
     <span class="time time-total">{{ timeTotal | date : "mm:ss" }}</span>
   </span>
-  <span *ngIf="!playing"> Nothing is playing </span>
 </ng-template>
 
 <ng-template #trackInfo>
@@ -112,4 +114,33 @@
   </span>
 </ng-template>
 
-<context-menu-container></context-menu-container>
+<mat-menu #songMenu="matMenu" xPosition="before">
+  <ng-template matMenuContent let-song="song" let-index="index">
+    <button mat-menu-item (click)="playAtIndex(index)">
+      <mat-icon>play_arrow</mat-icon>
+      <span>Play</span>
+    </button>
+    <button mat-menu-item (click)="remove(song.song_id)">
+      <mat-icon>delete</mat-icon>
+      <span>Remove</span>
+    </button>
+    <mat-divider></mat-divider>
+    <button mat-menu-item>
+      <mat-icon>description</mat-icon>
+      <span>Open details</span>
+    </button>
+    <button mat-menu-item (click)="downloadSong(song)">
+      <mat-icon>download</mat-icon>
+      <span>Download</span>
+    </button>
+    <mat-divider></mat-divider>
+    <button mat-menu-item (click)="routeToGame(song.game_id)">
+      <mat-icon>arrow_circle_left</mat-icon>
+      <span>Go to game</span>
+    </button>
+    <button mat-menu-item>
+      <mat-icon>share</mat-icon>
+      <span>Share</span>
+    </button>
+  </ng-template>
+</mat-menu>

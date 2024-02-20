@@ -9,7 +9,6 @@ import {
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
-import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { map, Observable, Subscription, tap } from 'rxjs';
 import { Song, SongList } from '../../models/scm.model';
@@ -36,7 +35,6 @@ export class GameSonglistComponent implements OnInit, OnDestroy {
   loaded$: Observable<boolean>;
   songs$: Observable<SongList.Entry[]>;
 
-  menuShown: boolean = false;
   selectedSongId: number;
   selectedSong$: Observable<Song>;
 
