@@ -1,0 +1,90 @@
+<div *ngIf="song$ | async as song" class="modal">
+  <div class="title">
+    <div>
+      <h2>{{song.name}}</h2>
+      <div class="id">#{{song.song_id}}</div>
+    </div>
+    <button mat-icon-button class="close" (click)="onclose()">
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
+
+  <div class="body">
+    <div class="info">
+      <div class="item">
+        <h5>Game</h5>
+        <div>{{song.game_name}}</div>
+      </div>
+      <div class="item">
+        <h5>Uploader</h5>
+        <div>{{song.uploader}}</div>
+      </div>
+      <div class="item">
+        <h5>Duration</h5>
+        <div>{{song.length * 1e3 | date: "mm:ss"}}</div>
+      </div>
+      <div class="item">
+        <h5>Downloads</h5>
+        <div>{{song.downloads}}</div>
+      </div>
+      <!-- Unavailable -->
+      <!-- <div class="item">
+      <h5>Upload date</h5>
+      <div>{{song.}}</div>
+    </div> -->
+      <div class="item">
+        <h5>Sample rate</h5>
+        <div>{{song.sample_rate}}</div>
+      </div>
+      <div class="item">
+        <h5>Loop</h5>
+        <div style="display: flex;">
+          <div>
+            {{song.loop_type}}
+          </div>
+          <div style="margin-left: 4px; margin-right: 4px;">
+            ·
+          </div>
+          <div style="text-align: center;">
+            <div>
+              {{song.start_loop_point}} — {{song.end_loop_point}}
+            </div>
+            <div>{{song.start_loop_point / song.sample_rate * 1e3 | date: "mm:ss"}} — {{song.end_loop_point /
+              song.sample_rate * 1e3 | date: "mm:ss"}}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="actions">
+      <div class="item">
+        <h5>Actions</h5>
+        <button mat-button>
+          <mat-icon>play_circle</mat-icon>
+          <span>Play song</span>
+        </button>
+        <button mat-button>
+          <mat-icon>playlist_add</mat-icon>
+          <span>Add to playlist</span>
+        </button>
+      </div>
+      <div class="item">
+        <h5>Download</h5>
+        <div class="download">
+          <mat-form-field appearance="fill">
+            <mat-label>Format</mat-label>
+            <mat-select [(value)]="selectedDownloadType">
+              <mat-option *ngFor="let type of downloadTypes" [value]="type">
+                {{ downloadTypesMap[type].label }}
+              </mat-option>
+            </mat-select>
+            <mat-hint class="filesize">Size: {{song.size | filesize}}</mat-hint>
+          </mat-form-field>
+          <button mat-flat-button color="primary">
+            <mat-icon>download</mat-icon>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

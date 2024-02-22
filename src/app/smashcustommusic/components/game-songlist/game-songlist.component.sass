@@ -1,24 +1,52 @@
+@import "theme"
+
+$hero-top-margin: 24px
+
+h1
+  margin-top: $hero-top-margin
+
+.text-secondary
+  color: $text-secondary
+
 .banner
   max-width: 50%
   height: auto
 
-.flex-container
+.songlist
+  margin-top: 40px
   display: flex
-  flex-wrap: wrap
+  flex-direction: column
+
+.hero
+  display: flex
   flex-direction: row
 
-.flex-left
-  width: 25%
+  .game_art
+    padding: $hero-top-margin
 
-.flex-right
-  width: 70%
+  .description
+    color: $text-secondary
 
-.songlist
-  padding: 2em
+.actions
+  display: flex
+  flex-direction: row
+  align-items: center
 
-  mat-form-field
-    font-size: 14px
-    width: 100%
+  button
+    width: 60px
+    height: 60px
+    padding: 0
 
-  .button
-    cursor: pointer
+  .mat-icon
+    font-size: 36px
+    width: auto
+    height: auto
+
+  .play
+    margin-right: 8px
+    width: 60px
+    height: 60px
+    .mat-icon
+      font-size: 60px
+
+.content

@@ -17,6 +17,8 @@ import { PlayerService } from '../../services/player.service';
 import { ScmApiService } from '../../services/scm-api.service';
 import { fetchSongDetails, fetchSonglist } from '../../state/scm.actions';
 import { getSonglist, getSelection } from '../../state/scm.selector';
+import { MatDialog } from '@angular/material/dialog';
+import { SongDetailsModal } from '../song-details-modal/song-details-modal.component';
 
 @Component({
   selector: 'app-game-songlist',
@@ -24,11 +26,9 @@ import { getSonglist, getSelection } from '../../state/scm.selector';
   styleUrls: ['./game-songlist.component.sass'],
 })
 export class GameSonglistComponent implements OnInit, OnDestroy {
-  @Input('gameId')
-  gameId: number;
-
-  @ViewChild('gameName')
-  gameName: ElementRef;
+  @Input('gameId') gameId: number;
+  @ViewChild('gameName') gameName: ElementRef;
+  description: string;
 
   songlist$: Observable<SongList.Root>;
   loading$: Observable<boolean>;
@@ -39,11 +39,11 @@ export class GameSonglistComponent implements OnInit, OnDestroy {
   selectedSong$: Observable<Song>;
 
   columsToDisplay: string[] = [
+    'index',
     'song_name',
-    'song_length',
-    'song_loop',
+    'game_name',
     'song_uploader',
-    'song_downloads',
+    'song_length',
     'actions',
   ];
   dataSource = new MatTableDataSource<any>();
@@ -54,7 +54,8 @@ export class GameSonglistComponent implements OnInit, OnDestroy {
     private store: Store<any>,
     private loadingService: LoadingService,
     private scmApi: ScmApiService,
-    private playerService: PlayerService
+    private playerService: PlayerService,
+    public dialog: MatDialog
   ) { }
 
   ngOnInit(): void {
@@ -128,5 +129,11 @@ export class GameSonglistComponent implements OnInit, OnDestroy {
 
   bannerUrl(gameId: number): string {
     return this.scmApi.getBannerUrl(gameId);
+  }
+
+  openDetails(song: Song) {
+    this.dialog.open(SongDetailsModal, {
+      data: song,
+    })
   }
 }

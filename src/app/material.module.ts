@@ -17,6 +17,7 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatSelectModule } from '@angular/material/select';
 import { MatMenuModule } from '@angular/material/menu';
+import { MatDialogModule } from '@angular/material/dialog';
 
 @NgModule({
   exports: [
@@ -37,6 +38,7 @@ import { MatMenuModule } from '@angular/material/menu';
     MatCheckboxModule,
     MatSelectModule,
     MatMenuModule,
+    MatDialogModule,
     CdkTableModule,
   ],
 })

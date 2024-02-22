@@ -1,26 +1,48 @@
-<div class="songlist">
-  <div *ngIf="loaded$ | async" class="flex-container">
-    <div *ngFor="let game of [songlist$ | async]" class="flex-left">
-
-      <h1 #gameName>{{ game?.game_name }}</h1>
-      <p>Number of songs: {{ game?.track_count }}</p>
-      <div *ngIf="game?.game_banner_exists">
-        <img class="banner" [src]="bannerUrl(gameId)" />
+<div class="songlist" *ngIf="loaded$ | async">
+  <ng-container *ngFor="let game of [songlist$ | async]">
+    <div class="hero">
+      <div class="game_art">
+        @if (game?.game_banner_exists) {
+        <img [src]="bannerUrl(gameId)" />
+        } @else {
+        <img src="assets/vinyl.svg" />
+        }
       </div>
-
-      <app-song-details [song]="selectedSong$ | async"></app-song-details>
+      <!-- Game info -->
+      <div>
+        <h1 #gameName>{{ game?.game_name }}</h1>
+        <p class="description" *ngIf="description">{{description}}</p>
+        <p>{{ game?.track_count }} songs</p>
+        <!-- TODO -->
+        <!-- <p>{{ game?.track_count }} songs · {{game?.downloads}} downloads · {{game?.total_length}}</p> -->
+      </div>
     </div>
 
-    <div class="flex-right">
+    <div class="actions">
+      <button mat-icon-button class="play" color="primary">
+        <mat-icon>play_circle</mat-icon>
+      </button>
+      <button mat-icon-button>
+        <mat-icon>more_horiz</mat-icon>
+      </button>
+    </div>
+
+    <div class="content">
+      <h4>Available tracks</h4>
       <mat-table matSort [dataSource]="dataSource">
+        <ng-container matColumnDef="index">
+          <mat-header-cell mat-sort-header *matHeaderCellDef>#</mat-header-cell>
+          <mat-cell *matCellDef="let i = index">{{ i+1 }}</mat-cell>
+        </ng-container>
         <ng-container matColumnDef="song_name">
-          <mat-header-cell mat-sort-header *matHeaderCellDef>Name</mat-header-cell>
+          <mat-header-cell mat-sort-header *matHeaderCellDef>Title</mat-header-cell>
           <mat-cell *matCellDef="let el">{{ el.song_name }}</mat-cell>
         </ng-container>
-        <ng-container matColumnDef="song_length">
-          <mat-header-cell mat-sort-header *matHeaderCellDef>Length</mat-header-cell>
-          <mat-cell *matCellDef="let el">{{ el.song_length }}</mat-cell>
+        <ng-container matColumnDef="game_name">
+          <mat-header-cell mat-sort-header *matHeaderCellDef>Game</mat-header-cell>
+          <mat-cell *matCellDef="let el">{{ gameName.textContent }}</mat-cell>
         </ng-container>
+
         <ng-container matColumnDef="song_loop">
           <mat-header-cell mat-sort-header *matHeaderCellDef>Loop type</mat-header-cell>
           <mat-cell *matCellDef="let el">{{ el.song_loop }}</mat-cell>
@@ -34,20 +56,60 @@
           <mat-cell *matCellDef="let el">{{ el.song_downloads }}</mat-cell>
         </ng-container>
 
-        <ng-container matColumnDef="actions">
-          <mat-header-cell mat-sort-header *matHeaderCellDef>Actions</mat-header-cell>
-          <mat-cell *matCellDef="let el">
-            <mat-icon class="button" (click)="onPlay(el); $event.stopPropagation()">play_arrow</mat-icon>
-            <mat-icon class="button" (click)="onAddToPlaylist(el); $event.stopPropagation()">playlist_add</mat-icon>
+        <ng-container matColumnDef="song_length">
+          <mat-header-cell mat-sort-header *matHeaderCellDef>Length</mat-header-cell>
+          <mat-cell class="text-secondary" *matCellDef="let el">{{ el.song_length * 1e3| date: "mm:ss"}}</mat-cell>
+        </ng-container>
 
+        <ng-container matColumnDef="actions">
+          <mat-header-cell mat-sort-header *matHeaderCellDef></mat-header-cell>
+          <mat-cell *matCellDef="let el; let i = index">
+            <button mat-icon-button [matMenuTriggerFor]="songMenu" [matMenuTriggerData]="{song: el, index: i}"
+              (click)="$event.stopPropagation()">
+              <mat-icon>more_horiz</mat-icon>
+            </button>
           </mat-cell>
         </ng-container>
 
-        <mat-header-row *matHeaderRowDef="columsToDisplay"></mat-header-row>
         <mat-row matRipple *matRowDef="let row; columns: columsToDisplay" class="highlighted-item"
           (click)="onRowClicked(row)"></mat-row>
 
       </mat-table>
     </div>
-  </div>
+  </ng-container>
 </div>
+
+<mat-menu #songMenu="matMenu" xPosition="before">
+  <ng-template matMenuContent let-song="song" let-index="index">
+    <button mat-menu-item (click)="openDetails(song.song_id)">
+      <mat-icon>description</mat-icon>
+      <span>Open details</span>
+    </button>
+    <button mat-menu-item>
+      <mat-icon>download</mat-icon>
+      <span>Download</span>
+    </button>
+
+    <mat-divider></mat-divider>
+
+    <button mat-menu-item>
+      <mat-icon>play_arrow</mat-icon>
+      <span>Play</span>
+    </button>
+    <button mat-menu-item>
+      <mat-icon>playlist_add</mat-icon>
+      <span>Add to playlist</span>
+    </button>
+
+    <mat-divider></mat-divider>
+
+    <button mat-menu-item>
+      <mat-icon>arrow_circle_left</mat-icon>
+      <span>Go to game</span>
+    </button>
+    <button mat-menu-item>
+      <mat-icon>share</mat-icon>
+      <span>Share</span>
+    </button>
+  </ng-template>
+</mat-menu>

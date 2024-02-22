@@ -12,7 +12,6 @@ import { GameSonglistComponent } from './components/game-songlist/game-songlist.
 import { RouterModule } from '@angular/router';
 import { PlayerComponent } from './components/player/player.component';
 import { NgxFilesizeModule } from 'ngx-filesize';
-import { SongDetailsComponent } from './components/song-details/song-details.component';
 import { SharedModule } from '../shared/shared.module';
 
 @NgModule({
@@ -21,7 +20,6 @@ import { SharedModule } from '../shared/shared.module';
     RouterWrapperComponent,
     GameSonglistComponent,
     PlayerComponent,
-    SongDetailsComponent,
   ],
   imports: [
     CommonModule,
