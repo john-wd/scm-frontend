@@ -1,26 +1,27 @@
 import { Component, OnInit } from '@angular/core';
 import { ThemeToggleService } from '../../services/theme-toggle.service';
-import { Observable } from 'rxjs';
-import { MatButton } from '@angular/material/button';
-import { MatIcon } from '@angular/material/icon';
+import { MatButton, MatIconButton } from '@angular/material/button';
+import { MatIcon, } from '@angular/material/icon';
 import { CommonModule } from '@angular/common';
+import { MatMenuItem } from '@angular/material/menu';
 
 @Component({
-  selector: 'app-theme-toggle',
+  selector: 'theme-toggle-menu',
   templateUrl: './theme-toggle.component.html',
   standalone: true,
   imports: [
     CommonModule,
-    MatButton,
     MatIcon,
+    MatMenuItem,
   ],
   styleUrls: ['./theme-toggle.component.sass']
 })
 export class ThemeToggleComponent implements OnInit {
-  isDarkMode$: Observable<boolean>
-
   constructor(private themeService: ThemeToggleService) {
-    this.isDarkMode$ = this.themeService.isDarkMode();
+  }
+
+  get isDarkMode(): boolean {
+    return this.themeService.isDarkMode()
   }
 
   ngOnInit(): void {

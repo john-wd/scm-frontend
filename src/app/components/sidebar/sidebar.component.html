@@ -5,29 +5,29 @@
   </div>
 
   <div class="card container">
-    <button mat-button class="button">
+    <button mat-button class="button" [routerLink]="'/home'">
       <mat-icon>home</mat-icon>
       <span> Home</span>
     </button>
-    <button mat-button class="button" *featureFlag="'login_enabled'">
+    <button mat-button class="button" [routerLink]="'/upload'" *featureFlag="'login_enabled'">
       <mat-icon>upload</mat-icon>
       <span> Upload</span>
     </button>
-    <button mat-button class="button">
+    <button mat-button [routerLink]="'/explore'" class="button">
       <mat-icon>explore</mat-icon>
       <span> Explore</span>
     </button>
-    <button mat-button class="button sub-button" *featureFlag="'v2backend'">
+    <button mat-button [routerLink]="'/explore/games'" class="button sub-button">
+      <mat-icon>subdirectory_arrow_right</mat-icon>
+      <span> By game</span>
+    </button>
+    <button mat-button [routerLink]="'/explore/series'" class="button sub-button" *featureFlag="'v2backend'">
       <mat-icon>subdirectory_arrow_right</mat-icon>
       <span> By series</span>
     </button>
-    <button mat-button class="button sub-button" *featureFlag="'v2backend'">
+    <button mat-button [routerLink]="'/explore/consoles'" class="button sub-button" *featureFlag="'v2backend'">
       <mat-icon>subdirectory_arrow_right</mat-icon>
       <span> By console</span>
-    </button>
-    <button mat-button class="button sub-button">
-      <mat-icon>subdirectory_arrow_right</mat-icon>
-      <span> By game</span>
     </button>
   </div>
 </div>

@@ -1,5 +1,7 @@
 import { Location } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
+import { Observable, tap } from 'rxjs';
+import { ThemeToggleService } from 'src/app/shared/services/theme-toggle.service';
 
 @Component({
   selector: 'app-main-nav',
@@ -8,10 +10,11 @@ import { Component, OnInit } from '@angular/core';
 })
 export class MainNavComponent implements OnInit {
 
-  constructor(private _location: Location) { }
+  constructor(
+    private _location: Location,
+  ) { }
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void { }
 
   onBack() {
     this._location.back()

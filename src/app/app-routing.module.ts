@@ -4,14 +4,20 @@ import { AboutComponent } from './components/about/about.component';
 import { HomeComponent } from './components/home/home.component';
 import { GamelistComponent } from './smashcustommusic/components/gamelist/gamelist.component';
 import { SonglistComponent } from './smashcustommusic/components/songlist/songlist.component';
+import { HelpComponent } from './components/help/help.component';
 
 const routes: Routes = [
   {
-    path: 'gamelist',
+    path: "explore",
+    redirectTo: "explore/games",
+    pathMatch: "full"
+  },
+  {
+    path: 'explore/games',
     component: GamelistComponent,
   },
   {
-    path: "gamelist/:gameId",
+    path: "explore/games/:gameId",
     component: SonglistComponent,
   },
   {
@@ -19,9 +25,18 @@ const routes: Routes = [
     component: AboutComponent,
   },
   {
-    path: '',
+    path: 'help',
+    component: HelpComponent,
+  },
+  {
+    path: 'home',
     component: HomeComponent,
     pathMatch: 'full',
+  },
+  {
+    path: '',
+    redirectTo: "home",
+    pathMatch: 'full'
   },
 ];
 
