@@ -3,8 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { AboutComponent } from './components/about/about.component';
 import { HomeComponent } from './components/home/home.component';
 import { GamelistComponent } from './smashcustommusic/components/gamelist/gamelist.component';
-import { RouterWrapperComponent } from './smashcustommusic/components/router-wrapper/router-wrapper.component';
-import { MainNavComponent } from './components/main-nav/main-nav.component';
+import { SonglistComponent } from './smashcustommusic/components/songlist/songlist.component';
 
 const routes: Routes = [
   {
@@ -12,8 +11,8 @@ const routes: Routes = [
     component: GamelistComponent,
   },
   {
-    path: "gamelist/:game_id",
-    component: RouterWrapperComponent
+    path: "gamelist/:gameId",
+    component: SonglistComponent,
   },
   {
     path: 'about',

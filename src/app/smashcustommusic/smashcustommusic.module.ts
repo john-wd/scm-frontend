@@ -7,8 +7,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { StoreModule } from '@ngrx/store';
 import { scmFeatureKey, scmReducer } from './state/scm.reducer';
 import { MaterialModule } from '../material.module';
-import { RouterWrapperComponent } from './components/router-wrapper/router-wrapper.component';
-import { GameSonglistComponent } from './components/game-songlist/game-songlist.component';
+import { SonglistComponent } from './components/songlist/songlist.component';
 import { RouterModule } from '@angular/router';
 import { PlayerComponent } from './components/player/player.component';
 import { NgxFilesizeModule } from 'ngx-filesize';
@@ -17,8 +16,7 @@ import { SharedModule } from '../shared/shared.module';
 @NgModule({
   declarations: [
     GamelistComponent,
-    RouterWrapperComponent,
-    GameSonglistComponent,
+    SonglistComponent,
     PlayerComponent,
   ],
   imports: [

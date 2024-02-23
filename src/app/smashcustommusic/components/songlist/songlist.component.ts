@@ -19,14 +19,15 @@ import { fetchSongDetails, fetchSonglist } from '../../state/scm.actions';
 import { getSonglist, getSelection } from '../../state/scm.selector';
 import { MatDialog } from '@angular/material/dialog';
 import { SongDetailsModal } from '../song-details-modal/song-details-modal.component';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
-  selector: 'app-game-songlist',
-  templateUrl: './game-songlist.component.html',
-  styleUrls: ['./game-songlist.component.sass'],
+  selector: 'app-songlist',
+  templateUrl: './songlist.component.html',
+  styleUrls: ['./songlist.component.sass'],
 })
-export class GameSonglistComponent implements OnInit, OnDestroy {
-  @Input('gameId') gameId: number;
+export class SonglistComponent implements OnInit, OnDestroy {
+  gameId: number;
   @ViewChild('gameName') gameName: ElementRef;
   description: string;
 
@@ -51,6 +52,7 @@ export class GameSonglistComponent implements OnInit, OnDestroy {
   subscriptions: Subscription[] = [];
 
   constructor(
+    private route: ActivatedRoute,
     private store: Store<any>,
     private loadingService: LoadingService,
     private scmApi: ScmApiService,
@@ -59,7 +61,8 @@ export class GameSonglistComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit(): void {
-    this.store.dispatch(fetchSonglist.action({ gameId: this.gameId }));
+    const gameId = Number(this.route.snapshot.paramMap.get('gameId'));
+    this.store.dispatch(fetchSonglist.action({ gameId: gameId }));
     this.songlist$ = this.store
       .select(getSonglist)
       .pipe(map((state) => state[this.gameId]));
@@ -75,6 +78,7 @@ export class GameSonglistComponent implements OnInit, OnDestroy {
         this.dataSource.data = songs;
       })
     );
+    this.gameId = gameId
   }
 
   ngOnDestroy(): void {
