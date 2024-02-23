@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { APP_INITIALIZER, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -12,7 +12,11 @@ import { MaterialModule } from './material.module';
 import { SidebarComponent } from './components/sidebar/sidebar.component';
 import { MainNavComponent } from './components/main-nav/main-nav.component';
 import { SharedModule } from './shared/shared.module';
+import { FeatureFlagService } from './shared/services/feature-flag.service';
 
+import * as flagConfigs from "./config/production.flags.json";
+
+const featureFlagFactory = (featureFlagService: FeatureFlagService) => () => featureFlagService.loadConfig(flagConfigs)
 @NgModule({
   declarations: [AppComponent, SidebarComponent, MainNavComponent],
   imports: [
@@ -30,7 +34,14 @@ import { SharedModule } from './shared/shared.module';
     BrowserAnimationsModule,
     MaterialModule,
   ],
-  providers: [],
+  providers: [
+    {
+      provide: APP_INITIALIZER,
+      useFactory: featureFlagFactory,
+      deps: [FeatureFlagService],
+      multi: true
+    }
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule { }

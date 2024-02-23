@@ -13,7 +13,7 @@
   <button mat-icon-button>
     <mat-icon>settings</mat-icon>
   </button>
-  <button mat-flat-button color="primary" style="align-self: center;">
+  <button mat-flat-button color="primary" style="align-self: center;" *featureFlag="'login_enabled'">
     <mat-icon>login</mat-icon>
     Login
   </button>

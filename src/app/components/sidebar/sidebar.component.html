@@ -9,7 +9,7 @@
       <mat-icon>home</mat-icon>
       <span> Home</span>
     </button>
-    <button mat-button class="button">
+    <button mat-button class="button" *featureFlag="'login_enabled'">
       <mat-icon>upload</mat-icon>
       <span> Upload</span>
     </button>
@@ -17,11 +17,11 @@
       <mat-icon>explore</mat-icon>
       <span> Explore</span>
     </button>
-    <button mat-button class="button sub-button">
+    <button mat-button class="button sub-button" *featureFlag="'v2backend'">
       <mat-icon>subdirectory_arrow_right</mat-icon>
       <span> By series</span>
     </button>
-    <button mat-button class="button sub-button">
+    <button mat-button class="button sub-button" *featureFlag="'v2backend'">
       <mat-icon>subdirectory_arrow_right</mat-icon>
       <span> By console</span>
     </button>
@@ -32,7 +32,7 @@
   </div>
 </div>
 
-<div class=" card container">
+<div class=" card container" *featureFlag="'v2backend'">
   <p class="label">Playlists</p>
   <button mat-button class="button">
     <mat-icon>add</mat-icon>
