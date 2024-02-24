@@ -106,10 +106,6 @@ export class SonglistComponent implements OnInit, OnDestroy {
       }
     }
   }
-  onRowClicked(row: Song) {
-    this.selectedSongId = row.song_id;
-    this.store.dispatch(fetchSongDetails.action({ songId: row.song_id }));
-  }
 
   onPlay(song: SongList.Entry) {
     this.playerService.play({

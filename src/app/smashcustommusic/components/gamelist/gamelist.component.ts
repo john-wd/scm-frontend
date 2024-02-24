@@ -25,7 +25,11 @@ export class GamelistComponent implements OnInit, OnDestroy {
   loaded$: Observable<boolean>;
   games$: Observable<GameList.Entry[]>;
 
-  columsToDisplay: string[] = ['game_name', 'song_count'];
+  columsToDisplay: string[] = [
+    'game_name',
+    'song_count',
+    'menu'
+  ];
   dataSource = new MatTableDataSource<any>();
 
   private subscriptions: Subscription[] = [];

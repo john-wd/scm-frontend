@@ -22,7 +22,7 @@
       <button mat-icon-button class="play" color="primary">
         <mat-icon>play_circle</mat-icon>
       </button>
-      <button mat-icon-button>
+      <button mat-icon-button [matMenuTriggerFor]="mainMenu">
         <mat-icon>more_horiz</mat-icon>
       </button>
     </div>
@@ -72,7 +72,7 @@
         </ng-container>
 
         <mat-row matRipple *matRowDef="let row; columns: columsToDisplay" class="highlighted-item"
-          (click)="onRowClicked(row)"></mat-row>
+          (click)="onPlay(row)"></mat-row>
 
       </mat-table>
     </div>
@@ -107,6 +107,30 @@
       <mat-icon>arrow_circle_left</mat-icon>
       <span>Go to game</span>
     </button>
+    <button mat-menu-item>
+      <mat-icon>share</mat-icon>
+      <span>Share</span>
+    </button>
+  </ng-template>
+</mat-menu>
+
+<mat-menu #mainMenu="matMenu">
+  <ng-template matMenuContent>
+    <button mat-menu-item>
+      <mat-icon>playlist_add</mat-icon>
+      <span>Add to playlist</span>
+    </button>
+    <button mat-menu-item>
+      <mat-icon>shuffle</mat-icon>
+      <span>Shuffle</span>
+    </button>
+    <button mat-menu-item>
+      <mat-icon>add</mat-icon>
+      <span>New playlist</span>
+    </button>
+
+    <mat-divider></mat-divider>
+
     <button mat-menu-item>
       <mat-icon>share</mat-icon>
       <span>Share</span>

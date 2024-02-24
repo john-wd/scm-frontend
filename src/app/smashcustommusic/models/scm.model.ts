@@ -10,6 +10,11 @@ export namespace GameList {
     game_id: number;
     game_name: string;
     song_count: number;
+    // TO BE ADDED in backend v2
+    series: string;
+    console: string;
+    total_downloads: number;
+    thumbnail_url: string;
   }
 }
 

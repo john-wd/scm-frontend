@@ -1,6 +1,22 @@
 <ng-container *ngIf="loaded$ | async">
   <div class="gamelist">
     <mat-table matSort [dataSource]="dataSource">
+      <!-- To be added in v2 backend -->
+      <ng-container *featureFlag="'v2backend'">
+        <ng-container matColumnDef="thumbnail_url">
+          <mat-header-cell mat-sort-header *matHeaderCellDef></mat-header-cell>
+          <mat-cell *matCellDef="let el">{{ el.thumbnail_url }}</mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="series">
+          <mat-header-cell mat-sort-header *matHeaderCellDef>Series</mat-header-cell>
+          <mat-cell *matCellDef="let el">{{ el.series }}</mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="console">
+          <mat-header-cell mat-sort-header *matHeaderCellDef>Series</mat-header-cell>
+          <mat-cell *matCellDef="let el">{{ el.console }}</mat-cell>
+        </ng-container>
+      </ng-container>
+
       <ng-container matColumnDef="game_name">
         <mat-header-cell mat-sort-header *matHeaderCellDef>Game name</mat-header-cell>
         <mat-cell *matCellDef="let el">{{ el.game_name }}</mat-cell>
@@ -8,6 +24,15 @@
       <ng-container matColumnDef="song_count">
         <mat-header-cell mat-sort-header *matHeaderCellDef>Song count</mat-header-cell>
         <mat-cell *matCellDef="let el">{{ el.song_count }}</mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="menu">
+        <mat-header-cell mat-sort-header *matHeaderCellDef></mat-header-cell>
+        <mat-cell *matCellDef="let el; let i = index">
+          <button mat-icon-button [matMenuTriggerFor]="menu" [matMenuTriggerData]="{game: el, index: i}"
+            (click)="$event.stopPropagation()">
+            <mat-icon>more_horiz</mat-icon>
+          </button>
+        </mat-cell>
       </ng-container>
 
       <mat-header-row *matHeaderRowDef="columsToDisplay"></mat-header-row>
@@ -17,3 +42,9 @@
     </mat-table>
   </div>
 </ng-container>
+
+<mat-menu #menu="matMenu" xposition="before">
+  <ng-template matMenuContent let-game="game" let-index="index">
+
+  </ng-template>
+</mat-menu>
