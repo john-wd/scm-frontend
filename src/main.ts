@@ -16,9 +16,6 @@ import * as flagConfigs from "./config/production.flags.json";
 
 const featureFlagFactory = (featureFlagService: FeatureFlagService) => () => featureFlagService.loadConfig(flagConfigs)
 
-
-
-
 bootstrapApplication(AppComponent, {
   providers: [
     importProvidersFrom(BrowserModule, AppRoutingModule, SmashcustommusicModule, StoreModule.forRoot({}), EffectsModule.forRoot(), StoreDevtoolsModule.instrument({
