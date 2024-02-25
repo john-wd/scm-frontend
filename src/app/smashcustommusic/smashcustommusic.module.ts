@@ -6,27 +6,25 @@ import { GamelistComponent } from './components/gamelist/gamelist.component';
 import { HttpClientModule } from '@angular/common/http';
 import { StoreModule } from '@ngrx/store';
 import { scmFeatureKey, scmReducer } from './state/scm.reducer';
-import { MaterialModule } from '../material.module';
+
 import { SonglistComponent } from './components/songlist/songlist.component';
 import { RouterModule } from '@angular/router';
 import { PlayerComponent } from './components/player/player.component';
 import { NgxFilesizeModule } from 'ngx-filesize';
-import { SharedModule } from '../shared/shared.module';
+
 
 @NgModule({
     imports: [
-        CommonModule,
-        SharedModule,
-        StoreModule.forFeature(scmFeatureKey, scmReducer),
-        EffectsModule.forFeature([ScmEffects]),
-        HttpClientModule,
-        MaterialModule,
-        RouterModule,
-        NgxFilesizeModule,
-        GamelistComponent,
-        SonglistComponent,
-        PlayerComponent,
-    ],
+    CommonModule,
+    StoreModule.forFeature(scmFeatureKey, scmReducer),
+    EffectsModule.forFeature([ScmEffects]),
+    HttpClientModule,
+    RouterModule,
+    NgxFilesizeModule,
+    GamelistComponent,
+    SonglistComponent,
+    PlayerComponent,
+],
     exports: [GamelistComponent, PlayerComponent],
 })
 export class SmashcustommusicModule { }
