@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   height="24"
+   viewBox="0 -960 960 960"
+   width="24"
+   version="1.1"
+   id="svg1"
+   sodipodi:docname="repeat_n.svg"
+   inkscape:version="1.3.2 (091e20e, 2023-11-25)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs1" />
+  <sodipodi:namedview
+     id="namedview1"
+     pagecolor="#ffffff"
+     bordercolor="#111111"
+     borderopacity="1"
+     inkscape:showpageshadow="0"
+     inkscape:pageopacity="0"
+     inkscape:pagecheckerboard="1"
+     inkscape:deskcolor="#d1d1d1"
+     showgrid="false"
+     inkscape:zoom="45.208333"
+     inkscape:cx="11.070968"
+     inkscape:cy="9.9207373"
+     inkscape:window-width="1568"
+     inkscape:window-height="1062"
+     inkscape:window-x="0"
+     inkscape:window-y="44"
+     inkscape:window-maximized="0"
+     inkscape:current-layer="svg1" />
+  <path
+     id="path1"
+     d="M 680 -880 L 623.98438 -822.03125 L 686.01562 -760 L 488.125 -760 L 488.125 -680 L 686.01562 -680 L 623.98438 -617.96875 L 680 -560 L 840 -720 L 680 -880 z M 680 -440 L 680 -280 L 273.98438 -280 L 336.01562 -342.03125 L 280 -400 L 120 -240 L 280 -80 L 336.01562 -137.96875 L 273.98438 -200 L 760 -200 L 760 -440 L 680 -440 z " />
+  <path
+     d="M 120,-572.36077 V -880 h 87.07602 l 96.8721,171.12434 -9.79604,1.92274 V -880 h 87.07601 v 307.63923 h -87.07601 l -46.34218,-81.86328 -50.52992,-89.26106 9.79604,-1.92274 v 173.04708 z"
+     id="path1-2"
+     sodipodi:nodetypes="cccccccccccccc"
+     style="stroke-width:1.02294" />
+</svg>
