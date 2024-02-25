@@ -18,30 +18,31 @@ import * as flagConfigs from "./config/production.flags.json";
 
 const featureFlagFactory = (featureFlagService: FeatureFlagService) => () => featureFlagService.loadConfig(flagConfigs)
 @NgModule({
-  declarations: [AppComponent, SidebarComponent, MainNavComponent],
-  imports: [
-    BrowserModule,
-    SharedModule,
-    AppRoutingModule,
-    SmashcustommusicModule,
-    StoreModule.forRoot({}),
-    EffectsModule.forRoot(),
-    StoreDevtoolsModule.instrument({
-      maxAge: 25, // Retains last 25 states
-      logOnly: false, // Restrict extension to log-only mode
-      autoPause: true, // Pauses recording actions and state changes when the extension window is not open
-    }),
-    BrowserAnimationsModule,
-    MaterialModule,
-  ],
-  providers: [
-    {
-      provide: APP_INITIALIZER,
-      useFactory: featureFlagFactory,
-      deps: [FeatureFlagService],
-      multi: true
-    }
-  ],
-  bootstrap: [AppComponent],
+    declarations: [AppComponent],
+    imports: [
+        BrowserModule,
+        SharedModule,
+        AppRoutingModule,
+        SmashcustommusicModule,
+        StoreModule.forRoot({}),
+        EffectsModule.forRoot(),
+        StoreDevtoolsModule.instrument({
+            maxAge: 25, // Retains last 25 states
+            logOnly: false, // Restrict extension to log-only mode
+            autoPause: true, // Pauses recording actions and state changes when the extension window is not open
+        }),
+        BrowserAnimationsModule,
+        MaterialModule,
+        SidebarComponent, MainNavComponent,
+    ],
+    providers: [
+        {
+            provide: APP_INITIALIZER,
+            useFactory: featureFlagFactory,
+            deps: [FeatureFlagService],
+            multi: true
+        }
+    ],
+    bootstrap: [AppComponent],
 })
 export class AppModule { }

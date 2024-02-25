@@ -14,21 +14,19 @@ import { NgxFilesizeModule } from 'ngx-filesize';
 import { SharedModule } from '../shared/shared.module';
 
 @NgModule({
-  declarations: [
-    GamelistComponent,
-    SonglistComponent,
-    PlayerComponent,
-  ],
-  imports: [
-    CommonModule,
-    SharedModule,
-    StoreModule.forFeature(scmFeatureKey, scmReducer),
-    EffectsModule.forFeature([ScmEffects]),
-    HttpClientModule,
-    MaterialModule,
-    RouterModule,
-    NgxFilesizeModule,
-  ],
-  exports: [GamelistComponent, PlayerComponent],
+    imports: [
+        CommonModule,
+        SharedModule,
+        StoreModule.forFeature(scmFeatureKey, scmReducer),
+        EffectsModule.forFeature([ScmEffects]),
+        HttpClientModule,
+        MaterialModule,
+        RouterModule,
+        NgxFilesizeModule,
+        GamelistComponent,
+        SonglistComponent,
+        PlayerComponent,
+    ],
+    exports: [GamelistComponent, PlayerComponent],
 })
 export class SmashcustommusicModule { }

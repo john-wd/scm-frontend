@@ -5,19 +5,51 @@ import {
   ViewChild,
 } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
-import { MatSort } from '@angular/material/sort';
-import { MatTableDataSource } from '@angular/material/table';
+import { MatSort, MatSortHeader } from '@angular/material/sort';
+import { MatTableDataSource, MatTable, MatColumnDef, MatHeaderCellDef, MatHeaderCell, MatCellDef, MatCell, MatHeaderRowDef, MatHeaderRow, MatRowDef, MatRow } from '@angular/material/table';
 import { Store } from '@ngrx/store';
 import { map, Observable, Subscription, } from 'rxjs';
 import { GameList } from '../../models/scm.model';
 import { LoadingService } from '../../services/loading.service';
 import * as fromActions from '../../state/scm.actions';
 import { getGamelist } from '../../state/scm.selector';
+import { RouterLink } from '@angular/router';
+import { MatRipple } from '@angular/material/core';
+import { MatIcon } from '@angular/material/icon';
+import { MatMenuTrigger, MatMenu, MatMenuContent } from '@angular/material/menu';
+import { MatIconButton } from '@angular/material/button';
+import { FeatureFlagDirective } from '../../../shared/directives/feature-flag.directive';
+import { NgIf, AsyncPipe } from '@angular/common';
 
 @Component({
-  selector: 'scm-list',
-  templateUrl: './gamelist.component.html',
-  styleUrls: ['./gamelist.component.sass'],
+    selector: 'scm-list',
+    templateUrl: './gamelist.component.html',
+    styleUrls: ['./gamelist.component.sass'],
+    standalone: true,
+    imports: [
+        NgIf,
+        MatTable,
+        MatSort,
+        FeatureFlagDirective,
+        MatColumnDef,
+        MatHeaderCellDef,
+        MatHeaderCell,
+        MatSortHeader,
+        MatCellDef,
+        MatCell,
+        MatIconButton,
+        MatMenuTrigger,
+        MatIcon,
+        MatHeaderRowDef,
+        MatHeaderRow,
+        MatRowDef,
+        MatRow,
+        MatRipple,
+        RouterLink,
+        MatMenu,
+        MatMenuContent,
+        AsyncPipe,
+    ],
 })
 export class GamelistComponent implements OnInit, OnDestroy {
   gamelist$: Observable<GameList.Root>;

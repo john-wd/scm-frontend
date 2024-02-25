@@ -7,8 +7,8 @@ import {
   ViewChild,
 } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
-import { MatSort } from '@angular/material/sort';
-import { MatTableDataSource } from '@angular/material/table';
+import { MatSort, MatSortHeader } from '@angular/material/sort';
+import { MatTableDataSource, MatTable, MatColumnDef, MatHeaderCellDef, MatHeaderCell, MatCellDef, MatCell, MatRowDef, MatRow } from '@angular/material/table';
 import { Store } from '@ngrx/store';
 import { map, Observable, Subscription, tap } from 'rxjs';
 import { Song, SongList } from '../../models/scm.model';
@@ -20,11 +20,42 @@ import { getSonglist, getSelection } from '../../state/scm.selector';
 import { MatDialog } from '@angular/material/dialog';
 import { SongDetailsModal } from '../song-details-modal/song-details-modal.component';
 import { ActivatedRoute } from '@angular/router';
+import { MatDivider } from '@angular/material/divider';
+import { MatRipple } from '@angular/material/core';
+import { MatMenuTrigger, MatMenu, MatMenuContent, MatMenuItem } from '@angular/material/menu';
+import { MatIcon } from '@angular/material/icon';
+import { MatIconButton } from '@angular/material/button';
+import { NgIf, NgFor, AsyncPipe, DatePipe } from '@angular/common';
 
 @Component({
-  selector: 'app-songlist',
-  templateUrl: './songlist.component.html',
-  styleUrls: ['./songlist.component.sass'],
+    selector: 'app-songlist',
+    templateUrl: './songlist.component.html',
+    styleUrls: ['./songlist.component.sass'],
+    standalone: true,
+    imports: [
+        NgIf,
+        NgFor,
+        MatIconButton,
+        MatIcon,
+        MatMenuTrigger,
+        MatTable,
+        MatSort,
+        MatColumnDef,
+        MatHeaderCellDef,
+        MatHeaderCell,
+        MatSortHeader,
+        MatCellDef,
+        MatCell,
+        MatRowDef,
+        MatRow,
+        MatRipple,
+        MatMenu,
+        MatMenuContent,
+        MatMenuItem,
+        MatDivider,
+        AsyncPipe,
+        DatePipe,
+    ],
 })
 export class SonglistComponent implements OnInit, OnDestroy {
   gameId: number;
