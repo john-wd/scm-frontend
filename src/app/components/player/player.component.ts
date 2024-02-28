@@ -1,9 +1,9 @@
 import { Component, HostListener, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
-import { Song } from '../../models/scm.model';
-import { PlayerService } from '../../services/player.service';
+import { Song } from '../../smashcustommusic/models/scm.model';
+import { PlayerService } from '../../smashcustommusic/services/player.service';
 import { Router } from '@angular/router';
-import { FormatBRSTM, ScmApiService } from '../../services/scm-api.service';
+import { FormatBRSTM, ScmApiService } from '../../smashcustommusic/services/scm-api.service';
 import { MatDivider } from '@angular/material/divider';
 import { MatSlider, MatSliderThumb } from '@angular/material/slider';
 import { MatMenuTrigger, MatMenu, MatMenuContent, MatMenuItem } from '@angular/material/menu';
@@ -13,30 +13,30 @@ import { NgIf, NgTemplateOutlet, DatePipe } from '@angular/common';
 import { MatIcon } from '@angular/material/icon';
 
 @Component({
-    selector: 'app-player',
-    templateUrl: './player.component.html',
-    styleUrls: ['./player.component.sass'],
-    standalone: true,
-    imports: [
-        MatIcon,
-        NgIf,
-        NgTemplateOutlet,
-        MatTable,
-        MatColumnDef,
-        MatCellDef,
-        MatCell,
-        MatIconButton,
-        MatMenuTrigger,
-        MatRowDef,
-        MatRow,
-        MatSlider,
-        MatSliderThumb,
-        MatMenu,
-        MatMenuContent,
-        MatMenuItem,
-        MatDivider,
-        DatePipe,
-    ],
+  selector: 'app-player',
+  templateUrl: './player.component.html',
+  styleUrls: ['./player.component.sass'],
+  standalone: true,
+  imports: [
+    MatIcon,
+    NgIf,
+    NgTemplateOutlet,
+    MatTable,
+    MatColumnDef,
+    MatCellDef,
+    MatCell,
+    MatIconButton,
+    MatMenuTrigger,
+    MatRowDef,
+    MatRow,
+    MatSlider,
+    MatSliderThumb,
+    MatMenu,
+    MatMenuContent,
+    MatMenuItem,
+    MatDivider,
+    DatePipe,
+  ],
 })
 export class PlayerComponent implements OnInit {
   @HostListener('document:keydown.escape', ['$event']) onKeydownHandler(event: KeyboardEvent) { this.toggled = false }

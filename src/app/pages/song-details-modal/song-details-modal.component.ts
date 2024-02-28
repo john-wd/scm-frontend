@@ -1,10 +1,10 @@
 import { Component, Inject } from '@angular/core';
 import { MatButtonModule, MatIconButton } from '@angular/material/button';
 import { MAT_DIALOG_DATA, MatDialogActions, MatDialogClose, MatDialogContent, MatDialogRef, MatDialogTitle } from '@angular/material/dialog';
-import { Song } from '../../models/scm.model';
+import { Song } from '../../smashcustommusic/models/scm.model';
 import { MatIcon } from '@angular/material/icon';
 import { CommonModule } from '@angular/common';
-import { FormatBCSTM, FormatBFSTM, FormatBRSTM, FormatBWAV, FormatNUS3AUDIO, FormatSWBFSTM, FormatType, ScmApiService } from '../../services/scm-api.service';
+import { FormatBCSTM, FormatBFSTM, FormatBRSTM, FormatBWAV, FormatNUS3AUDIO, FormatSWBFSTM, FormatType, ScmApiService } from '../../smashcustommusic/services/scm-api.service';
 import { Observable } from 'rxjs';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
