@@ -1,21 +1,12 @@
 <div class="section">
-  <div class="header">
-    <span>
-      <h4>Recently played</h4>
-    </span>
-  </div>
-  <div class="card-container">
-    <entry-card *ngFor="let entry of (recentlyPlayed$ | async)" [routerLink]="['/explore/games', entry.game_id]">
-      {{entry.game_name}}
-    </entry-card>
-  </div>
+  <h4>Recently played</h4>
+  <entry-card-container [routerLinkTemplate]="['/explore/games/:entryId']" [entries]="recentlyPlayed$ | async"
+    type="game" nowrap></entry-card-container>
 </div>
 
 <div class="section">
   <div class="header">
-    <div>
-      <h4>Popular games</h4>
-    </div>
+    <h4>Popular games</h4>
     <div style="float: right; margin-left: auto;">
       <button mat-button [routerLink]="'/explore/games'">
         <span>View all games</span>
@@ -23,18 +14,13 @@
       </button>
     </div>
   </div>
-  <div class="card-container">
-    <entry-card *ngFor="let game of (popularGames$ | async)" [routerLink]="['/explore/games', game.game_id]">
-      {{game.game_name}}
-    </entry-card>
-  </div>
+  <entry-card-container [routerLinkTemplate]="['/explore/games/:entryId']" [entries]="popularGames$ | async" type="game"
+    nowrap></entry-card-container>
 </div>
 
 <div class="section" *featureFlag="'v2backend'">
   <div class="header">
-    <div>
-      <h4>Browse playlists</h4>
-    </div>
+    <h4>Browse playlists</h4>
     <div style="float: right; margin-left: auto;">
       <button mat-button>
         <span>View all playlists</span>
@@ -42,9 +28,6 @@
       </button>
     </div>
   </div>
-  <div class="card-container">
-    <entry-card *ngFor="let i of [1,2,3]">
-      Playlist {{i}}
-    </entry-card>
-  </div>
+  <entry-card-container [routerLinkTemplate]="['/explore/playlists/:entryId']" [entries]="playlists$ | async"
+    type="playlist" nowrap></entry-card-container>
 </div>
