@@ -5,13 +5,10 @@ import {
   Song as InternalSong,
 } from 'revolving-door-brstm/dist/player';
 
-import mockData from './playlist.mock.data.json'
-
 import {
   fromEvent,
   map,
   Observable,
-  of,
   Subject,
   Subscription,
 } from 'rxjs';
@@ -31,7 +28,7 @@ export interface State {
 })
 export class PlayerService implements OnDestroy {
   private _player: any;
-  private _apiUrl = 'http://localhost:9999/brstm';
+  private _apiUrl: string;
 
   state$: Observable<State>;
   playlist$: Observable<Song[]>;
@@ -39,6 +36,10 @@ export class PlayerService implements OnDestroy {
 
   private playlistSubject: Subject<Song[]>;
   private subscriptions: Subscription[] = [];
+
+  configure(apiUrl: string) {
+    this._apiUrl = apiUrl
+  }
 
   constructor() {
     this._player = new BrstmPlayer(this._apiUrl);

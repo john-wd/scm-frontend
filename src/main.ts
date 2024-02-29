@@ -12,9 +12,17 @@ import { BrowserModule, bootstrapApplication } from '@angular/platform-browser';
 import { FeatureFlagService } from './app/shared/services/feature-flag.service';
 import { APP_INITIALIZER, importProvidersFrom } from '@angular/core';
 
-import * as flagConfigs from "./config/production.flags.json";
+import config from "./config/production.config.json";
+import { ScmApiService } from './app/smashcustommusic/services/scm-api.service';
+import { PlayerService } from './app/smashcustommusic/services/player.service';
 
-const featureFlagFactory = (featureFlagService: FeatureFlagService) => () => featureFlagService.loadConfig(flagConfigs)
+const featureFlagFactory = (featureFlagService: FeatureFlagService) => () => featureFlagService.loadConfig(config.flags)
+const apiServiceFactory = (apiService: ScmApiService) => () => {
+  apiService.configure(config.api_url)
+}
+const playerServiceFactory = (playerService: PlayerService) => () => {
+  playerService.configure(config.api_url)
+}
 
 bootstrapApplication(AppComponent, {
   providers: [
@@ -27,6 +35,18 @@ bootstrapApplication(AppComponent, {
       provide: APP_INITIALIZER,
       useFactory: featureFlagFactory,
       deps: [FeatureFlagService],
+      multi: true
+    },
+    {
+      provide: APP_INITIALIZER,
+      useFactory: playerServiceFactory,
+      deps: [PlayerService],
+      multi: true
+    },
+    {
+      provide: APP_INITIALIZER,
+      useFactory: apiServiceFactory,
+      deps: [ScmApiService],
       multi: true
     },
     provideAnimations(),

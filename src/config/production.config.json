@@ -1,0 +1,7 @@
+{
+  "api_url": "https://smashcustommusic.net/",
+  "flags": {
+    "v2backend": false,
+    "login_enabled": false
+  }
+}
