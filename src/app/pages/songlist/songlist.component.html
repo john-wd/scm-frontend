@@ -71,8 +71,7 @@
           </mat-cell>
         </ng-container>
 
-        <mat-row matRipple *matRowDef="let row; columns: columsToDisplay" class="highlighted-item"
-          (click)="onPlay(row)"></mat-row>
+        <mat-row matRipple *matRowDef="let row; columns: columsToDisplay" (click)="onPlay(row)"></mat-row>
 
       </mat-table>
     </div>
