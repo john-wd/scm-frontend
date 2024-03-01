@@ -1,31 +1,41 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { catchError, mergeMap, map } from 'rxjs';
+import { catchError, mergeMap, map, switchMap, withLatestFrom } from 'rxjs';
 import { of } from 'rxjs';
 import { ScmApiService } from '../../services/scm-api.service';
 import { fetchGamelist, fetchSonglist, fetchSongDetails } from './scm.actions';
+import { Store } from '@ngrx/store';
+import { getGamelistEntity, getGamelistUIState, getSonglistUIState } from './scm.selector';
 
 @Injectable()
 export class ScmEffects {
   fetchGamelist$ = createEffect(() =>
     this.actions$.pipe(
       ofType(fetchGamelist.action),
-      mergeMap(() =>
-        this.scmService.fetchGamelist().pipe(
+      withLatestFrom(this.store$.select(getGamelistUIState)),
+      switchMap(([action, state]) => {
+        if (state.loaded)
+          return of()
+
+        return this.scmService.fetchGamelist().pipe(
           map((games) => fetchGamelist.success({ games })),
           catchError(() =>
             of(fetchGamelist.error({ error: 'failed to fetch game list' }))
           )
         )
-      )
+      })
     )
   );
 
   fetchSonglist$ = createEffect(() =>
     this.actions$.pipe(
       ofType(fetchSonglist.action),
-      mergeMap((action) =>
-        this.scmService.fetchSonglist(action.gameId).pipe(
+      withLatestFrom(this.store$.select(getSonglistUIState)),
+      switchMap(([action, state]) => {
+        if (state.loaded)
+          return of()
+
+        return this.scmService.fetchSonglist(action.gameId).pipe(
           map((songs) => fetchSonglist.success({ songs })),
           catchError(() =>
             of(
@@ -35,7 +45,7 @@ export class ScmEffects {
             )
           )
         )
-      )
+      })
     )
   );
 
@@ -57,5 +67,9 @@ export class ScmEffects {
     )
   );
 
-  constructor(private actions$: Actions, private scmService: ScmApiService) { }
+  constructor(
+    private actions$: Actions,
+    private scmService: ScmApiService,
+    private store$: Store,
+  ) { }
 }

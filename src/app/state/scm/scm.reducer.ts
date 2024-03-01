@@ -1,99 +1,115 @@
 import { createReducer, on } from '@ngrx/store';
 
+import { produce } from "immer"
 import * as fromActions from './scm.actions';
 import { GameList, Song, SongList } from '../../models/scm.model';
 
 export const scmFeatureKey = 'scm';
 
+type UiState = {
+  loading: boolean;
+  loaded: boolean;
+  error?: string;
+}
+
 export interface State {
-  meta: {
-    loading: boolean;
-    loaded: boolean;
-    last_error?: string | null;
-  };
-  gamelist: GameList.Root;
-  songlist: { [gameId: number]: SongList.Root };
-  selected: { [songId: number]: Song };
+  entities: {
+    games: GameList.Entry[],
+    songsByGame: {
+      [game_id: number]: SongList.Root
+    }
+    game_count: number,
+    total_song_count: number,
+  },
+  ui: {
+    pages: {
+      player: UiState,
+      gamelist: UiState,
+      songlist: UiState,
+      songdetails: UiState,
+    }
+  }
 }
 
 export const initialState: State = {
-  meta: {
-    loaded: false,
-    loading: false,
-  },
-  gamelist: {
-    game_count: 0,
+  entities: {
     games: [],
-    ok: false,
+    songsByGame: {},
+    game_count: 0,
     total_song_count: 0,
   },
-  songlist: {},
-  selected: {},
+  ui: {
+    pages: {
+      player: { loaded: false, loading: false },
+      gamelist: { loaded: false, loading: false },
+      songlist: { loaded: false, loading: false },
+      songdetails: { loaded: false, loading: false },
+    }
+  }
 };
 
 export const scmReducer = createReducer(
   initialState,
   on(fromActions.meta.reset, () => ({ ...initialState })),
-  on(fromActions.fetchGamelist.action, (state) => setLoading(state)),
-  on(fromActions.fetchGamelist.error, (state, { error }) =>
-    setErrored(state, error)
-  ),
-  on(fromActions.fetchGamelist.success, (state, { games }) => ({
-    ...state,
-    meta: {
-      loaded: true,
-      loading: false,
-    },
-    gamelist: games,
+  on(fromActions.fetchGamelist.action, (state) => produce(state, draft => {
+    draft.ui.pages.gamelist.loading = true
+    draft.ui.pages.gamelist.error = undefined
   })),
-  on(fromActions.fetchSongDetails.action, (state) => setLoading(state)),
-  on(fromActions.fetchSongDetails.error, (state, { error }) =>
-    setErrored(state, error)
-  ),
-  on(fromActions.fetchSongDetails.success, (state, { song }) => ({
-    ...state,
-    meta: {
-      loaded: true,
+  on(fromActions.fetchGamelist.error, (state, { error }) => produce(state, draft => {
+    draft.ui.pages.gamelist = {
+      loaded: false,
       loading: false,
-    },
-    selected: {
-      [song.song_id]: song,
-    },
+      error: error
+    }
   })),
-  on(fromActions.fetchGamelist.action, (state) => setLoading(state)),
-  on(fromActions.fetchGamelist.error, (state, { error }) =>
-    setErrored(state, error)
-  ),
-  on(fromActions.fetchSonglist.success, (state, { songs }) => ({
-    ...state,
-    meta: {
+  on(fromActions.fetchGamelist.success, (state, { games }) => produce(state, draft => {
+    draft.entities.game_count = games.game_count
+    draft.entities.total_song_count = games.total_song_count
+    draft.entities.games = games.games
+    draft.ui.pages.gamelist = {
       loaded: true,
       loading: false,
-    },
-    songlist: {
-      [songs.game_id]: songs,
-    },
-  }))
-);
-
-function setLoading(state: State): State {
-  return {
-    ...state,
-    meta: {
+      error: undefined
+    }
+  })),
+  on(fromActions.fetchSongDetails.action, (state) => produce(state, draft => {
+    draft.ui.pages.songdetails.loading = true
+    draft.ui.pages.songdetails.error = undefined
+  })),
+  on(fromActions.fetchSongDetails.error, (state, { error }) => produce(state, draft => {
+    draft.ui.pages.songdetails = {
+      loaded: false,
+      loading: false,
+      error: error
+    }
+  })),
+  on(fromActions.fetchSongDetails.success, (state, { song }) => produce(state, draft => {
+    draft.ui.pages.songdetails = {
+      loaded: true,
+      loading: false,
+      error: undefined
+    }
+  })),
+  on(fromActions.fetchSonglist.action, (state, { gameId }) => produce(state, draft => {
+    draft.ui.pages.songlist = {
       loaded: false,
       loading: true,
-      last_error: null,
-    },
-  };
-}
-
-function setErrored(state: State, error: string): State {
-  return {
-    ...state,
-    meta: {
+      error: undefined
+    }
+  })),
+  on(fromActions.fetchSonglist.error, (state, { error }) => produce(state, draft => {
+    draft.ui.pages.songlist = {
+      loaded: false,
+      loading: false,
+      error: error
+    }
+  })),
+  on(fromActions.fetchSonglist.success, (state, { songs }) => produce(state, draft => {
+    draft.entities.songsByGame[songs.game_id] = songs
+    draft.ui.pages.songlist = {
       loaded: true,
       loading: false,
-      last_error: error,
-    },
-  };
-}
+      error: undefined
+    }
+  })),
+);

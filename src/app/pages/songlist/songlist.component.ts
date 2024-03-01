@@ -15,8 +15,7 @@ import { Song, SongList } from '../../models/scm.model';
 import { LoadingService } from '../../shared/services/loading.service';
 import { PlayerService } from '../../services/player.service';
 import { ScmApiService } from '../../services/scm-api.service';
-import { fetchSongDetails, fetchSonglist } from '../../state/scm/scm.actions';
-import { getSonglist, getSelection } from '../../state/scm/scm.selector';
+import { fetchSonglist } from '../../state/scm/scm.actions';
 import { MatDialog } from '@angular/material/dialog';
 import { SongDetailsModal } from '../song-details-modal/song-details-modal.component';
 import { ActivatedRoute } from '@angular/router';
@@ -26,6 +25,7 @@ import { MatMenuTrigger, MatMenu, MatMenuContent, MatMenuItem } from '@angular/m
 import { MatIcon } from '@angular/material/icon';
 import { MatIconButton } from '@angular/material/button';
 import { NgIf, NgFor, AsyncPipe, DatePipe } from '@angular/common';
+import { getSonglistEntityById, getSonglistUIState } from 'src/app/state/scm/scm.selector';
 
 @Component({
   selector: 'app-songlist',
@@ -67,9 +67,6 @@ export class SonglistComponent implements OnInit, OnDestroy {
   loaded$: Observable<boolean>;
   songs$: Observable<SongList.Entry[]>;
 
-  selectedSongId: number;
-  selectedSong$: Observable<Song>;
-
   columsToDisplay: string[] = [
     'index',
     'song_name',
@@ -85,7 +82,6 @@ export class SonglistComponent implements OnInit, OnDestroy {
   constructor(
     private route: ActivatedRoute,
     private store: Store<any>,
-    private loadingService: LoadingService,
     private scmApi: ScmApiService,
     private playerService: PlayerService,
     public dialog: MatDialog
@@ -95,14 +91,15 @@ export class SonglistComponent implements OnInit, OnDestroy {
     const gameId = Number(this.route.snapshot.paramMap.get('gameId'));
     this.store.dispatch(fetchSonglist.action({ gameId: gameId }));
     this.songlist$ = this.store
-      .select(getSonglist)
-      .pipe(map((state) => state[this.gameId]));
-    this.selectedSong$ = this.store
-      .select(getSelection)
-      .pipe(map((state: any) => state[this.selectedSongId]));
+      .select(getSonglistEntityById(gameId))
     this.songs$ = this.songlist$.pipe(map((list) => (list ? list.songs : [])));
-    this.loading$ = this.loadingService.loading$;
-    this.loaded$ = this.loadingService.loaded$;
+
+    this.loading$ = this.store
+      .select(getSonglistUIState)
+      .pipe(map((state) => state.loading));
+    this.loaded$ = this.store
+      .select(getSonglistUIState)
+      .pipe(map((state) => state.loaded));
 
     this.subscriptions.push(
       this.songs$.subscribe((songs) => {

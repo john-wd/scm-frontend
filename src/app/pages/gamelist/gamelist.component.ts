@@ -11,7 +11,6 @@ import { map, Observable, Subscription, } from 'rxjs';
 import { GameList } from '../../models/scm.model';
 import { LoadingService } from '../../shared/services/loading.service';
 import * as fromActions from '../../state/scm/scm.actions';
-import { getGamelist } from '../../state/scm/scm.selector';
 import { RouterLink } from '@angular/router';
 import { MatRipple } from '@angular/material/core';
 import { MatIcon } from '@angular/material/icon';
@@ -19,6 +18,7 @@ import { MatMenuTrigger, MatMenu, MatMenuContent } from '@angular/material/menu'
 import { MatIconButton } from '@angular/material/button';
 import { FeatureFlagDirective } from '../../shared/directives/feature-flag.directive';
 import { NgIf, AsyncPipe } from '@angular/common';
+import { getGamelistEntity, getGamelistUIState } from 'src/app/state/scm/scm.selector';
 
 @Component({
   selector: 'scm-list',
@@ -51,10 +51,9 @@ import { NgIf, AsyncPipe } from '@angular/common';
   ],
 })
 export class GamelistComponent implements OnInit, OnDestroy {
-  gamelist$: Observable<GameList.Root>;
+  gamelist$: Observable<GameList.Entry[]>;
   loading$: Observable<boolean>;
-  loaded$: Observable<boolean>;
-  games$: Observable<GameList.Entry[]>;
+  loaded$: Observable<boolean | undefined>;
 
   columsToDisplay: string[] = [
     'game_name',
@@ -67,18 +66,16 @@ export class GamelistComponent implements OnInit, OnDestroy {
 
   constructor(
     private store: Store<any>,
-    private loadingService: LoadingService,
   ) { }
 
   ngOnInit(): void {
     this.store.dispatch(fromActions.fetchGamelist.action());
-    this.gamelist$ = this.store.select(getGamelist);
-    this.games$ = this.gamelist$.pipe(map((list) => (list ? list.games : [])));
-    this.loading$ = this.loadingService.loading$;
-    this.loaded$ = this.loadingService.loaded$;
+    this.gamelist$ = this.store.select(getGamelistEntity);
+    this.loaded$ = this.store.select(getGamelistUIState).pipe(map(s => s.loaded));
+    this.loading$ = this.store.select(getGamelistUIState).pipe(map(s => s.loading));
 
     this.subscriptions.push(
-      this.games$.subscribe((games) => {
+      this.gamelist$.subscribe((games) => {
         this.dataSource.data = games;
       })
     );
