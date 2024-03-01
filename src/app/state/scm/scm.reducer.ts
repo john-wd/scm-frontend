@@ -1,7 +1,7 @@
 import { createReducer, on } from '@ngrx/store';
 
 import * as fromActions from './scm.actions';
-import { GameList, Song, SongList } from '../models/scm.model';
+import { GameList, Song, SongList } from '../../models/scm.model';
 
 export const scmFeatureKey = 'scm';
 

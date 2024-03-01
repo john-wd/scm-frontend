@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { map, Observable, tap } from 'rxjs';
-import { State } from '../state/scm.reducer';
-import { getMeta } from '../state/scm.selector';
+import { State } from '../../state/scm/scm.reducer';
+import { getMeta } from '../../state/scm/scm.selector';
 
 @Injectable({
   providedIn: 'root',

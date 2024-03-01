@@ -1,4 +1,4 @@
-import { GameList } from 'src/app/smashcustommusic/models/scm.model';
+import { GameList } from 'src/app/models/scm.model';
 
 const mockGames: GameList.Entry[] = [
   {

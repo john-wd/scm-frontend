@@ -4,7 +4,7 @@ import { AboutComponent } from './pages/about/about.component';
 import { HomeComponent } from './pages/home/home.component';
 import { GamelistComponent } from './pages/gamelist/gamelist.component';
 import { SonglistComponent } from './pages/songlist/songlist.component';
-import { HelpComponent } from './components/help/help.component';
+import { HelpComponent } from './pages/help/help.component';
 import { BrowseSeriesComponent } from './pages/browse-series/browse-series.component';
 import { BrowseConsolesComponent } from './pages/browse-consoles/browse-consoles.component';
 

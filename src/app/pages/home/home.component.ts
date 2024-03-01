@@ -5,7 +5,7 @@ import { MatIcon } from '@angular/material/icon';
 import { RouterLink } from '@angular/router';
 import { Observable, map, of } from 'rxjs';
 import { EntrycardComponent } from 'src/app/shared/components/entrycard/entrycard.component';
-import { GameList, Song } from 'src/app/smashcustommusic/models/scm.model';
+import { GameList, Song } from 'src/app/models/scm.model';
 import { mockGames } from './mockdata';
 import { Entry, EntrycardContainerComponent } from 'src/app/shared/components/entrycard-container/entrycard-container.component';
 import { FeatureFlagDirective } from 'src/app/shared/directives/feature-flag.directive';
