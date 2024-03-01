@@ -21,7 +21,7 @@ const apiServiceFactory = (apiService: ScmApiService) => () => {
   apiService.configure(config.api_url)
 }
 const playerServiceFactory = (playerService: PlayerService) => () => {
-  playerService.configure(config.api_url)
+  playerService.configure(config.song_url)
 }
 
 bootstrapApplication(AppComponent, {

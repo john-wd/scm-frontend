@@ -39,10 +39,10 @@ export class PlayerService implements OnDestroy {
 
   configure(apiUrl: string) {
     this._apiUrl = apiUrl
+    this._player = new BrstmPlayer(this._apiUrl);
   }
 
   constructor() {
-    this._player = new BrstmPlayer(this._apiUrl);
     this.playing$ = fromEvent(document, 'brstm_play').pipe(
       map((evt: any) => {
         return evt.detail as Song;

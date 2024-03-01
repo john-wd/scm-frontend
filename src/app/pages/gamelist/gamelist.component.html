@@ -37,7 +37,6 @@
 
       <mat-header-row *matHeaderRowDef="columsToDisplay"></mat-header-row>
       <mat-row matRipple *matRowDef="let row; columns: columsToDisplay" [routerLink]="'./'+row.game_id"></mat-row>
-
     </mat-table>
   </div>
 </ng-container>
