@@ -19,13 +19,14 @@ import { MatIcon } from '@angular/material/icon';
 import { MatMenuTrigger, MatMenu, MatMenuContent } from '@angular/material/menu';
 import { MatIconButton } from '@angular/material/button';
 import { FeatureFlagDirective } from '../../shared/directives/feature-flag.directive';
-import { NgIf, AsyncPipe } from '@angular/common';
+import { NgIf, AsyncPipe, NgFor, NgClass } from '@angular/common';
 import { getGamelistEntity, getGamelistUIState } from 'src/app/state/scm/scm.selector';
 
 
-type scrollState = {
+type tableState = {
   limit: number;
   offset: number;
+  startsWith?: string;
 }
 @Component({
   selector: 'scm-list',
@@ -34,6 +35,8 @@ type scrollState = {
   standalone: true,
   imports: [
     NgIf,
+    NgFor,
+    NgClass,
     MatTable,
     MatSort,
     FeatureFlagDirective,
@@ -62,13 +65,25 @@ export class GamelistComponent implements OnInit, OnDestroy {
   loading$: Observable<boolean>;
   loaded$: Observable<boolean | undefined>;
 
+  initials = "#ABCDEFGHIJKLMNOPQRSTUVWYXZ"
   columsToDisplay: string[] = [
     'game_name',
     'song_count',
     'menu'
   ];
   dataSource = new MatTableDataSource<any>();
-  scrollStateSubj = new BehaviorSubject<scrollState>({ limit: 200, offset: 0 })
+  scrollStateSubj = new BehaviorSubject<tableState>({ limit: 200, offset: 0 })
+  private _tableState = {
+    limit: 200,
+    offset: 0
+  }
+  get tableState(): tableState {
+    return this._tableState
+  }
+  set tableState(st: tableState) {
+    this._tableState = st
+    this.scrollStateSubj.next(st)
+  }
 
   private subscriptions: Subscription[] = [];
 
@@ -87,7 +102,28 @@ export class GamelistComponent implements OnInit, OnDestroy {
       this.scrollStateSubj.asObservable().pipe(
         switchMap(st => {
           return this.gamelist$.pipe(
-            map((games) => games.slice(st.offset, st.offset + st.limit)),
+            map((games) => {
+              let filtered = games
+                .filter(g => {
+                  if (!st.startsWith)
+                    return true
+
+                  let regexpStr = st.startsWith
+                  if (regexpStr === "#")
+                    regexpStr = "[0-9]"
+
+                  let regexp = new RegExp("^" + regexpStr)
+                  return regexp.test(g.game_name)
+                })
+              if (st.offset < 0)
+                st.offset = 0
+              if (st.offset > filtered.length) {
+                st.offset = filtered.length - st.limit
+              }
+              this._tableState = st
+
+              return filtered.slice(st.offset, st.offset + st.limit)
+            }),
           )
         })).subscribe(games => {
           this.dataSource.data = games
@@ -112,52 +148,49 @@ export class GamelistComponent implements OnInit, OnDestroy {
   //   this.dataSource.sort = this.sort;
   // }
 
-  // applyFilter(event: Event) {
-  //   if (this.dataSource) {
-  //     const filterValue = (event.target as HTMLInputElement).value;
-  //     this.dataSource.filter = filterValue.trim().toLowerCase();
-  //   }
-  // }
+  filter(letter: string) {
+    if (letter === this.tableState.startsWith) {
+      this.tableState = {
+        ...this.tableState,
+        offset: 0,
+        startsWith: undefined
+      }
+      return
+    }
 
-  private _scrollState = {
-    limit: 50,
-    offset: 0
-  }
-
-  get scrollState(): scrollState {
-    return this._scrollState
-  }
-  set scrollState(st: scrollState) {
-    this._scrollState = st
-    this.scrollStateSubj.next(st)
+    this.tableState = {
+      ...this.tableState,
+      offset: 0,
+      startsWith: letter,
+    }
   }
 
   onTableScroll(e: any): void {
-    console.log("scroll")
     const tableViewHeight = e.target.offsetHeight // viewport: ~500px
     const tableScrollHeight = e.target.scrollHeight // length of all table
     const scrollLocation = e.target.scrollTop; // how far user scrolled
 
-    // If the user has scrolled within 200px of the bottom, add more data
-    const scrollThreshold = 200;
+    console.log(tableViewHeight, tableScrollHeight, scrollLocation)
+    // If the user has scrolled within 20px of the bottom, add more data
+    const scrollThreshold = 20;
 
     const scrollUpLimit = scrollThreshold;
-    if (scrollLocation < scrollUpLimit && this.scrollState.offset > 0) {
-      this.scrollState = {
-        ...this.scrollState,
-        offset: this.scrollState.offset -= this.scrollState.limit
+    if (scrollLocation < scrollUpLimit && this.tableState.offset > 0) {
+      this.tableState = {
+        ...this.tableState,
+        offset: this.tableState.offset -= this.tableState.limit
       }
-      this.scrollTo(tableScrollHeight / 2 - 2 * tableViewHeight);
+      this.scrollTo(tableScrollHeight / 2 + 2 * tableViewHeight);
     }
 
     const scrollDownLimit = tableScrollHeight - tableViewHeight - scrollThreshold;
     if (scrollLocation > scrollDownLimit) {
-      this.scrollState.offset += this.scrollState.limit
-      this.scrollState = {
-        ...this.scrollState,
-        offset: this.scrollState.offset += this.scrollState.limit
+      this.tableState.offset += this.tableState.limit
+      this.tableState = {
+        ...this.tableState,
+        offset: this.tableState.offset += this.tableState.limit
       }
-      this.scrollTo(tableScrollHeight / 2 + 2 * tableViewHeight);
+      this.scrollTo(tableScrollHeight / 2 + tableViewHeight);
     }
   }
 

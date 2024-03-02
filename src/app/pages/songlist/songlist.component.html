@@ -1,4 +1,4 @@
-<div class="songlist" *ngIf="loaded$ | async">
+<div class="songlist scroll-container" *ngIf="loaded$ | async">
   <ng-container *ngFor="let game of [songlist$ | async]">
     <div class="hero">
       <div class="game_art">

@@ -1,5 +1,11 @@
 <ng-container>
   <div class="gamelist">
+    <div id="initials">
+      <span class="initial" *ngFor="let letter of initials.split('')" (click)="filter(letter)"
+        [ngClass]="(tableState.startsWith === letter) ? 'highlight' : ''">
+        {{letter}}
+      </span>
+    </div>
     <mat-table matSort [dataSource]="dataSource" #table (scroll)="onTableScroll($event)">
       <!-- To be added in v2 backend -->
       <ng-container *featureFlag="'v2backend'">
