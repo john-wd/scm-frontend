@@ -1,13 +1,15 @@
 import {
   Component,
+  ElementRef,
   OnDestroy,
   OnInit,
+  Renderer2,
   ViewChild,
 } from '@angular/core';
 import { MatSort, MatSortHeader } from '@angular/material/sort';
 import { MatTableDataSource, MatTable, MatColumnDef, MatHeaderCellDef, MatHeaderCell, MatCellDef, MatCell, MatHeaderRowDef, MatHeaderRow, MatRowDef, MatRow } from '@angular/material/table';
 import { Store } from '@ngrx/store';
-import { map, Observable, Subscription, } from 'rxjs';
+import { BehaviorSubject, debounceTime, fromEvent, map, Observable, Subscription, switchMap, } from 'rxjs';
 import { GameList } from '../../models/scm.model';
 import { LoadingService } from '../../shared/services/loading.service';
 import * as fromActions from '../../state/scm/scm.actions';
@@ -20,6 +22,11 @@ import { FeatureFlagDirective } from '../../shared/directives/feature-flag.direc
 import { NgIf, AsyncPipe } from '@angular/common';
 import { getGamelistEntity, getGamelistUIState } from 'src/app/state/scm/scm.selector';
 
+
+type scrollState = {
+  limit: number;
+  offset: number;
+}
 @Component({
   selector: 'scm-list',
   templateUrl: './gamelist.component.html',
@@ -61,11 +68,13 @@ export class GamelistComponent implements OnInit, OnDestroy {
     'menu'
   ];
   dataSource = new MatTableDataSource<any>();
+  scrollStateSubj = new BehaviorSubject<scrollState>({ limit: 200, offset: 0 })
 
   private subscriptions: Subscription[] = [];
 
   constructor(
     private store: Store<any>,
+    private renderer: Renderer2
   ) { }
 
   ngOnInit(): void {
@@ -75,26 +84,85 @@ export class GamelistComponent implements OnInit, OnDestroy {
     this.loading$ = this.store.select(getGamelistUIState).pipe(map(s => s.loading));
 
     this.subscriptions.push(
-      this.gamelist$.subscribe((games) => {
-        this.dataSource.data = games;
-      })
-    );
+      this.scrollStateSubj.asObservable().pipe(
+        switchMap(st => {
+          return this.gamelist$.pipe(
+            map((games) => games.slice(st.offset, st.offset + st.limit)),
+          )
+        })).subscribe(games => {
+          this.dataSource.data = games
+        })
+    )
+  }
+
+  @ViewChild('table', { read: ElementRef }) public matTableRef: ElementRef;
+  public ngAfterViewInit(): void {
+    fromEvent(this.matTableRef.nativeElement, 'scroll')
+      .pipe(debounceTime(5000))
+      .subscribe((e: any) => this.onTableScroll(e));
   }
 
   ngOnDestroy(): void {
     this.subscriptions.forEach((s) => s.unsubscribe());
   }
 
-  private sort: MatSort;
-  @ViewChild(MatSort) set matMatSort(ms: MatSort) {
-    this.sort = ms;
-    this.dataSource.sort = this.sort;
+  // private sort: MatSort;
+  // @ViewChild(MatSort) set matMatSort(ms: MatSort) {
+  //   this.sort = ms;
+  //   this.dataSource.sort = this.sort;
+  // }
+
+  // applyFilter(event: Event) {
+  //   if (this.dataSource) {
+  //     const filterValue = (event.target as HTMLInputElement).value;
+  //     this.dataSource.filter = filterValue.trim().toLowerCase();
+  //   }
+  // }
+
+  private _scrollState = {
+    limit: 50,
+    offset: 0
   }
 
-  applyFilter(event: Event) {
-    if (this.dataSource) {
-      const filterValue = (event.target as HTMLInputElement).value;
-      this.dataSource.filter = filterValue.trim().toLowerCase();
+  get scrollState(): scrollState {
+    return this._scrollState
+  }
+  set scrollState(st: scrollState) {
+    this._scrollState = st
+    this.scrollStateSubj.next(st)
+  }
+
+  onTableScroll(e: any): void {
+    console.log("scroll")
+    const tableViewHeight = e.target.offsetHeight // viewport: ~500px
+    const tableScrollHeight = e.target.scrollHeight // length of all table
+    const scrollLocation = e.target.scrollTop; // how far user scrolled
+
+    // If the user has scrolled within 200px of the bottom, add more data
+    const scrollThreshold = 200;
+
+    const scrollUpLimit = scrollThreshold;
+    if (scrollLocation < scrollUpLimit && this.scrollState.offset > 0) {
+      this.scrollState = {
+        ...this.scrollState,
+        offset: this.scrollState.offset -= this.scrollState.limit
+      }
+      this.scrollTo(tableScrollHeight / 2 - 2 * tableViewHeight);
+    }
+
+    const scrollDownLimit = tableScrollHeight - tableViewHeight - scrollThreshold;
+    if (scrollLocation > scrollDownLimit) {
+      this.scrollState.offset += this.scrollState.limit
+      this.scrollState = {
+        ...this.scrollState,
+        offset: this.scrollState.offset += this.scrollState.limit
+      }
+      this.scrollTo(tableScrollHeight / 2 + 2 * tableViewHeight);
     }
   }
+
+  private scrollTo(position: number): void {
+    this.renderer.setProperty(this.matTableRef.nativeElement, 'scrollTop', position);
+  }
+
 }

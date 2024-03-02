@@ -1,6 +1,6 @@
-<ng-container *ngIf="loaded$ | async">
+<ng-container>
   <div class="gamelist">
-    <mat-table matSort [dataSource]="dataSource">
+    <mat-table matSort [dataSource]="dataSource" #table (scroll)="onTableScroll($event)">
       <!-- To be added in v2 backend -->
       <ng-container *featureFlag="'v2backend'">
         <ng-container matColumnDef="thumbnail_url">
