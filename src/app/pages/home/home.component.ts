@@ -9,7 +9,12 @@ import { GameList, Song } from 'src/app/models/scm.model';
 import { mockGames } from './mockdata';
 import { Entry, EntrycardContainerComponent } from 'src/app/shared/components/entrycard-container/entrycard-container.component';
 import { FeatureFlagDirective } from 'src/app/shared/directives/feature-flag.directive';
+import { Store } from '@ngrx/store';
+import * as fromActions from '../../state/scm/scm.actions';
+import { getGamelistEntity } from 'src/app/state/scm/scm.selector';
 
+
+const nGamesShown = 10;
 
 @Component({
   selector: 'app-home',
@@ -30,34 +35,21 @@ export class HomeComponent implements OnInit {
   popularGames$: Observable<Entry[]>
   playlists$: Observable<Entry[]>
 
-  constructor() { }
+  constructor(
+    private store: Store<any>,
+  ) { }
 
   ngOnInit(): void {
-    // TODO: remove these mocks
-    this.recentlyPlayed$ = of(mockGames).pipe(map(list => list.map(e => {
-      return {
-        entryId: e.game_id.toString(),
-        imageUrl: e.thumbnail_url,
-        title: e.game_name,
-      } as Entry
-    })
-    ))
-    this.popularGames$ = of(mockGames).pipe(map(list => list.map(e => {
-      return {
-        entryId: e.game_id.toString(),
-        imageUrl: e.thumbnail_url,
-        title: e.game_name,
-      } as Entry
-    })))
-    this.playlists$ = of([{
-      entryId: "playlist1",
-      title: "Playlist 1",
-      imageUrl: "",
-    }, {
-      entryId: "playlist2",
-      title: "Playlist 2",
-      imageUrl: "",
-    }] as Entry[])
+    this.store.dispatch(fromActions.fetchGamelist.action());
+    this.popularGames$ = this.store.select(getGamelistEntity).pipe(
+      map(games => {
+        return games.slice(0, nGamesShown).map(g => ({
+          entryId: g.game_id.toString(),
+          imageUrl: g.thumbnail_url,
+          title: g.game_name,
+        } as Entry))
+      }),
+    )
   }
 
 }

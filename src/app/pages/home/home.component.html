@@ -1,4 +1,4 @@
-<div class="section">
+<div class="section" *ngIf="recentlyPlayed$ | async">
   <h4>Recently played</h4>
   <entry-card-container [routerLinkTemplate]="['/explore/games/:entryId']" [entries]="recentlyPlayed$ | async"
     type="game" nowrap></entry-card-container>
