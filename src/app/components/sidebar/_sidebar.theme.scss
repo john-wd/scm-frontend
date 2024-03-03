@@ -1,0 +1,14 @@
+@use 'sass:map';
+@use '@angular/material' as mat;
+
+@mixin theme($theme) {
+  $type: mat.get-theme-type($theme);
+
+  .label {
+    color: mat.get-theme-color($theme, foreground, hint-text)
+  }
+
+  #logo img {
+    content: if($type =="light", url("/assets/sb-b.png"), url("/assets/sb-w.png"))
+  }
+}

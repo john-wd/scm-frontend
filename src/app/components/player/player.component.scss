@@ -1,7 +1,4 @@
-@import "theme";
-
-$border-color: $border;
-$background-color: $card-bg;
+@import "variables";
 
 .playlist {
   margin-left: 80px;
@@ -16,8 +13,6 @@ $background-color: $card-bg;
   margin: auto;
   display: block;
   position: fixed;
-  border-top: 1px solid $border-color;
-  background-color: $background-color;
 }
 
 .main {
@@ -29,8 +24,6 @@ $background-color: $card-bg;
   right: 42px;
   bottom: 20px;
   height: 20px - 1px;
-  background-color: $background-color;
-  border: 1px solid $border-color;
   border-bottom: none;
   border-top-left-radius: $border-radius;
   border-top-right-radius: $border-radius;
@@ -58,7 +51,6 @@ $background-color: $card-bg;
   }
 
   .time {
-    color: $text-secondary;
     margin-left: 1em;
     margin-right: 1em;
   }
@@ -68,10 +60,6 @@ $background-color: $card-bg;
   .play-pause {
     scale: 150%;
   }
-}
-
-.game-name {
-  color: $text-secondary;
 }
 
 .small-player {
@@ -115,7 +103,8 @@ $background-color: $card-bg;
   text-align: left;
 }
 
-h1, h4 {
+h1,
+h4 {
   margin-top: 4px;
   margin-bottom: 4px;
 }

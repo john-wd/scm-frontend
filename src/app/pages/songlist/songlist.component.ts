@@ -23,7 +23,7 @@ import { MatDivider } from '@angular/material/divider';
 import { MatRipple } from '@angular/material/core';
 import { MatMenuTrigger, MatMenu, MatMenuContent, MatMenuItem } from '@angular/material/menu';
 import { MatIcon } from '@angular/material/icon';
-import { MatIconButton } from '@angular/material/button';
+import { MatFabButton, MatIconButton } from '@angular/material/button';
 import { NgIf, NgFor, AsyncPipe, DatePipe } from '@angular/common';
 import { getSonglistEntityById, getSonglistUIState } from 'src/app/state/scm/scm.selector';
 
@@ -38,6 +38,7 @@ import { getSonglistEntityById, getSonglistUIState } from 'src/app/state/scm/scm
     MatIconButton,
     MatIcon,
     MatMenuTrigger,
+    MatFabButton,
     MatTable,
     MatSort,
     MatColumnDef,

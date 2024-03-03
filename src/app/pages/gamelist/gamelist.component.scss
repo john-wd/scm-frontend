@@ -1,4 +1,4 @@
-@import "theme";
+@import "variables";
 
 .gamelist {
   height: 100%;
@@ -13,15 +13,6 @@
       cursor: pointer;
       padding: 4px;
       border-radius: $border-radius;
-
-      &.highlight {
-        background-color: $primary;
-        color: $button-fg;
-      }
-    }
-
-    .initial:hover {
-      background-color: $text-secondary;
     }
   }
 }

@@ -1,5 +1,3 @@
-@import "theme";
-
 .container {
   display: flex;
   flex-direction: row;
@@ -15,19 +13,20 @@
   flex-direction: row;
   align-items: center;
   min-width: 300px;
-  background-color: $bg;
   border-radius: 50px;
   font-size: 24px;
+
   padding: {
     left: 12px;
     right: 12px;
-  };
+  }
+
+  ;
 
   input {
     margin: 0;
     padding: 6px;
     width: 100%;
-    background-color: rgba(0, 0, 0, 0);
     border: none;
     outline: none;
     box-sizing: border-box;

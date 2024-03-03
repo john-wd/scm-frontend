@@ -1,8 +1,9 @@
 /* You can add global styles to this file, and also import other style files */
-@import "theme";
+@import "variables";
 @import "material";
 
-html, body {
+html,
+body {
   padding: 0;
   margin: 0;
 }
@@ -65,34 +66,8 @@ body {
   }
 }
 
-body {
-  background-color: $bg;
-  color: $text;
-
-  .card-bg {
-    background-color: $card-bg;
-
-    .text-accent {
-      color: $text-accent;
-    }
-
-    .text-accent-inv {
-      color: $text-accent-inv;
-    }
-
-    .secondary {
-      color: $text-secondary;
-    }
-
-    .gray {
-      color: $gray;
-    }
-  }
-}
-
 .card {
   border-radius: 16px;
-  background-color: $card-bg;
   margin: 4px;
   padding: 16px;
 }
@@ -119,7 +94,6 @@ table {
 
   tr {
     height: 64px;
-    border-bottom: solid 1px $gray;
   }
 
   tr:last-child {
@@ -132,7 +106,6 @@ table {
 
   tbody tr:hover {
     border-radius: $border-radius;
-    background-color: $hover;
   }
 }
 

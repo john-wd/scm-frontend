@@ -1,0 +1,18 @@
+@use 'sass:map';
+@use '@angular/material' as mat;
+
+@mixin theme($theme) {
+  $background-color: mat.get-theme-color($theme, background, background);
+  $background-card: mat.get-theme-color($theme, background, card);
+
+  .bar,
+  .toggle {
+    border-top: 1px solid $background-color;
+    background-color: $background-card;
+  }
+
+  .time,
+  .game-name {
+    color: mat.get-theme-color($theme, foreground, hint-text);
+  }
+}

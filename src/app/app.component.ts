@@ -5,6 +5,7 @@ import { PlayerComponent } from './components/player/player.component';
 import { RouterOutlet } from '@angular/router';
 import { MainNavComponent } from './components/main-nav/main-nav.component';
 import { SidebarComponent } from './components/sidebar/sidebar.component';
+import { ThemeToggleService } from './shared/services/theme-toggle.service';
 
 @Component({
   selector: 'app-root',
@@ -19,6 +20,7 @@ export class AppComponent {
   constructor(
     private matIconRegistry: MatIconRegistry,
     private domSanitizer: DomSanitizer,
+    private _: ThemeToggleService,
   ) {
     matIconRegistry.addSvgIcon("repeat_time", domSanitizer.bypassSecurityTrustResourceUrl("/assets/icons/repeat_time.svg"))
     matIconRegistry.addSvgIcon("repeat_n", domSanitizer.bypassSecurityTrustResourceUrl("/assets/icons/repeat_n.svg"))

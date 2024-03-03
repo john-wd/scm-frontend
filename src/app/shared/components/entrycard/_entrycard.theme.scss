@@ -1,0 +1,12 @@
+@use 'sass:map';
+@use '@angular/material' as mat;
+
+@mixin theme($theme) {
+  .entry {
+
+    img,
+    &:hover {
+      background-color: mat.get-theme-color($theme, background, hover);
+    }
+  }
+}

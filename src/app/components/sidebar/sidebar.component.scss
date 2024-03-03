@@ -1,4 +1,4 @@
-@import "theme";
+@import "variables";
 
 .container {
   display: flex;
@@ -14,12 +14,12 @@
   }
 
   .label {
-    color: $text-secondary;
     margin-bottom: 8px;
   }
 }
 
 #logo {
+  content: '';
   display: flex;
   flex-direction: row;
   align-items: flex-end;
