@@ -14,11 +14,11 @@ import { map, Observable, Subscription, tap } from 'rxjs';
 import { Song, SongList } from '../../models/scm.model';
 import { LoadingService } from '../../shared/services/loading.service';
 import { PlayerService } from '../../services/player.service';
-import { ScmApiService } from '../../services/scm-api.service';
+import { FormatBRSTM, ScmApiService } from '../../services/scm-api.service';
 import { fetchSonglist } from '../../state/scm/scm.actions';
 import { MatDialog } from '@angular/material/dialog';
 import { SongDetailsModal } from '../song-details-modal/song-details-modal.component';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, RouterModule } from '@angular/router';
 import { MatDivider } from '@angular/material/divider';
 import { MatRipple } from '@angular/material/core';
 import { MatMenuTrigger, MatMenu, MatMenuContent, MatMenuItem } from '@angular/material/menu';
@@ -35,6 +35,7 @@ import { getSonglistEntityById, getSonglistUIState } from 'src/app/state/scm/scm
   imports: [
     NgIf,
     NgFor,
+    RouterModule,
     MatIconButton,
     MatIcon,
     MatMenuTrigger,
@@ -156,6 +157,25 @@ export class SonglistComponent implements OnInit, OnDestroy {
     } as Song);
   }
 
+  onPlayAll(shuffle = false) {
+    this.onAddAllToPlaylist(shuffle)
+    this.playerService.playAtIndex(0)
+  }
+
+  onAddAllToPlaylist(shuffle = false) {
+    let songs = this.dataSource.data.slice()
+    if (shuffle)
+      songs = shuffleArray(songs)
+
+    songs.forEach((s: SongList.Entry) => {
+      this.onAddToPlaylist(s)
+    })
+  }
+
+  onDownload(song: Song) {
+    this.scmApi.downloadSong(FormatBRSTM, song)
+  }
+
   bannerUrl(gameId: number): string {
     return this.scmApi.getBannerUrl(gameId);
   }
@@ -165,4 +185,22 @@ export class SonglistComponent implements OnInit, OnDestroy {
       data: song,
     })
   }
+}
+
+function shuffleArray(array: any[]) {
+  let currentIndex = array.length, randomIndex;
+
+  // While there remain elements to shuffle.
+  while (currentIndex > 0) {
+
+    // Pick a remaining element.
+    randomIndex = Math.floor(Math.random() * currentIndex);
+    currentIndex--;
+
+    // And swap it with the current element.
+    [array[currentIndex], array[randomIndex]] = [
+      array[randomIndex], array[currentIndex]];
+  }
+
+  return array;
 }

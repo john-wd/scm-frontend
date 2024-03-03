@@ -17,6 +17,7 @@
 
 .main {
   height: 92%;
+  z-index: 90;
 }
 
 .toggle {
@@ -36,6 +37,7 @@
 .seekbar {
   .progress-bar {
     display: inline-block;
+    text-wrap: nowrap;
 
     .mat-mdc-slider {
       width: 300px;

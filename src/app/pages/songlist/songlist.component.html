@@ -19,7 +19,7 @@
     </div>
 
     <div class="actions">
-      <button mat-fab class="play mat-elevation-z0" color="primary">
+      <button mat-fab class="play mat-elevation-z0" color="primary" (click)="onPlayAll()">
         <mat-icon>play_arrow</mat-icon>
       </button>
       <button mat-icon-button [matMenuTriggerFor]="mainMenu">
@@ -66,25 +66,25 @@
       <mat-icon>description</mat-icon>
       <span>Open details</span>
     </button>
-    <button mat-menu-item>
+    <button mat-menu-item (click)="onDownload(song)">
       <mat-icon>download</mat-icon>
       <span>Download</span>
     </button>
 
     <mat-divider></mat-divider>
 
-    <button mat-menu-item>
+    <button mat-menu-item (click)="onPlay(song)">
       <mat-icon>play_arrow</mat-icon>
       <span>Play</span>
     </button>
-    <button mat-menu-item>
+    <button mat-menu-item (click)="onAddToPlaylist(song)">
       <mat-icon>playlist_add</mat-icon>
       <span>Add to playlist</span>
     </button>
 
     <mat-divider></mat-divider>
 
-    <button mat-menu-item>
+    <button mat-menu-item [routerLink]="['/explore/games/', gameId]">
       <mat-icon>arrow_circle_left</mat-icon>
       <span>Go to game</span>
     </button>
@@ -97,15 +97,15 @@
 
 <mat-menu #mainMenu="matMenu">
   <ng-template matMenuContent>
-    <button mat-menu-item>
+    <button mat-menu-item (click)="onAddAllToPlaylist()">
       <mat-icon>playlist_add</mat-icon>
       <span>Add to playlist</span>
     </button>
-    <button mat-menu-item>
+    <button mat-menu-item (click)="onPlayAll(true)">
       <mat-icon>shuffle</mat-icon>
       <span>Shuffle</span>
     </button>
-    <button mat-menu-item>
+    <button mat-menu-item *featureFlag="v2backend">
       <mat-icon>add</mat-icon>
       <span>New playlist</span>
     </button>

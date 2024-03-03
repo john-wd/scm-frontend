@@ -11,6 +11,8 @@ import { MatIconButton } from '@angular/material/button';
 import { MatTable, MatColumnDef, MatCellDef, MatCell, MatRowDef, MatRow } from '@angular/material/table';
 import { NgIf, NgTemplateOutlet, DatePipe } from '@angular/common';
 import { MatIcon } from '@angular/material/icon';
+import { MatDialog } from '@angular/material/dialog';
+import { SongDetailsModal } from 'src/app/pages/song-details-modal/song-details-modal.component';
 
 @Component({
   selector: 'app-player',
@@ -72,6 +74,12 @@ export class PlayerComponent implements OnInit {
     this.toggled = false;
   }
 
+  onOpenDetails(song: Song) {
+    this.dialog.open(SongDetailsModal, {
+      data: song.song_id
+    })
+  }
+
   percElapsed(): number {
     return (this.timeElapsed / this.timeTotal) * 100;
   }
@@ -121,6 +129,7 @@ export class PlayerComponent implements OnInit {
     private playerService: PlayerService,
     private apiService: ScmApiService,
     private router: Router,
+    private dialog: MatDialog,
   ) { }
   ngOnInit(): void {
     this.subscriptions.push(

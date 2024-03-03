@@ -59,11 +59,11 @@
     <div class="actions">
       <div class="item">
         <h5>Actions</h5>
-        <button mat-button>
+        <button mat-button (click)="onPlay(song)">
           <mat-icon>play_circle</mat-icon>
           <span>Play song</span>
         </button>
-        <button mat-button>
+        <button mat-button (click)="onAddToPlaylist(song)">
           <mat-icon>playlist_add</mat-icon>
           <span>Add to playlist</span>
         </button>
@@ -80,7 +80,7 @@
             </mat-select>
             <mat-hint class="filesize">Size: {{song.size | filesize}}</mat-hint>
           </mat-form-field>
-          <button mat-flat-button color="primary">
+          <button mat-flat-button color="primary" (click)="onDownload(song)">
             <mat-icon>download</mat-icon>
           </button>
         </div>

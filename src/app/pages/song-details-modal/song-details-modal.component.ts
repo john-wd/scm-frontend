@@ -9,6 +9,7 @@ import { Observable } from 'rxjs';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 import { NgxFilesizeModule } from 'ngx-filesize';
+import { PlayerService } from 'src/app/services/player.service';
 
 @Component({
   selector: 'app-song-details-modal',
@@ -47,11 +48,24 @@ export class SongDetailsModal {
     @Inject(MAT_DIALOG_DATA) public songId: number,
     public dialogRef: MatDialogRef<SongDetailsModal>,
     private apiService: ScmApiService,
+    private playerService: PlayerService,
   ) {
     this.song$ = this.apiService.fetchSongDetails(songId)
   }
 
   onclose() {
     this.dialogRef.close()
+  }
+
+  onPlay(song: Song) {
+    this.playerService.play(song);
+  }
+
+  onAddToPlaylist(song: Song) {
+    this.playerService.addToPlaylist(song);
+  }
+
+  onDownload(song: Song) {
+    this.apiService.downloadSong(this.downloadTypesMap[this.selectedDownloadType], song)
   }
 }
