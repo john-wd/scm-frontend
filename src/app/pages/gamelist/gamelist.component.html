@@ -2,48 +2,36 @@
   <div class="gamelist">
     <div id="initials">
       <span class="initial" *ngFor="let letter of initials.split('')" (click)="filter(letter)"
-        [ngClass]="(tableState.startsWith === letter) ? 'highlight' : ''">
+        [ngClass]="(filterStartsWith === letter) ? 'highlight' : ''">
         {{letter}}
       </span>
     </div>
-    <mat-table matSort [dataSource]="dataSource" #table (scroll)="onTableScroll($event)">
-      <!-- To be added in v2 backend -->
-      <ng-container *featureFlag="'v2backend'">
-        <ng-container matColumnDef="thumbnail_url">
-          <mat-header-cell mat-sort-header *matHeaderCellDef></mat-header-cell>
-          <mat-cell *matCellDef="let el">{{ el.thumbnail_url }}</mat-cell>
-        </ng-container>
-        <ng-container matColumnDef="series">
-          <mat-header-cell mat-sort-header *matHeaderCellDef>Series</mat-header-cell>
-          <mat-cell *matCellDef="let el">{{ el.series }}</mat-cell>
-        </ng-container>
-        <ng-container matColumnDef="console">
-          <mat-header-cell mat-sort-header *matHeaderCellDef>Series</mat-header-cell>
-          <mat-cell *matCellDef="let el">{{ el.console }}</mat-cell>
-        </ng-container>
-      </ng-container>
 
-      <ng-container matColumnDef="game_name">
-        <mat-header-cell mat-sort-header *matHeaderCellDef>Game name</mat-header-cell>
-        <mat-cell *matCellDef="let el">{{ el.game_name }}</mat-cell>
-      </ng-container>
-      <ng-container matColumnDef="song_count">
-        <mat-header-cell mat-sort-header *matHeaderCellDef>Song count</mat-header-cell>
-        <mat-cell *matCellDef="let el">{{ el.song_count }}</mat-cell>
-      </ng-container>
-      <ng-container matColumnDef="menu">
-        <mat-header-cell mat-sort-header *matHeaderCellDef></mat-header-cell>
-        <mat-cell *matCellDef="let el; let i = index">
-          <button mat-icon-button [matMenuTriggerFor]="menu" [matMenuTriggerData]="{game: el, index: i}"
-            (click)="$event.stopPropagation()">
-            <mat-icon>more_horiz</mat-icon>
-          </button>
-        </mat-cell>
-      </ng-container>
-
-      <mat-header-row *matHeaderRowDef="columsToDisplay"></mat-header-row>
-      <mat-row matRipple *matRowDef="let row; columns: columsToDisplay" [routerLink]="'./'+row.game_id"></mat-row>
-    </mat-table>
+    <div class="table">
+      <cdk-virtual-scroll-viewport itemSize="36">
+        <table>
+          <thead>
+            <tr>
+              <th>Game name</th>
+              <th>Song count</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *cdkVirtualFor="let game of data; let i = index" [routerLink]="'./'+game.game_id">
+              <td>{{game.game_name}}</td>
+              <td>{{game.song_count}}</td>
+              <td>
+                <button mat-icon-button [matMenuTriggerFor]="menu" [matMenuTriggerData]="{game: game, index: i}"
+                  (click)="$event.stopPropagation()">
+                  <mat-icon>more_horiz</mat-icon>
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </cdk-virtual-scroll-viewport>
+    </div>
   </div>
 </ng-container>
 

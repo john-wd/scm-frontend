@@ -29,51 +29,33 @@
 
     <div class="content">
       <h4>Available tracks</h4>
-      <mat-table matSort [dataSource]="dataSource">
-        <ng-container matColumnDef="index">
-          <mat-header-cell mat-sort-header *matHeaderCellDef>#</mat-header-cell>
-          <mat-cell *matCellDef="let i = index">{{ i+1 }}</mat-cell>
-        </ng-container>
-        <ng-container matColumnDef="song_name">
-          <mat-header-cell mat-sort-header *matHeaderCellDef>Title</mat-header-cell>
-          <mat-cell *matCellDef="let el">{{ el.song_name }}</mat-cell>
-        </ng-container>
-        <ng-container matColumnDef="game_name">
-          <mat-header-cell mat-sort-header *matHeaderCellDef>Game</mat-header-cell>
-          <mat-cell *matCellDef="let el">{{ gameName.textContent }}</mat-cell>
-        </ng-container>
-
-        <ng-container matColumnDef="song_loop">
-          <mat-header-cell mat-sort-header *matHeaderCellDef>Loop type</mat-header-cell>
-          <mat-cell *matCellDef="let el">{{ el.song_loop }}</mat-cell>
-        </ng-container>
-        <ng-container matColumnDef="song_uploader">
-          <mat-header-cell mat-sort-header *matHeaderCellDef>Uploader</mat-header-cell>
-          <mat-cell *matCellDef="let el">{{ el.song_uploader }}</mat-cell>
-        </ng-container>
-        <ng-container matColumnDef="song_downloads">
-          <mat-header-cell mat-sort-header *matHeaderCellDef># Downloads</mat-header-cell>
-          <mat-cell *matCellDef="let el">{{ el.song_downloads }}</mat-cell>
-        </ng-container>
-
-        <ng-container matColumnDef="song_length">
-          <mat-header-cell mat-sort-header *matHeaderCellDef>Length</mat-header-cell>
-          <mat-cell class="text-secondary" *matCellDef="let el">{{ el.song_length * 1e3| date: "mm:ss"}}</mat-cell>
-        </ng-container>
-
-        <ng-container matColumnDef="actions">
-          <mat-header-cell mat-sort-header *matHeaderCellDef></mat-header-cell>
-          <mat-cell *matCellDef="let el; let i = index">
-            <button mat-icon-button [matMenuTriggerFor]="songMenu" [matMenuTriggerData]="{song: el, index: i}"
-              (click)="$event.stopPropagation()">
-              <mat-icon>more_horiz</mat-icon>
-            </button>
-          </mat-cell>
-        </ng-container>
-
-        <mat-row matRipple *matRowDef="let row; columns: columsToDisplay" (click)="onPlay(row)"></mat-row>
-
-      </mat-table>
+      <table>
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Title</th>
+            <th>Game</th>
+            <th>Uploader</th>
+            <th>Length</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let song of dataSource.data; let i = index" (click)="onPlay(song)">
+            <td>{{i+1}}</td>
+            <td>{{song.song_name}}</td>
+            <td>{{gameName.textContent}}</td>
+            <td>{{song.song_uploader}}</td>
+            <td>{{song.song_length * 1e3| date: "mm:ss"}}</td>
+            <td>
+              <button mat-icon-button [matMenuTriggerFor]="songMenu" [matMenuTriggerData]="{song: song, index: i}"
+                (click)="$event.stopPropagation()">
+                <mat-icon>more_horiz</mat-icon>
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
     </div>
   </ng-container>
 </div>
