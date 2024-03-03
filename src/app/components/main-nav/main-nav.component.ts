@@ -11,7 +11,7 @@ import { LoadingComponent } from 'src/app/shared/components/loading/loading.comp
 @Component({
   selector: 'app-main-nav',
   templateUrl: './main-nav.component.html',
-  styleUrls: ['./main-nav.component.sass'],
+  styleUrls: ['./main-nav.component.scss'],
   standalone: true,
   imports: [MatIconButton, RouterLinkActive, MatIcon, MatMenuTrigger, FeatureFlagDirective, MatButton, MatMenu, MatMenuContent, ThemeToggleComponent, MatMenuItem, RouterLink, LoadingComponent,]
 })

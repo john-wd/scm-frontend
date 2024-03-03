@@ -5,11 +5,11 @@ import { RouterLink } from '@angular/router';
 import { MatButton } from '@angular/material/button';
 
 @Component({
-    selector: 'app-sidebar',
-    templateUrl: './sidebar.component.html',
-    styleUrls: ['./sidebar.component.sass'],
-    standalone: true,
-    imports: [MatButton, RouterLink, MatIcon, FeatureFlagDirective]
+  selector: 'app-sidebar',
+  templateUrl: './sidebar.component.html',
+  styleUrls: ['./sidebar.component.scss'],
+  standalone: true,
+  imports: [MatButton, RouterLink, MatIcon, FeatureFlagDirective]
 })
 export class SidebarComponent implements OnInit {
 

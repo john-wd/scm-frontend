@@ -9,7 +9,7 @@ import { SidebarComponent } from './components/sidebar/sidebar.component';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.sass'],
+  styleUrls: ['./app.component.scss'],
   standalone: true,
   imports: [SidebarComponent, MainNavComponent, RouterOutlet, PlayerComponent]
 })

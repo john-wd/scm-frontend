@@ -23,7 +23,7 @@ export const ENTRY_ID: string = ":entryId"
     EntrycardComponent,
   ],
   templateUrl: './entrycard-container.component.html',
-  styleUrl: './entrycard-container.component.sass'
+  styleUrl: './entrycard-container.component.scss'
 })
 export class EntrycardContainerComponent {
   @Input("entries") entries: Entry[] | null

@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 
+const darkStyleName = 'darkMode'
 @Injectable({
   providedIn: 'root'
 })
@@ -15,13 +16,11 @@ export class ThemeToggleService {
   }
 
   toggleMode() {
-    this.darkMode = !this.darkMode
     if (this.darkMode) {
-      document.body.classList.add('theme--dark');
-      document.body.classList.remove('theme--default');
+      document.body.classList.remove(darkStyleName);
     } else {
-      document.body.classList.remove('theme--dark');
-      document.body.classList.add('theme--default');
+      document.body.classList.add(darkStyleName);
     }
+    this.darkMode = !this.darkMode
   }
 }

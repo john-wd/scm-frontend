@@ -32,7 +32,7 @@ type tableState = {
 @Component({
   selector: 'scm-list',
   templateUrl: './gamelist.component.html',
-  styleUrls: ['./gamelist.component.sass'],
+  styleUrls: ['./gamelist.component.scss'],
   standalone: true,
   imports: [
     CdkVirtualScrollViewport,

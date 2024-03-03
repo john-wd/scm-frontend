@@ -27,7 +27,7 @@ import { NgxFilesizeModule } from 'ngx-filesize';
     MatButtonModule,
   ],
   templateUrl: './song-details-modal.component.html',
-  styleUrl: './song-details-modal.component.sass'
+  styleUrl: './song-details-modal.component.scss'
 })
 export class SongDetailsModal {
   song$: Observable<Song>

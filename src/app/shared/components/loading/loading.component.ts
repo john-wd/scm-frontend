@@ -12,7 +12,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
     MatProgressSpinnerModule,
   ],
   templateUrl: './loading.component.html',
-  styleUrl: './loading.component.sass'
+  styleUrl: './loading.component.scss'
 })
 export class LoadingComponent {
   @Input("size") size: number;

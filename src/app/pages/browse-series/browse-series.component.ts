@@ -11,7 +11,7 @@ import { Entry, EntrycardContainerComponent } from 'src/app/shared/components/en
     EntrycardContainerComponent,
   ],
   templateUrl: './browse-series.component.html',
-  styleUrl: './browse-series.component.sass'
+  styleUrl: './browse-series.component.scss'
 })
 export class BrowseSeriesComponent implements OnInit {
   series$: Observable<Entry[]>

@@ -15,7 +15,7 @@ import { MatIcon } from '@angular/material/icon';
 @Component({
   selector: 'app-player',
   templateUrl: './player.component.html',
-  styleUrls: ['./player.component.sass'],
+  styleUrls: ['./player.component.scss'],
   standalone: true,
   imports: [
     MatIcon,

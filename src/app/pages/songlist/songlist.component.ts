@@ -30,7 +30,7 @@ import { getSonglistEntityById, getSonglistUIState } from 'src/app/state/scm/scm
 @Component({
   selector: 'app-songlist',
   templateUrl: './songlist.component.html',
-  styleUrls: ['./songlist.component.sass'],
+  styleUrls: ['./songlist.component.scss'],
   standalone: true,
   imports: [
     NgIf,

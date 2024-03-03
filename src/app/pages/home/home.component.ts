@@ -14,7 +14,7 @@ import { FeatureFlagDirective } from 'src/app/shared/directives/feature-flag.dir
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
-  styleUrls: ['./home.component.sass'],
+  styleUrls: ['./home.component.scss'],
   standalone: true,
   imports: [
     CommonModule,

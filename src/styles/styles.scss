@@ -1,0 +1,142 @@
+/* You can add global styles to this file, and also import other style files */
+@import "theme";
+@import "material";
+
+html, body {
+  padding: 0;
+  margin: 0;
+}
+
+// Typography
+body {
+  font-family: $default-ff;
+  font-weight: 400;
+  font-size: 12px;
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-weight: 700;
+  }
+
+  p {
+    font-size: 12px;
+  }
+
+  .small {
+    font-size: 9.6px;
+  }
+
+  .tiny {
+    font-size: 7.68px;
+  }
+
+  .button {
+    font-size: 16px;
+    font-weight: 500;
+    align-items: center;
+  }
+
+  h1 {
+    font-size: 45.78px;
+  }
+
+  h2 {
+    font-size: 36.62px;
+  }
+
+  h3 {
+    font-size: 29.3px;
+  }
+
+  h4 {
+    font-size: 23.44px;
+  }
+
+  h5 {
+    font-size: 18.75px;
+  }
+
+  h6 {
+    font-size: 15px;
+  }
+}
+
+body {
+  background-color: $bg;
+  color: $text;
+
+  .card-bg {
+    background-color: $card-bg;
+
+    .text-accent {
+      color: $text-accent;
+    }
+
+    .text-accent-inv {
+      color: $text-accent-inv;
+    }
+
+    .secondary {
+      color: $text-secondary;
+    }
+
+    .gray {
+      color: $gray;
+    }
+  }
+}
+
+.card {
+  border-radius: 16px;
+  background-color: $card-bg;
+  margin: 4px;
+  padding: 16px;
+}
+
+.mat-mdc-table {
+  background-color: transparent !important;
+}
+
+cdk-virtual-scroll-viewport {
+  height: 500px;
+}
+
+table {
+  width: 100%;
+  height: 100%;
+  overflow-y: auto;
+  border-collapse: collapse;
+  table-layout: auto;
+
+  th {
+    font-size: 15px;
+    text-align: left;
+  }
+
+  tr {
+    height: 64px;
+    border-bottom: solid 1px $gray;
+  }
+
+  tr:last-child {
+    border-bottom: none;
+  }
+
+  tbody tr {
+    cursor: pointer;
+  }
+
+  tbody tr:hover {
+    border-radius: $border-radius;
+    background-color: $hover;
+  }
+}
+
+.scroll-container {
+  height: 100%;
+  overflow-y: auto;
+}

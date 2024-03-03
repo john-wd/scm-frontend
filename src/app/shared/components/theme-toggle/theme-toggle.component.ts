@@ -13,7 +13,7 @@ import { MatMenuItem } from '@angular/material/menu';
     MatIcon,
     MatMenuItem,
   ],
-  styleUrls: ['./theme-toggle.component.sass']
+  styleUrls: ['./theme-toggle.component.scss']
 })
 export class ThemeToggleComponent implements OnInit {
   constructor(private themeService: ThemeToggleService) {

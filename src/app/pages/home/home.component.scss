@@ -1,0 +1,15 @@
+.card-container {
+  min-width: 0;
+  display: flex;
+  flex-flow: wrap;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+}
+
+.section {
+  margin-bottom: 36px;
+  overflow: hidden;
+}

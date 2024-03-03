@@ -11,7 +11,7 @@ import { Entry, EntrycardContainerComponent } from 'src/app/shared/components/en
     EntrycardContainerComponent,
   ],
   templateUrl: './browse-consoles.component.html',
-  styleUrl: './browse-consoles.component.sass'
+  styleUrl: './browse-consoles.component.scss'
 })
 export class BrowseConsolesComponent implements OnInit {
   consoles$: Observable<Entry[]>
