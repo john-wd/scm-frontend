@@ -93,7 +93,7 @@ export class PlayerComponent implements OnInit {
   }
 
   currentIndex(): number {
-    return this.playerService.currentIndex();
+    return this.playerService.currentIndex;
   }
 
   seek(perc: string) {

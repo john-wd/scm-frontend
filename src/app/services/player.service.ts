@@ -35,10 +35,17 @@ export class PlayerService implements OnDestroy {
   playlist$: Observable<Song[]>;
   playing$: Observable<Song>;
 
-  private _currentIndex: number;
   private playlist: Song[] = [];
   private playlistSubject = new BehaviorSubject<Song[]>([]);
   private subscriptions: Subscription[] = [];
+
+  private _currentIndex: number = -1;
+  get currentIndex(): number {
+    return this._currentIndex;
+  }
+  set currentIndex(idx: number) {
+    this._currentIndex = idx
+  }
 
   configure(apiUrl: string) {
     this._apiUrl = apiUrl
@@ -76,11 +83,21 @@ export class PlayerService implements OnDestroy {
   }
 
   play(song: Song) {
+    let existsIdx = this.playlist.findIndex(s => s.song_id === song.song_id)
+    if (existsIdx >= 0) {
+      this.currentIndex = existsIdx
+    } else {
+      this.playlist.unshift(song)
+      this.playlistSubject.next(this.playlist)
+      this.currentIndex = 0
+    }
+    console.log(this.currentIndex)
     this._player.play(this.toInternalSong(song));
   }
 
   playAtIndex(idx: number) {
     this.play(this.playlist[idx]);
+    this.currentIndex = idx
   }
 
   stop() {
@@ -96,17 +113,17 @@ export class PlayerService implements OnDestroy {
   }
 
   next() {
-    if (this._currentIndex + 1 > this.playlist.length) return
+    if (this.currentIndex + 1 >= this.playlist.length) return
 
-    this._currentIndex++;
-    this.playAtIndex(this._currentIndex);
+    this.currentIndex++;
+    this.playAtIndex(this.currentIndex);
   }
 
   previous() {
-    if (this._currentIndex - 1 < 0) return
+    if (this.currentIndex - 1 < 0) return
 
-    this._currentIndex--;
-    this.playAtIndex(this._currentIndex);
+    this.currentIndex--;
+    this.playAtIndex(this.currentIndex);
   }
 
   clearPlaylist() {
@@ -126,9 +143,7 @@ export class PlayerService implements OnDestroy {
     this.playlistSubject.next(this.playlist);
   }
 
-  currentIndex(): number {
-    return this._currentIndex;
-  }
+
 
   seek(to: number) {
     this._player.seek(to * this._player.sampleRate);
