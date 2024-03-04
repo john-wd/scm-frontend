@@ -32,45 +32,43 @@
     </div>
     <div class="playlist">
       <h4>Play queue</h4>
-
-      <mat-table [dataSource]="playlist">
-        <!-- Pos / Music name + uploader / Game name / Length / Options menu -->
-        <ng-container matColumnDef="itemNumber">
-          <mat-cell *matCellDef="let i = index">
-            @if (i === hoverIdx) {
-            <mat-icon>drag_handle</mat-icon>
-            } @else if (i === currentIndex) {
-            <mat-icon>play_arrow</mat-icon>
-            } @else {
-            {{i+1}}
-            }
-          </mat-cell>
-        </ng-container>
-        <ng-container matColumnDef="songName">
-          <mat-cell *matCellDef="let song">
-            <div>
-              <div>{{song.name}}</div>
-              <span class="small">{{song.uploader}}</span>
-            </div>
-          </mat-cell>
-        </ng-container>
-        <ng-container matColumnDef="gameName">
-          <mat-cell *matCellDef="let song">{{song.game_name}}</mat-cell>
-        </ng-container>
-        <ng-container matColumnDef="length">
-          <mat-cell *matCellDef="let song">{{song.length | date: "mm:ss"}}</mat-cell>
-        </ng-container>
-        <ng-container matColumnDef="menu">
-          <mat-cell *matCellDef="let i = index">
-            <button mat-icon-button [matMenuTriggerFor]="songMenu" [matMenuTriggerData]="{song: playlist[i], index: i}">
-              <mat-icon>more_horiz</mat-icon>
-            </button>
-          </mat-cell>
-        </ng-container>
-
-        <mat-row *matRowDef="let row; let i = index; columns: tableColumns;" (mouseenter)="hover(i)"
-          (mouseleave)="nohover()" (click)="playAtIndex(i)"></mat-row>
-      </mat-table>
+      <cdk-virtual-scroll-viewport itemSize="36">
+        <table>
+          <!-- No thead for now -->
+          <tbody>
+            <tr *cdkVirtualFor="let song of playlist; let i = index" (click)="playAtIndex(i)" (mouseenter)="hover(i)"
+              (mouseleave)="nohover()">
+              <td class="element-index" (click)="$event.stopPropagation()">
+                @if (i === hoverIdx) {
+                <mat-icon>drag_handle</mat-icon>
+                } @else if (i === currentIndex) {
+                <mat-icon>play_arrow</mat-icon>
+                } @else {
+                {{i+1}}
+                }
+              </td>
+              <td>
+                <div>
+                  <div>{{song.name}}</div>
+                  <span class="small">{{song.uploader}}</span>
+                </div>
+              </td>
+              <td>
+                {{song.game_name}}
+              </td>
+              <td>
+                {{song.length | date: "mm:ss"}}
+              </td>
+              <td>
+                <button mat-icon-button [matMenuTriggerFor]="songMenu"
+                  [matMenuTriggerData]="{song: playlist[i], index: i}">
+                  <mat-icon>more_horiz</mat-icon>
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </cdk-virtual-scroll-viewport>
     </div>
   </div>
 </div>

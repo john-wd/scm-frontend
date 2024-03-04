@@ -1,7 +1,16 @@
 @import "variables";
 
+cdk-virtual-scroll-viewport {
+  height: 100%;
+}
+
 .playlist {
   margin-left: 80px;
+}
+
+.element-index {
+  min-width: 4ex;
+  text-align: center;
 }
 
 .bar {

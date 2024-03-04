@@ -109,7 +109,12 @@ export class PlayerService implements OnDestroy {
   }
 
   playPause() {
-    this._player.playPause();
+    if (this.currentIndex < 0) {
+      if (this.playlist)
+        this.playAtIndex(0)
+    } else {
+      this._player.playPause();
+    }
   }
 
   next() {
@@ -127,6 +132,7 @@ export class PlayerService implements OnDestroy {
   }
 
   clearPlaylist() {
+    this.currentIndex = -1
     this.playlist = [];
     this.playlistSubject.next(this.playlist)
   }

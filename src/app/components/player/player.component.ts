@@ -13,6 +13,7 @@ import { NgIf, NgTemplateOutlet, DatePipe } from '@angular/common';
 import { MatIcon } from '@angular/material/icon';
 import { MatDialog } from '@angular/material/dialog';
 import { SongDetailsModal } from 'src/app/pages/song-details-modal/song-details-modal.component';
+import { CdkVirtualScrollViewport, ScrollingModule } from '@angular/cdk/scrolling';
 
 @Component({
   selector: 'app-player',
@@ -20,6 +21,8 @@ import { SongDetailsModal } from 'src/app/pages/song-details-modal/song-details-
   styleUrls: ['./player.component.scss'],
   standalone: true,
   imports: [
+    ScrollingModule,
+    CdkVirtualScrollViewport,
     MatIcon,
     NgIf,
     NgTemplateOutlet,
