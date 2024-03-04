@@ -43,11 +43,14 @@ export class HomeComponent implements OnInit {
     this.store.dispatch(fromActions.fetchGamelist.action());
     this.popularGames$ = this.store.select(getGamelistEntity).pipe(
       map(games => {
-        return games.slice(0, nGamesShown).map(g => ({
-          entryId: g.game_id.toString(),
-          imageUrl: g.thumbnail_url,
-          title: g.game_name,
-        } as Entry))
+        return games
+          .slice()
+          .sort((a, b) => b.song_count - a.song_count)
+          .slice(0, nGamesShown).map(g => ({
+            entryId: g.game_id.toString(),
+            imageUrl: g.thumbnail_url,
+            title: g.game_name,
+          } as Entry))
       }),
     )
   }
