@@ -69,7 +69,7 @@
         </ng-container>
 
         <mat-row *matRowDef="let row; let i = index; columns: tableColumns;" (mouseenter)="hover(i)"
-          (mouseleave)="nohover()"></mat-row>
+          (mouseleave)="nohover()" (click)="playAtIndex(i)"></mat-row>
       </mat-table>
     </div>
   </div>

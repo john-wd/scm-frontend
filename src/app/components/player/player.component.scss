@@ -35,13 +35,11 @@
 }
 
 .seekbar {
+  max-width: 300px;
+
   .progress-bar {
     display: inline-block;
     text-wrap: nowrap;
-
-    .mat-mdc-slider {
-      width: 300px;
-    }
 
     ::ng-deep .mat-mdc-slider .mdc-slider__thumb {
       opacity: 0 !important;
