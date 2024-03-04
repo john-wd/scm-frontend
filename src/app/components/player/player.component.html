@@ -41,7 +41,7 @@
               <td class="element-index" (click)="$event.stopPropagation()">
                 @if (i === hoverIdx) {
                 <mat-icon>drag_handle</mat-icon>
-                } @else if (i === currentIndex) {
+                } @else if (i === currentIndex()) {
                 <mat-icon>play_arrow</mat-icon>
                 } @else {
                 {{i+1}}

@@ -91,7 +91,6 @@ export class PlayerService implements OnDestroy {
       this.playlistSubject.next(this.playlist)
       this.currentIndex = 0
     }
-    console.log(this.currentIndex)
     this._player.play(this.toInternalSong(song));
   }
 
