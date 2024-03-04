@@ -13,6 +13,7 @@ import { NgIf, NgTemplateOutlet, DatePipe } from '@angular/common';
 import { MatIcon } from '@angular/material/icon';
 import { MatDialog } from '@angular/material/dialog';
 import { SongDetailsModal } from 'src/app/pages/song-details-modal/song-details-modal.component';
+import { CdkVirtualScrollViewport, ScrollingModule } from '@angular/cdk/scrolling';
 
 @Component({
   selector: 'app-player',
@@ -20,6 +21,8 @@ import { SongDetailsModal } from 'src/app/pages/song-details-modal/song-details-
   styleUrls: ['./player.component.scss'],
   standalone: true,
   imports: [
+    ScrollingModule,
+    CdkVirtualScrollViewport,
     MatIcon,
     NgIf,
     NgTemplateOutlet,
@@ -64,7 +67,7 @@ export class PlayerComponent implements OnInit {
 
   routeToGame(gameId: number) {
     this.toggled = false
-    this.router.navigate(["gamelist", gameId])
+    this.router.navigate(["/explore/games", gameId])
   }
   onToggle() {
     this.toggled = !this.toggled;
@@ -93,7 +96,7 @@ export class PlayerComponent implements OnInit {
   }
 
   currentIndex(): number {
-    return this.playerService.currentIndex();
+    return this.playerService.currentIndex;
   }
 
   seek(perc: string) {

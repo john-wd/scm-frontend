@@ -6,6 +6,7 @@ import {
 } from 'revolving-door-brstm/dist/player';
 
 import {
+  BehaviorSubject,
   fromEvent,
   map,
   Observable,
@@ -34,8 +35,17 @@ export class PlayerService implements OnDestroy {
   playlist$: Observable<Song[]>;
   playing$: Observable<Song>;
 
-  private playlistSubject: Subject<Song[]>;
+  private playlist: Song[] = [];
+  private playlistSubject = new BehaviorSubject<Song[]>([]);
   private subscriptions: Subscription[] = [];
+
+  private _currentIndex: number = -1;
+  get currentIndex(): number {
+    return this._currentIndex;
+  }
+  set currentIndex(idx: number) {
+    this._currentIndex = idx
+  }
 
   configure(apiUrl: string) {
     this._apiUrl = apiUrl
@@ -59,21 +69,7 @@ export class PlayerService implements OnDestroy {
         } as State;
       })
     );
-    this.playlistSubject = new Subject<Song[]>();
     this.playlist$ = this.playlistSubject.asObservable();
-    // this.playlist$ = of(mockData as Song[])
-
-    this.subscriptions.push(
-      fromEvent(document, 'brstm_playlist_add').subscribe((evt: any) => {
-        this.playlistSubject.next(this._player.playlist);
-      })
-    );
-
-    this.subscriptions.push(
-      fromEvent(document, 'brstm_playlist_remove').subscribe((evt: any) => {
-        this.playlistSubject.next(this._player.playlist);
-      })
-    );
   }
 
   private toInternalSong(song: Song): InternalSong {
@@ -87,11 +83,20 @@ export class PlayerService implements OnDestroy {
   }
 
   play(song: Song) {
+    let existsIdx = this.playlist.findIndex(s => s.song_id === song.song_id)
+    if (existsIdx >= 0) {
+      this.currentIndex = existsIdx
+    } else {
+      this.playlist.unshift(song)
+      this.playlistSubject.next(this.playlist)
+      this.currentIndex = 0
+    }
     this._player.play(this.toInternalSong(song));
   }
 
   playAtIndex(idx: number) {
-    this._player.playAtIndex(idx);
+    this.play(this.playlist[idx]);
+    this.currentIndex = idx
   }
 
   stop() {
@@ -103,33 +108,47 @@ export class PlayerService implements OnDestroy {
   }
 
   playPause() {
-    this._player.playPause();
+    if (this.currentIndex < 0) {
+      if (this.playlist)
+        this.playAtIndex(0)
+    } else {
+      this._player.playPause();
+    }
   }
 
   next() {
-    this._player.next();
+    if (this.currentIndex + 1 >= this.playlist.length) return
+
+    this.currentIndex++;
+    this.playAtIndex(this.currentIndex);
   }
 
   previous() {
-    this._player.previous();
+    if (this.currentIndex - 1 < 0) return
+
+    this.currentIndex--;
+    this.playAtIndex(this.currentIndex);
   }
 
   clearPlaylist() {
-    this._player.clearPlaylist();
+    this.currentIndex = -1
+    this.playlist = [];
+    this.playlistSubject.next(this.playlist)
   }
 
   addToPlaylist(song: Song) {
-    this._player.addToPlaylist(this.toInternalSong(song));
+    this.playlist.push(song)
+    this.playlistSubject.next(this.playlist)
   }
 
   removeFromPlaylist(songId: number) {
-    this._player.removeFromPlaylist(songId);
-    this.playlistSubject.next(this._player.playlist);
+    this.playlist = this.playlist.filter(s => {
+      return s.song_id !== songId
+    })
+    this.playlistSubject.next(this.playlist);
   }
 
-  currentIndex(): number {
-    return this._player.currentIndex;
-  }
+
 
   seek(to: number) {
     this._player.seek(to * this._player.sampleRate);

@@ -1,7 +1,16 @@
 @import "variables";
 
+cdk-virtual-scroll-viewport {
+  height: 100%;
+}
+
 .playlist {
   margin-left: 80px;
+}
+
+.element-index {
+  min-width: 4ex;
+  text-align: center;
 }
 
 .bar {
@@ -35,13 +44,11 @@
 }
 
 .seekbar {
+  max-width: 300px;
+
   .progress-bar {
     display: inline-block;
     text-wrap: nowrap;
-
-    .mat-mdc-slider {
-      width: 300px;
-    }
 
     ::ng-deep .mat-mdc-slider .mdc-slider__thumb {
       opacity: 0 !important;
