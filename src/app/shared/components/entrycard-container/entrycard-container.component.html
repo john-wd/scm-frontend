@@ -1,0 +1,6 @@
+<div class="card-container" [style.flex-wrap]="(nowrap) ? 'nowrap' : 'wrap'">
+  <entry-card *ngFor="let entry of entries" [imgUrl]="entry.imageUrl" [routerLink]="link(entry.entryId)"
+    [queryParams]="query(entry.entryId)">
+    {{entry.title}}
+  </entry-card>
+</div>

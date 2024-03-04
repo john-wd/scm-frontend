@@ -1,0 +1,8 @@
+@use 'sass:map';
+@use '@angular/material' as mat;
+
+@mixin theme($theme) {
+  .hero .description {
+    color: mat.get-theme-color($theme, foreground, text-secondary)
+  }
+}

@@ -1,0 +1,33 @@
+<div class="section" *ngIf="recentlyPlayed$ | async">
+  <h4>Recently played</h4>
+  <entry-card-container [routerLinkTemplate]="['/explore/games/:entryId']" [entries]="recentlyPlayed$ | async"
+    type="game" nowrap></entry-card-container>
+</div>
+
+<div class="section">
+  <div class="header">
+    <h4>Popular games</h4>
+    <div style="float: right; margin-left: auto;">
+      <button mat-button [routerLink]="'/explore/games'">
+        <span>View all games</span>
+        <mat-icon iconPositionEnd>arrow_forward</mat-icon>
+      </button>
+    </div>
+  </div>
+  <entry-card-container [routerLinkTemplate]="['/explore/games/:entryId']" [entries]="popularGames$ | async" type="game"
+    nowrap></entry-card-container>
+</div>
+
+<div class="section" *featureFlag="'v2backend'">
+  <div class="header">
+    <h4>Browse playlists</h4>
+    <div style="float: right; margin-left: auto;">
+      <button mat-button>
+        <span>View all playlists</span>
+        <mat-icon iconPositionEnd>arrow_forward</mat-icon>
+      </button>
+    </div>
+  </div>
+  <entry-card-container [routerLinkTemplate]="['/explore/playlists/:entryId']" [entries]="playlists$ | async"
+    type="playlist" nowrap></entry-card-container>
+</div>

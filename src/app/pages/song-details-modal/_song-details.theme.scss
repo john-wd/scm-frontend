@@ -1,0 +1,14 @@
+@use 'sass:map';
+@use '@angular/material' as mat;
+
+@mixin theme($theme) {
+  $text-secondary: mat.get-theme-color($theme, foreground, hint-text);
+
+  .title .id {
+    color: $text-secondary;
+  }
+
+  .actions .filesize {
+    color: $text-secondary;
+  }
+}

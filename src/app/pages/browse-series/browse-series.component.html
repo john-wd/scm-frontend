@@ -1,0 +1,5 @@
+<div>
+  <h3>Series</h3>
+  <entry-card-container [entries]="series$ | async" [routerLinkTemplate]="['/explore/games']"
+    [queryParams]="{'series': ':entryId'}"></entry-card-container>
+</div>

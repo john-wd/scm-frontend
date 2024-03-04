@@ -1,0 +1,34 @@
+@import "variables";
+
+$width: 140px;
+
+.entry {
+  border-radius: $border-radius;
+  display: flex;
+  flex-direction: column;
+  padding: 4px;
+
+  margin: {
+    bottom: 16px;
+    right: 16px;
+    top: 0;
+    left: 0;
+  }
+
+  ;
+  cursor: pointer;
+
+  img {
+    width: $width;
+    height: $width;
+    border-radius: $border-radius;
+  }
+
+  p {
+    max-width: $width;
+  }
+}
+
+.entry:hover {
+  text-decoration: underline;
+}

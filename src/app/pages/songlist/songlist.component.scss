@@ -1,0 +1,56 @@
+@import "variables";
+
+$hero-top-margin: 24px;
+
+h1 {
+  margin-top: $hero-top-margin;
+}
+
+.songlist {
+  display: flex;
+  flex-direction: column;
+}
+
+.hero {
+  display: flex;
+  flex-direction: row;
+
+  .game_art {
+    padding: $hero-top-margin;
+
+    img {
+      max-width: 128px;
+      max-height: 128px;
+    }
+  }
+}
+
+.actions {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+
+  button {
+    width: 60px;
+    height: 60px;
+    padding: 0;
+  }
+
+  .mat-icon {
+    font-size: 36px;
+    width: auto;
+    height: auto;
+  }
+
+  .play {
+    margin-right: 8px;
+  }
+
+  .play:hover {
+    box-shadow: none;
+  }
+}
+
+.mat-mdc-row {
+  cursor: pointer;
+}

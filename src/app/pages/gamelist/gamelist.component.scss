@@ -1,0 +1,18 @@
+@import "variables";
+
+.gamelist {
+  height: 100%;
+  margin-top: 12px;
+
+  #initials {
+    font-size: 18px;
+    text-align: center;
+    margin-bottom: 16px;
+
+    .initial {
+      cursor: pointer;
+      padding: 4px;
+      border-radius: $border-radius;
+    }
+  }
+}

@@ -1,0 +1,6 @@
+<div class="entry">
+  <img [src]="imageUrl" (error)="this.imageUrl='assets/default-entry.png'" />
+  <p>
+    <ng-content></ng-content>
+  </p>
+</div>

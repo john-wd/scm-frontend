@@ -1,0 +1,8 @@
+{
+  "api_url": "http://localhost:9999",
+  "song_url": "https://smashcustommusic.net/brstm",
+  "flags": {
+    "v2backend": false,
+    "login_enabled": false
+  }
+}

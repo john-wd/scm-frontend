@@ -1,0 +1,19 @@
+@use '@angular/material' as mat;
+
+@mixin theme($theme) {
+  $hover: mat.get-theme-color($theme, background, hover);
+
+  .card {
+    background-color: mat.get-theme-color($theme, background, card);
+  }
+
+  table {
+    tr {
+      border-bottom: solid 1px $hover;
+    }
+
+    tbody tr:hover {
+      background-color: $hover;
+    }
+  }
+}

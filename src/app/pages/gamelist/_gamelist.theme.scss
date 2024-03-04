@@ -1,0 +1,17 @@
+@use 'sass:map';
+@use '@angular/material' as mat;
+
+@mixin theme($theme) {
+  #initials {
+    .initial {
+      &.highlight {
+        background-color: mat.get-theme-color($theme, primary, default);
+        color: mat.get-theme-color($theme, primary, default-contrast);
+      }
+
+      &:hover {
+        background-color: mat.get-theme-color($theme, background, hover);
+      }
+    }
+  }
+}

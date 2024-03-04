@@ -1,0 +1,42 @@
+<ng-container>
+  <div class="gamelist">
+    <div id="initials">
+      <span class="initial" *ngFor="let letter of initials.split('')" (click)="filter(letter)"
+        [ngClass]="(filterStartsWith === letter) ? 'highlight' : ''">
+        {{letter}}
+      </span>
+    </div>
+
+    <div class="table">
+      <cdk-virtual-scroll-viewport itemSize="36">
+        <table>
+          <thead>
+            <tr>
+              <th>Game name</th>
+              <th>Song count</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *cdkVirtualFor="let game of data; let i = index" [routerLink]="'./'+game.game_id">
+              <td>{{game.game_name}}</td>
+              <td>{{game.song_count}}</td>
+              <td>
+                <button mat-icon-button [matMenuTriggerFor]="menu" [matMenuTriggerData]="{game: game, index: i}"
+                  (click)="$event.stopPropagation()">
+                  <mat-icon>more_horiz</mat-icon>
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </cdk-virtual-scroll-viewport>
+    </div>
+  </div>
+</ng-container>
+
+<mat-menu #menu="matMenu" xposition="before">
+  <ng-template matMenuContent let-game="game" let-index="index">
+
+  </ng-template>
+</mat-menu>

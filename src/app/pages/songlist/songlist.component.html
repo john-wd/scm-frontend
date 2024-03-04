@@ -1,0 +1,120 @@
+<div class="songlist scroll-container" *ngIf="loaded$ | async">
+  <ng-container *ngFor="let game of [songlist$ | async]">
+    <div class="hero">
+      <div class="game_art">
+        @if (game?.game_banner_exists) {
+        <img [src]="bannerUrl(gameId)" />
+        } @else {
+        <img src="assets/vinyl.svg" />
+        }
+      </div>
+      <!-- Game info -->
+      <div>
+        <h1 #gameName>{{ game?.game_name }}</h1>
+        <p class="description" *ngIf="description">{{description}}</p>
+        <p>{{ game?.track_count }} songs</p>
+        <!-- TODO -->
+        <!-- <p>{{ game?.track_count }} songs · {{game?.downloads}} downloads · {{game?.total_length}}</p> -->
+      </div>
+    </div>
+
+    <div class="actions">
+      <button mat-fab class="play mat-elevation-z0" color="primary" (click)="onPlayAll()">
+        <mat-icon>play_arrow</mat-icon>
+      </button>
+      <button mat-icon-button [matMenuTriggerFor]="mainMenu">
+        <mat-icon>more_horiz</mat-icon>
+      </button>
+    </div>
+
+    <div class="content">
+      <h4>Available tracks</h4>
+      <table>
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Title</th>
+            <th>Game</th>
+            <th>Uploader</th>
+            <th>Length</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let song of dataSource.data; let i = index" (click)="onPlay(song)">
+            <td>{{i+1}}</td>
+            <td>{{song.song_name}}</td>
+            <td>{{gameName.textContent}}</td>
+            <td>{{song.song_uploader}}</td>
+            <td>{{song.song_length * 1e3| date: "mm:ss"}}</td>
+            <td>
+              <button mat-icon-button [matMenuTriggerFor]="songMenu" [matMenuTriggerData]="{song: song, index: i}"
+                (click)="$event.stopPropagation()">
+                <mat-icon>more_horiz</mat-icon>
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </ng-container>
+</div>
+
+<mat-menu #songMenu="matMenu" xPosition="before">
+  <ng-template matMenuContent let-song="song" let-index="index">
+    <button mat-menu-item (click)="openDetails(song.song_id)">
+      <mat-icon>description</mat-icon>
+      <span>Open details</span>
+    </button>
+    <button mat-menu-item (click)="onDownload(song)">
+      <mat-icon>download</mat-icon>
+      <span>Download</span>
+    </button>
+
+    <mat-divider></mat-divider>
+
+    <button mat-menu-item (click)="onPlay(song)">
+      <mat-icon>play_arrow</mat-icon>
+      <span>Play</span>
+    </button>
+    <button mat-menu-item (click)="onAddToPlaylist(song)">
+      <mat-icon>playlist_add</mat-icon>
+      <span>Add to playlist</span>
+    </button>
+
+    <mat-divider></mat-divider>
+
+    <button mat-menu-item [routerLink]="['/explore/games/', gameId]">
+      <mat-icon>arrow_circle_left</mat-icon>
+      <span>Go to game</span>
+    </button>
+    <button mat-menu-item>
+      <mat-icon>share</mat-icon>
+      <span>Share</span>
+    </button>
+  </ng-template>
+</mat-menu>
+
+<mat-menu #mainMenu="matMenu">
+  <ng-template matMenuContent>
+    <button mat-menu-item (click)="onAddAllToPlaylist()">
+      <mat-icon>playlist_add</mat-icon>
+      <span>Add to playlist</span>
+    </button>
+    <button mat-menu-item (click)="onPlayAll(true)">
+      <mat-icon>shuffle</mat-icon>
+      <span>Shuffle</span>
+    </button>
+    <button mat-menu-item *featureFlag="v2backend">
+      <mat-icon>add</mat-icon>
+      <span>New playlist</span>
+    </button>
+
+    <mat-divider></mat-divider>
+
+    <button mat-menu-item>
+      <mat-icon>share</mat-icon>
+      <span>Share</span>
+    </button>
+  </ng-template>
+</mat-menu>

@@ -1,3 +1,8 @@
-<router-outlet></router-outlet>
-
-<scm-list></scm-list>
+<div class="app">
+  <app-sidebar id="sidebar"></app-sidebar>
+  <app-main-nav id="main" class="card">
+    <router-outlet></router-outlet>
+  </app-main-nav>
+</div>
+<!-- <app-theme-toggle></app-theme-toggle> -->
+<app-player></app-player>

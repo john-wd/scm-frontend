@@ -1,0 +1,5 @@
+<div>
+  <h3>Consoles</h3>
+  <entry-card-container [entries]="consoles$ | async" [routerLinkTemplate]="['/explore/games']"
+    [queryParams]="{'series': ':entryId'}"></entry-card-container>
+</div>
