@@ -49,7 +49,7 @@ export class PlayerService implements OnDestroy {
 
   configure(apiUrl: string) {
     this._apiUrl = apiUrl
-    this._player = new BrstmPlayer(this._apiUrl);
+    this._player = new BrstmPlayer();
   }
 
   constructor() {
@@ -91,7 +91,9 @@ export class PlayerService implements OnDestroy {
       this.playlistSubject.next(this.playlist)
       this.currentIndex = 0
     }
-    this._player.play(this.toInternalSong(song));
+
+    let url = this._apiUrl + "/" + song.song_id
+    this._player.play(url, this.toInternalSong(song));
   }
 
   playAtIndex(idx: number) {
