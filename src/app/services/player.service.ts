@@ -6,6 +6,7 @@ import {
 } from 'revolving-door-brstm/dist/player';
 
 import {
+  BehaviorSubject,
   fromEvent,
   map,
   Observable,
@@ -34,7 +35,9 @@ export class PlayerService implements OnDestroy {
   playlist$: Observable<Song[]>;
   playing$: Observable<Song>;
 
-  private playlistSubject: Subject<Song[]>;
+  private _currentIndex: number;
+  private playlist: Song[] = [];
+  private playlistSubject = new BehaviorSubject<Song[]>([]);
   private subscriptions: Subscription[] = [];
 
   configure(apiUrl: string) {
@@ -59,21 +62,7 @@ export class PlayerService implements OnDestroy {
         } as State;
       })
     );
-    this.playlistSubject = new Subject<Song[]>();
     this.playlist$ = this.playlistSubject.asObservable();
-    // this.playlist$ = of(mockData as Song[])
-
-    this.subscriptions.push(
-      fromEvent(document, 'brstm_playlist_add').subscribe((evt: any) => {
-        this.playlistSubject.next(this._player.playlist);
-      })
-    );
-
-    this.subscriptions.push(
-      fromEvent(document, 'brstm_playlist_remove').subscribe((evt: any) => {
-        this.playlistSubject.next(this._player.playlist);
-      })
-    );
   }
 
   private toInternalSong(song: Song): InternalSong {
@@ -91,7 +80,7 @@ export class PlayerService implements OnDestroy {
   }
 
   playAtIndex(idx: number) {
-    this._player.playAtIndex(idx);
+    this.play(this.playlist[idx]);
   }
 
   stop() {
@@ -107,28 +96,38 @@ export class PlayerService implements OnDestroy {
   }
 
   next() {
-    this._player.next();
+    if (this._currentIndex + 1 > this.playlist.length) return
+
+    this._currentIndex++;
+    this.playAtIndex(this._currentIndex);
   }
 
   previous() {
-    this._player.previous();
+    if (this._currentIndex - 1 < 0) return
+
+    this._currentIndex--;
+    this.playAtIndex(this._currentIndex);
   }
 
   clearPlaylist() {
-    this._player.clearPlaylist();
+    this.playlist = [];
+    this.playlistSubject.next(this.playlist)
   }
 
   addToPlaylist(song: Song) {
-    this._player.addToPlaylist(this.toInternalSong(song));
+    this.playlist.push(song)
+    this.playlistSubject.next(this.playlist)
   }
 
   removeFromPlaylist(songId: number) {
-    this._player.removeFromPlaylist(songId);
-    this.playlistSubject.next(this._player.playlist);
+    this.playlist = this.playlist.filter(s => {
+      return s.song_id !== songId
+    })
+    this.playlistSubject.next(this.playlist);
   }
 
   currentIndex(): number {
-    return this._player.currentIndex;
+    return this._currentIndex;
   }
 
   seek(to: number) {

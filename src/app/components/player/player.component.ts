@@ -64,7 +64,7 @@ export class PlayerComponent implements OnInit {
 
   routeToGame(gameId: number) {
     this.toggled = false
-    this.router.navigate(["gamelist", gameId])
+    this.router.navigate(["/explore/games", gameId])
   }
   onToggle() {
     this.toggled = !this.toggled;
