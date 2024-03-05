@@ -122,3 +122,11 @@ h4 {
   margin-top: 4px;
   margin-bottom: 4px;
 }
+
+.mat-mdc-slider .mdc-slider__track--active_fill {
+  border-color: green;
+}
+
+::ng-deep .mat-slide-toggle.mat-primary.mat-checked:not(.mat-disabled) .mat-slide-toggle-bar {
+  background-color: #ff99ff;
+}

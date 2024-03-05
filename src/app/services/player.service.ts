@@ -150,10 +150,9 @@ export class PlayerService implements OnDestroy {
     this.playlistSubject.next(this.playlist);
   }
 
-
-
   seek(to: number) {
-    this._player.seek(to * this._player.sampleRate);
+    if (this.currentIndex < 0)
+      this._player.seek(to * this._player.sampleRate);
   }
 
   ngOnDestroy(): void {
