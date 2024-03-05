@@ -1,8 +1,13 @@
 @import "variables";
 
 .gamelist {
-  height: 100%;
+  height: 95%;
   margin-top: 12px;
+
+  .table {
+    height: 100%;
+  }
+
 
   #initials {
     font-size: 18px;
