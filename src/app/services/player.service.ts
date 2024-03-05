@@ -111,7 +111,7 @@ export class PlayerService implements OnDestroy {
 
   playPause() {
     if (this.currentIndex < 0) {
-      if (this.playlist)
+      if (this.playlist.length > 0)
         this.playAtIndex(0)
     } else {
       this._player.playPause();
