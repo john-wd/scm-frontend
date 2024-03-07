@@ -7,13 +7,15 @@ import { MatIcon } from '@angular/material/icon';
 import { RouterLinkActive, RouterLink } from '@angular/router';
 import { MatIconButton, MatButton } from '@angular/material/button';
 import { LoadingComponent } from 'src/app/shared/components/loading/loading.component';
+import { SearchBarComponent } from '../search-bar/search-bar.component';
 
 @Component({
   selector: 'app-main-nav',
   templateUrl: './main-nav.component.html',
   styleUrls: ['./main-nav.component.scss'],
   standalone: true,
-  imports: [MatIconButton, RouterLinkActive, MatIcon, MatMenuTrigger, FeatureFlagDirective, MatButton, MatMenu, MatMenuContent, ThemeToggleComponent, MatMenuItem, RouterLink, LoadingComponent,]
+  imports: [MatIconButton, RouterLinkActive, MatIcon, MatMenuTrigger, FeatureFlagDirective, MatButton, MatMenu, MatMenuContent, ThemeToggleComponent, MatMenuItem, RouterLink, LoadingComponent,
+    SearchBarComponent,]
 })
 export class MainNavComponent implements OnInit {
 

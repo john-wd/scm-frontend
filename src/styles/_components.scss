@@ -1,6 +1,6 @@
 @use "root";
 @use "../app/components/sidebar/sidebar.theme" as sidebar;
-@use "../app/components/main-nav/main-nav.theme" as main-nav;
+@use "../app/components/search-bar/search-bar.theme" as search-bar;
 @use "../app/components/player/player.theme" as player;
 @use "../app/pages/songlist/songlist.theme" as songlist;
 @use "../app/pages/gamelist/gamelist.theme" as gamelist;
@@ -10,7 +10,7 @@
 @mixin theme($theme) {
   @include sidebar.theme($theme);
   @include root.theme($theme);
-  @include main-nav.theme($theme);
+  @include search-bar.theme($theme);
   @include player.theme($theme);
   @include songlist.theme($theme);
   @include gamelist.theme($theme);
