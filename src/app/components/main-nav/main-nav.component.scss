@@ -8,34 +8,6 @@
   flex-grow: 1;
 }
 
-.search {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  min-width: 300px;
-  border-radius: 50px;
-  font-size: 24px;
-
-  padding: {
-    left: 12px;
-    right: 12px;
-  }
-
-  ;
-
-  input {
-    margin: 0;
-    padding: 6px;
-    width: 100%;
-    border: none;
-    outline: none;
-    box-sizing: border-box;
-    -webkit-appearance: none;
-    -webkit-box-sizing: border-box;
-    -moz-box-sizing: border-box;
-  }
-}
-
 .content {
   height: 85vh;
   overflow-y: hidden;
