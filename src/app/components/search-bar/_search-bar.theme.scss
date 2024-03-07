@@ -1,0 +1,14 @@
+@use 'sass:map';
+@use '@angular/material' as mat;
+
+@mixin theme($theme) {
+  $background-color: mat.get-theme-color($theme, background, background);
+
+  .search {
+    background-color: $background-color;
+
+    input {
+      background-color: $background-color;
+    }
+  }
+}
