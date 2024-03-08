@@ -11,4 +11,9 @@
       background-color: $background-color;
     }
   }
+
+  .results {
+    border: 1px solid mat.get-theme-color($theme, foreground, divider);
+    background-color: mat.get-theme-color($theme, background, background);
+  }
 }

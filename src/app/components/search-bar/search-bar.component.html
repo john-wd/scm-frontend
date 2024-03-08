@@ -1,4 +1,22 @@
-<div class="search">
-  <mat-icon>search</mat-icon>
-  <input type="search" placeholder="What do you want to listen?" />
+<div class="wrapper">
+  <div class="search">
+    <mat-icon>search</mat-icon>
+    <input type="search" placeholder="What do you want to listen?" [(ngModel)]="query" (ngModelChange)="ontype()"
+      (focus)="focus()" />
+  </div>
+
+  <div class="results mat-elevation-z2"
+    [style.display]="(isFocused && results && results.length > 0)? 'block' : 'none'">
+    <p>
+      Games
+    </p>
+    <mat-list>
+      <mat-list-item *ngFor="let entry of results" class="entry" [routerLink]="['/explore/games', entry.game_id]"
+        (click)="hide()">
+        <div>
+          {{entry.game_name}}
+        </div>
+      </mat-list-item>
+    </mat-list>
+  </div>
 </div>
