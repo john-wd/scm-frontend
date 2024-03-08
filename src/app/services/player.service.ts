@@ -1,6 +1,6 @@
 import { Injectable, OnDestroy } from '@angular/core';
 import { Song } from '../models/scm.model';
-import { State, ThreadedPlayer } from "./player.wrapper"
+import { State, ThreadedPlayer } from "./player.wrapper";
 
 import {
   BehaviorSubject,

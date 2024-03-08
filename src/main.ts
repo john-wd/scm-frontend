@@ -1,24 +1,19 @@
-import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
-
-
-import { AppComponent } from './app/app.component';
+import { APP_INITIALIZER, importProvidersFrom } from '@angular/core';
+import { BrowserModule, bootstrapApplication } from '@angular/platform-browser';
 import { provideAnimations } from '@angular/platform-browser/animations';
-import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { AppRoutingModule } from './app/app-routing.module';
-import { BrowserModule, bootstrapApplication } from '@angular/platform-browser';
-import { APP_INITIALIZER, importProvidersFrom } from '@angular/core';
+import { AppComponent } from './app/app.component';
 
-import config from "./config/production.config.json";
-import { ScmApiService } from './app/services/scm-api.service';
-import { PlayerService } from './app/services/player.service';
-import { FeatureFlagService } from './app/shared/services/feature-flag.service';
-import { scmFeatureKey, scmReducer } from './app/state/scm/scm.reducer';
-import { ScmEffects } from './app/state/scm/scm.effects';
 import { HttpClientModule } from '@angular/common/http';
-import { ActivatedRouteSnapshot, BaseRouteReuseStrategy, RouteReuseStrategy, RouterModule } from '@angular/router';
+import { ActivatedRouteSnapshot, BaseRouteReuseStrategy, RouteReuseStrategy } from '@angular/router';
+import { PlayerService } from './app/services/player.service';
+import { ScmApiService } from './app/services/scm-api.service';
+import { FeatureFlagService } from './app/shared/services/feature-flag.service';
 import { SmashCustomMusicStateModule } from './app/state/scm/scm.module';
+import config from "./config/production.config.json";
 
 const featureFlagFactory = (featureFlagService: FeatureFlagService) => () => featureFlagService.loadConfig(config.flags)
 const apiServiceFactory = (apiService: ScmApiService) => () => {

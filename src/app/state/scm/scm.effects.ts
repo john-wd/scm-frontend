@@ -1,11 +1,10 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { catchError, mergeMap, map, switchMap, withLatestFrom } from 'rxjs';
-import { of } from 'rxjs';
-import { ScmApiService } from '../../services/scm-api.service';
-import { fetchGamelist, fetchSonglist, fetchSongDetails } from './scm.actions';
 import { Store } from '@ngrx/store';
-import { getGamelistEntity, getGamelistUIState, getSonglistUIState } from './scm.selector';
+import { catchError, map, mergeMap, of, switchMap, withLatestFrom } from 'rxjs';
+import { ScmApiService } from '../../services/scm-api.service';
+import { fetchGamelist, fetchSongDetails, fetchSonglist } from './scm.actions';
+import { getGamelistUIState, getSonglistUIState } from './scm.selector';
 
 @Injectable()
 export class ScmEffects {

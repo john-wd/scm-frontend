@@ -2,8 +2,8 @@ import {
   BrstmPlayer,
   Song as InternalSong,
 } from "revolving-door-brstm/dist/player";
-import { Song } from "../models/scm.model";
 import { Observable, fromEvent, map } from "rxjs";
+import { Song } from "../models/scm.model";
 
 export interface State {
   position: number;

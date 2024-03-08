@@ -1,7 +1,7 @@
-import { HttpClient, HttpResponse } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { map, Observable } from 'rxjs';
-import { SongList, GameList, Song } from '../models/scm.model';
+import { Observable, map } from 'rxjs';
+import { GameList, Song, SongList } from '../models/scm.model';
 
 
 export type FormatType = {

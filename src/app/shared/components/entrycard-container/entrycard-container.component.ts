@@ -1,9 +1,8 @@
-import { Component, Input, OnInit, booleanAttribute } from '@angular/core';
-import { Observable } from 'rxjs';
-import { EntrycardComponent } from '../entrycard/entrycard.component';
 import { CommonModule } from '@angular/common';
+import { Component, Input, booleanAttribute } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { memoize } from '../../utils/memoization';
+import { EntrycardComponent } from '../entrycard/entrycard.component';
 
 export interface Entry {
   entryId: string;

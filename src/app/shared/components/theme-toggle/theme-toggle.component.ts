@@ -1,8 +1,8 @@
-import { Component, OnInit } from '@angular/core';
-import { ThemeToggleService } from '../../services/theme-toggle.service';
-import { MatIcon, } from '@angular/material/icon';
 import { CommonModule } from '@angular/common';
+import { Component, OnInit } from '@angular/core';
+import { MatIcon, } from '@angular/material/icon';
 import { MatMenuItem } from '@angular/material/menu';
+import { ThemeToggleService } from '../../services/theme-toggle.service';
 
 @Component({
   selector: 'theme-toggle-menu',

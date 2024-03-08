@@ -1,5 +1,5 @@
 import { createAction, props } from '@ngrx/store';
-import { GameList, SongList, Song } from '../../models/scm.model';
+import { GameList, Song, SongList } from '../../models/scm.model';
 
 export namespace fetchGamelist {
   const tag = '[Game List]';

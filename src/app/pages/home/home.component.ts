@@ -3,15 +3,12 @@ import { Component, OnInit } from '@angular/core';
 import { MatButton, } from '@angular/material/button';
 import { MatIcon } from '@angular/material/icon';
 import { RouterLink } from '@angular/router';
-import { Observable, map, of } from 'rxjs';
-import { EntrycardComponent } from 'src/app/shared/components/entrycard/entrycard.component';
-import { GameList, Song } from 'src/app/models/scm.model';
-import { mockGames } from './mockdata';
+import { Store } from '@ngrx/store';
+import { Observable, map } from 'rxjs';
 import { Entry, EntrycardContainerComponent } from 'src/app/shared/components/entrycard-container/entrycard-container.component';
 import { FeatureFlagDirective } from 'src/app/shared/directives/feature-flag.directive';
-import { Store } from '@ngrx/store';
-import * as fromActions from '../../state/scm/scm.actions';
 import { getGamelistEntity } from 'src/app/state/scm/scm.selector';
+import * as fromActions from '../../state/scm/scm.actions';
 
 
 const nGamesShown = 10;
