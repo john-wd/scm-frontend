@@ -1,31 +1,29 @@
+import { AsyncPipe, DatePipe, NgFor, NgIf } from '@angular/common';
 import {
   Component,
   ElementRef,
-  Input,
   OnDestroy,
   OnInit,
-  ViewChild,
+  ViewChild
 } from '@angular/core';
+import { MatFabButton, MatIconButton } from '@angular/material/button';
+import { MatRipple } from '@angular/material/core';
+import { MatDialog } from '@angular/material/dialog';
+import { MatDivider } from '@angular/material/divider';
+import { MatIcon } from '@angular/material/icon';
+import { MatMenu, MatMenuContent, MatMenuItem, MatMenuTrigger } from '@angular/material/menu';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort, MatSortHeader } from '@angular/material/sort';
-import { MatTableDataSource, MatTable, MatColumnDef, MatHeaderCellDef, MatHeaderCell, MatCellDef, MatCell, MatRowDef, MatRow } from '@angular/material/table';
+import { MatCell, MatCellDef, MatColumnDef, MatHeaderCell, MatHeaderCellDef, MatRow, MatRowDef, MatTable, MatTableDataSource } from '@angular/material/table';
+import { ActivatedRoute, RouterModule } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { map, Observable, Subscription, tap } from 'rxjs';
+import { Observable, Subscription, map } from 'rxjs';
+import { getSonglistEntityById, getSonglistUIState } from 'src/app/state/scm/scm.selector';
 import { Song, SongList } from '../../models/scm.model';
-import { LoadingService } from '../../shared/services/loading.service';
 import { PlayerService } from '../../services/player.service';
 import { FormatBRSTM, ScmApiService } from '../../services/scm-api.service';
 import { fetchSonglist } from '../../state/scm/scm.actions';
-import { MatDialog } from '@angular/material/dialog';
 import { SongDetailsModal } from '../song-details-modal/song-details-modal.component';
-import { ActivatedRoute, RouterModule } from '@angular/router';
-import { MatDivider } from '@angular/material/divider';
-import { MatRipple } from '@angular/material/core';
-import { MatMenuTrigger, MatMenu, MatMenuContent, MatMenuItem } from '@angular/material/menu';
-import { MatIcon } from '@angular/material/icon';
-import { MatFabButton, MatIconButton } from '@angular/material/button';
-import { NgIf, NgFor, AsyncPipe, DatePipe } from '@angular/common';
-import { getSonglistEntityById, getSonglistUIState } from 'src/app/state/scm/scm.selector';
 
 @Component({
   selector: 'app-songlist',

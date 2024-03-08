@@ -1,19 +1,19 @@
+import { CdkVirtualScrollViewport, ScrollingModule } from '@angular/cdk/scrolling';
+import { DatePipe, NgIf, NgTemplateOutlet } from '@angular/common';
 import { Component, HostListener, OnInit } from '@angular/core';
+import { MatIconButton } from '@angular/material/button';
+import { MatDialog } from '@angular/material/dialog';
+import { MatDivider } from '@angular/material/divider';
+import { MatIcon } from '@angular/material/icon';
+import { MatMenu, MatMenuContent, MatMenuItem, MatMenuTrigger } from '@angular/material/menu';
+import { MatSlider, MatSliderThumb } from '@angular/material/slider';
+import { MatCell, MatCellDef, MatColumnDef, MatRow, MatRowDef, MatTable } from '@angular/material/table';
+import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
+import { SongDetailsModal } from 'src/app/pages/song-details-modal/song-details-modal.component';
 import { Song } from '../../models/scm.model';
 import { PlayerService } from '../../services/player.service';
-import { Router } from '@angular/router';
 import { FormatBRSTM, ScmApiService } from '../../services/scm-api.service';
-import { MatDivider } from '@angular/material/divider';
-import { MatSlider, MatSliderThumb } from '@angular/material/slider';
-import { MatMenuTrigger, MatMenu, MatMenuContent, MatMenuItem } from '@angular/material/menu';
-import { MatIconButton } from '@angular/material/button';
-import { MatTable, MatColumnDef, MatCellDef, MatCell, MatRowDef, MatRow } from '@angular/material/table';
-import { NgIf, NgTemplateOutlet, DatePipe } from '@angular/common';
-import { MatIcon } from '@angular/material/icon';
-import { MatDialog } from '@angular/material/dialog';
-import { SongDetailsModal } from 'src/app/pages/song-details-modal/song-details-modal.component';
-import { CdkVirtualScrollViewport, ScrollingModule } from '@angular/cdk/scrolling';
 
 @Component({
   selector: 'app-player',

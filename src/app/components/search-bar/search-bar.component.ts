@@ -1,11 +1,11 @@
 import { CommonModule } from '@angular/common';
-import { Component, ElementRef, HostListener, OnDestroy, ViewChild } from '@angular/core';
+import { Component, ElementRef, HostListener, OnDestroy } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { MatListModule } from '@angular/material/list';
 import { MatIconModule } from '@angular/material/icon';
+import { MatListModule } from '@angular/material/list';
 import { RouterModule } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { Observable, Subject, Subscription, debounceTime, distinctUntilChanged, filter, map, switchMap } from 'rxjs';
+import { Subject, Subscription, debounceTime, distinctUntilChanged, filter, map, switchMap } from 'rxjs';
 import { GameList } from 'src/app/models/scm.model';
 import { State } from 'src/app/state/scm/scm.reducer';
 import { getState } from 'src/app/state/scm/scm.selector';

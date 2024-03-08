@@ -1,5 +1,5 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
-import { scmFeatureKey, State } from './scm.reducer';
+import { State, scmFeatureKey } from './scm.reducer';
 
 export const getState = createFeatureSelector<State>(scmFeatureKey);
 

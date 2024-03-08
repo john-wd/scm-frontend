@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Observable, Subscription, from, fromEvent, map, startWith } from 'rxjs';
+import { Observable, fromEvent, map, startWith } from 'rxjs';
 
 const darkStyleName = 'darkMode'
 const lightStyleName = 'lightMode'

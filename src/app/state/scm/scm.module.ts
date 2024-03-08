@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { EffectsModule } from '@ngrx/effects';
-import { ScmEffects } from './scm.effects';
 import { StoreModule } from '@ngrx/store';
+import { ScmEffects } from './scm.effects';
 import { scmFeatureKey, scmReducer } from './scm.reducer';
 
 
