@@ -1,34 +1,19 @@
 import { Injectable, OnDestroy } from '@angular/core';
 import { Song } from '../models/scm.model';
-import {
-  BrstmPlayer,
-  Song as InternalSong,
-} from 'revolving-door-brstm/dist/player';
+import { State, ThreadedPlayer } from "./player.wrapper"
 
 import {
   BehaviorSubject,
-  fromEvent,
-  map,
   Observable,
-  Subject,
   Subscription,
 } from 'rxjs';
 
-export interface State {
-  position: number;
-  paused: boolean;
-  volume: number;
-  loaded: boolean;
-  looping: boolean;
-  totalTime: number;
-  curTime: number;
-  sampleRate: number;
-}
+
 @Injectable({
   providedIn: 'root',
 })
 export class PlayerService implements OnDestroy {
-  private _player: any;
+  private _player: ThreadedPlayer;
   private _apiUrl: string;
 
   state$: Observable<State>;
@@ -49,37 +34,13 @@ export class PlayerService implements OnDestroy {
 
   configure(apiUrl: string) {
     this._apiUrl = apiUrl
-    this._player = new BrstmPlayer();
   }
 
   constructor() {
-    this.playing$ = fromEvent(document, 'brstm_play').pipe(
-      map((evt: any) => {
-        return evt.detail as Song;
-      })
-    );
-    this.state$ = fromEvent(document, 'brstm_step').pipe(
-      map((evt: any) => {
-        let sampleRate = this._player.sampleRate;
-        return {
-          ...evt.detail,
-          totalTime: this._player.getSongLength(),
-          curTime: evt.detail.position / sampleRate,
-          sampleRate: sampleRate,
-        } as State;
-      })
-    );
+    this._player = new ThreadedPlayer();
     this.playlist$ = this.playlistSubject.asObservable();
-  }
-
-  private toInternalSong(song: Song): InternalSong {
-    return {
-      song_id: song.song_id,
-      name: song.name,
-      uploader: song.uploader,
-      game_name: song.game_name,
-      game_id: Number(song.game_id),
-    };
+    this.state$ = this._player.state$;
+    this.playing$ = this._player.playing$;
   }
 
   play(song: Song) {
@@ -93,7 +54,7 @@ export class PlayerService implements OnDestroy {
     }
 
     let url = this._apiUrl + "/" + song.song_id
-    this._player.play(url, this.toInternalSong(song));
+    this._player.play(url, song);
   }
 
   playAtIndex(idx: number) {
@@ -111,7 +72,7 @@ export class PlayerService implements OnDestroy {
 
   playPause() {
     if (this.currentIndex < 0) {
-      if (this.playlist)
+      if (this.playlist.length > 0)
         this.playAtIndex(0)
     } else {
       this._player.playPause();
@@ -150,10 +111,9 @@ export class PlayerService implements OnDestroy {
     this.playlistSubject.next(this.playlist);
   }
 
-
-
   seek(to: number) {
-    this._player.seek(to * this._player.sampleRate);
+    if (this.currentIndex < 0)
+      this._player.seek(to * this._player.sampleRate());
   }
 
   ngOnDestroy(): void {

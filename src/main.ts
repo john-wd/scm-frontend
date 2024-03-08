@@ -17,7 +17,7 @@ import { FeatureFlagService } from './app/shared/services/feature-flag.service';
 import { scmFeatureKey, scmReducer } from './app/state/scm/scm.reducer';
 import { ScmEffects } from './app/state/scm/scm.effects';
 import { HttpClientModule } from '@angular/common/http';
-import { RouterModule } from '@angular/router';
+import { ActivatedRouteSnapshot, BaseRouteReuseStrategy, RouteReuseStrategy, RouterModule } from '@angular/router';
 import { SmashCustomMusicStateModule } from './app/state/scm/scm.module';
 
 const featureFlagFactory = (featureFlagService: FeatureFlagService) => () => featureFlagService.loadConfig(config.flags)
@@ -26,6 +26,13 @@ const apiServiceFactory = (apiService: ScmApiService) => () => {
 }
 const playerServiceFactory = (playerService: PlayerService) => () => {
   playerService.configure(config.song_url)
+}
+
+class ReloadRouterStrategy extends BaseRouteReuseStrategy {
+  constructor() {
+    super()
+  }
+  override shouldReuseRoute(future: ActivatedRouteSnapshot, curr: ActivatedRouteSnapshot): boolean { return false }
 }
 
 bootstrapApplication(AppComponent, {
@@ -59,6 +66,10 @@ bootstrapApplication(AppComponent, {
       useFactory: apiServiceFactory,
       deps: [ScmApiService],
       multi: true
+    },
+    {
+      provide: RouteReuseStrategy,
+      useClass: ReloadRouterStrategy,
     },
     provideAnimations(),
   ]

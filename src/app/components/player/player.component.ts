@@ -100,6 +100,9 @@ export class PlayerComponent implements OnInit {
   }
 
   seek(perc: string) {
+    if (this.currentIndex() < 0)
+      return
+
     let percentage = Number(perc) / 100
 
     if (percentage > 1) {

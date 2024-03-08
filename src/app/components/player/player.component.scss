@@ -6,6 +6,11 @@ cdk-virtual-scroll-viewport {
 
 .playlist {
   margin-left: 80px;
+  height: 80vh;
+
+  table {
+    margin-top: 24px;
+  }
 }
 
 .element-index {
@@ -44,7 +49,7 @@ cdk-virtual-scroll-viewport {
 }
 
 .seekbar {
-  max-width: 300px;
+  max-width: 100%;
 
   .progress-bar {
     display: inline-block;
@@ -87,16 +92,16 @@ cdk-virtual-scroll-viewport {
   margin-top: 40px;
 
   .controls {
-    max-width: fit-content;
+    max-width: 300px;
     display: flex;
     flex-direction: column;
-    flex-grow: 1;
+    flex-shrink: .3;
     text-align: center;
     margin-left: 140px;
   }
 
   .playlist {
-    flex-grow: 2;
+    flex-grow: 1;
     margin-right: 140px;
   }
 }
@@ -116,4 +121,12 @@ h1,
 h4 {
   margin-top: 4px;
   margin-bottom: 4px;
+}
+
+.mat-mdc-slider .mdc-slider__track--active_fill {
+  border-color: green;
+}
+
+::ng-deep .mat-slide-toggle.mat-primary.mat-checked:not(.mat-disabled) .mat-slide-toggle-bar {
+  background-color: #ff99ff;
 }

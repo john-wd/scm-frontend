@@ -2,12 +2,12 @@
 @use '@angular/material' as mat;
 
 @mixin theme($theme) {
-  $background-color: mat.get-theme-color($theme, background, background);
+  $background-color: mat.get-theme-color($theme, background, status-bar);
   $background-card: mat.get-theme-color($theme, background, card);
 
   .bar,
   .toggle {
-    border-top: 1px solid $background-color;
+    border-top: 1px solid rgba($background-color, .7);
     background-color: $background-card;
   }
 
