@@ -1,6 +1,5 @@
 import {
-  BrstmPlayer,
-  Song as InternalSong,
+  BrstmPlayer
 } from "revolving-door-brstm/dist/player";
 import { Observable, fromEvent, map } from "rxjs";
 import { Song } from "../models/scm.model";
@@ -41,8 +40,8 @@ export class ThreadedPlayer {
     );
   }
 
-  play(url: string, song: Song) {
-    this._player.play(url, this.toInternalSong(song));
+  play(url: string) {
+    this._player.play(url);
   }
 
   playPause() {
@@ -63,15 +62,5 @@ export class ThreadedPlayer {
 
   setVolume(level: number) {
     this._player.setVolume(level);
-  }
-
-  private toInternalSong(song: Song): InternalSong {
-    return {
-      song_id: song.song_id,
-      name: song.name,
-      uploader: song.uploader,
-      game_name: song.game_name,
-      game_id: Number(song.game_id),
-    };
   }
 }

@@ -54,7 +54,7 @@ export class PlayerService implements OnDestroy {
     }
 
     let url = this._apiUrl + "/" + song.song_id
-    this._player.play(url, song);
+    this._player.play(url);
   }
 
   playAtIndex(idx: number) {
