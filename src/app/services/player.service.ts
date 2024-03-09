@@ -5,9 +5,12 @@ import { State, ThreadedPlayer } from "./player.wrapper";
 import {
   BehaviorSubject,
   Observable,
+  Subject,
   Subscription,
 } from 'rxjs';
 
+const ARTWORK_URL = "https://ssb.wiki.gallery/images/a/a2/SSBU_spirit_Smash_Ball.png";
+const SILENCE_URL = "https://github.com/anars/blank-audio/blob/master/5-seconds-of-silence.mp3?raw=true";
 
 @Injectable({
   providedIn: 'root',
@@ -18,7 +21,10 @@ export class PlayerService implements OnDestroy {
 
   state$: Observable<State>;
   playlist$: Observable<Song[]>;
-  playing$: Observable<Song>;
+  playing$: Observable<Song | null>;
+  private playingSubj = new Subject<Song | null>();
+
+  private _audio: HTMLAudioElement;
 
   private playlist: Song[] = [];
   private playlistSubject = new BehaviorSubject<Song[]>([]);
@@ -37,10 +43,15 @@ export class PlayerService implements OnDestroy {
   }
 
   constructor() {
+    this._audio = document.createElement("audio");
+    this._audio.id = "brstm_player";
+    this._audio.loop = true;
+    this._audio.src = SILENCE_URL;
+
     this._player = new ThreadedPlayer();
     this.playlist$ = this.playlistSubject.asObservable();
     this.state$ = this._player.state$;
-    this.playing$ = this._player.playing$;
+    this.playing$ = this.playingSubj.asObservable();
   }
 
   play(song: Song) {
@@ -54,7 +65,9 @@ export class PlayerService implements OnDestroy {
     }
 
     let url = this._apiUrl + "/" + song.song_id
+    this._setMediaSessionData(song)
     this._player.play(url);
+    this.playingSubj.next(song)
   }
 
   playAtIndex(idx: number) {
@@ -64,6 +77,7 @@ export class PlayerService implements OnDestroy {
 
   stop() {
     this._player.stop();
+    this.playingSubj.next(null)
   }
 
   setVolume(level: number) {
@@ -112,7 +126,7 @@ export class PlayerService implements OnDestroy {
   }
 
   seek(to: number) {
-    if (this.currentIndex < 0)
+    if (this.currentIndex >= 0)
       this._player.seek(to * this._player.sampleRate());
   }
 
@@ -121,4 +135,48 @@ export class PlayerService implements OnDestroy {
       s.unsubscribe();
     });
   }
+
+
+  async _setMediaSessionData(song?: Song) {
+    this._audio
+      .play()
+      .then((_) => {
+        if (song)
+          navigator.mediaSession.metadata = new MediaMetadata({
+            title: song.name,
+            album: song.game_name,
+            artist: song.uploader,
+            artwork: [
+              {
+                src: ARTWORK_URL,
+                type: "image/png",
+                sizes: "560x544",
+              },
+            ],
+          });
+
+        navigator.mediaSession.setActionHandler("play", () => {
+          navigator.mediaSession.playbackState = "playing";
+          this.playPause();
+        });
+        navigator.mediaSession.setActionHandler("pause", () => {
+          navigator.mediaSession.playbackState = "paused";
+          this.playPause();
+        });
+        navigator.mediaSession.setActionHandler("nexttrack", () => {
+          this.next();
+        });
+        navigator.mediaSession.setActionHandler("previoustrack", () => {
+          this.previous();
+        });
+        navigator.mediaSession.setActionHandler("seekto", (seekTime) => {
+          this.seek(Number(seekTime.seekOffset));
+        });
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }
 }
+
+

@@ -51,7 +51,7 @@ export class PlayerComponent implements OnInit {
   private subscriptions: Subscription[] = [];
 
   isPlaying: boolean;
-  playing: Song;
+  playing: Song | null;
   playlist: Song[];
   timeElapsedPerc: number;
   timeElapsed: number = 0;
