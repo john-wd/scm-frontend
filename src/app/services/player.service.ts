@@ -9,9 +9,6 @@ import {
   Subscription,
 } from 'rxjs';
 
-const ARTWORK_URL = "https://ssb.wiki.gallery/images/a/a2/SSBU_spirit_Smash_Ball.png";
-const SILENCE_URL = "https://github.com/anars/blank-audio/blob/master/5-seconds-of-silence.mp3?raw=true";
-
 @Injectable({
   providedIn: 'root',
 })
@@ -46,7 +43,7 @@ export class PlayerService implements OnDestroy {
     this._audio = document.createElement("audio");
     this._audio.id = "brstm_player";
     this._audio.loop = true;
-    this._audio.src = SILENCE_URL;
+    this._audio.src = "/assets/silence.mp3";
 
     this._player = new ThreadedPlayer();
     this.playlist$ = this.playlistSubject.asObservable();
@@ -148,7 +145,7 @@ export class PlayerService implements OnDestroy {
             artist: song.uploader,
             artwork: [
               {
-                src: ARTWORK_URL,
+                src: "/assets/player-art.png",
                 type: "image/png",
                 sizes: "560x544",
               },
