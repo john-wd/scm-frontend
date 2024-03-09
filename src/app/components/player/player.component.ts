@@ -99,6 +99,14 @@ export class PlayerComponent implements OnInit {
     return this.playerService.currentIndex;
   }
 
+  get isShuffle(): boolean {
+    return this.playerService.shuffle
+  }
+
+  toggleShuffle() {
+    this.playerService.toggleShuffle()
+  }
+
   seek(perc: string) {
     if (this.currentIndex() < 0)
       return

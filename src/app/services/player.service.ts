@@ -16,9 +16,9 @@ export class PlayerService implements OnDestroy {
   private _player: ThreadedPlayer;
   private _apiUrl: string;
 
+  shuffle: boolean;
+
   state$: Observable<State>;
-  playlist$: Observable<Song[]>;
-  playing$: Observable<Song | null>;
   private playingSubj = new Subject<Song | null>();
 
   private _audio: HTMLAudioElement;
@@ -27,12 +27,14 @@ export class PlayerService implements OnDestroy {
   private playlistSubject = new BehaviorSubject<Song[]>([]);
   private subscriptions: Subscription[] = [];
 
-  private _currentIndex: number = -1;
-  get currentIndex(): number {
-    return this._currentIndex;
+  private _lastIndices: number[] = [];
+  currentIndex: number = -1;
+
+  get playlist$(): Observable<Song[]> {
+    return this.playlistSubject.asObservable()
   }
-  set currentIndex(idx: number) {
-    this._currentIndex = idx
+  get playing$(): Observable<Song | null> {
+    return this.playingSubj.asObservable()
   }
 
   configure(apiUrl: string) {
@@ -46,9 +48,7 @@ export class PlayerService implements OnDestroy {
     this._audio.src = "/assets/silence.mp3";
 
     this._player = new ThreadedPlayer();
-    this.playlist$ = this.playlistSubject.asObservable();
     this.state$ = this._player.state$;
-    this.playing$ = this.playingSubj.asObservable();
   }
 
   play(song: Song) {
@@ -91,16 +91,30 @@ export class PlayerService implements OnDestroy {
   }
 
   next() {
-    if (this.currentIndex + 1 >= this.playlist.length) return
-
-    this.currentIndex++;
+    this._lastIndices.push(this.currentIndex)
+    if (this.shuffle) {
+      let idx = pickRandomIdx(this.playlist)
+      this.currentIndex = idx
+    } else {
+      if (this.currentIndex + 1 >= this.playlist.length) return
+      this.currentIndex++;
+    }
     this.playAtIndex(this.currentIndex);
   }
 
   previous() {
-    if (this.currentIndex - 1 < 0) return
+    if (this.shuffle) {
+      if (this._lastIndices.length > 0) {
+        let idx = this._lastIndices.pop()
+        if (!idx)
+          return
+        this.currentIndex = idx
+      }
+    } else {
+      if (this.currentIndex - 1 < 0) return
+      this.currentIndex--;
+    }
 
-    this.currentIndex--;
     this.playAtIndex(this.currentIndex);
   }
 
@@ -127,6 +141,10 @@ export class PlayerService implements OnDestroy {
       this._player.seek(to * this._player.sampleRate());
   }
 
+  toggleShuffle() {
+    this.shuffle = !this.shuffle
+  }
+
   ngOnDestroy(): void {
     this.subscriptions.forEach((s) => {
       s.unsubscribe();
@@ -134,7 +152,7 @@ export class PlayerService implements OnDestroy {
   }
 
 
-  async _setMediaSessionData(song?: Song) {
+  private async _setMediaSessionData(song?: Song) {
     this._audio
       .play()
       .then((_) => {
@@ -176,4 +194,6 @@ export class PlayerService implements OnDestroy {
   }
 }
 
-
+function pickRandomIdx(arr: any[]): number {
+  return Math.floor(Math.random() * arr.length)
+}
