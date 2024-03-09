@@ -15,4 +15,8 @@
   .game-name {
     color: mat.get-theme-color($theme, foreground, hint-text);
   }
+
+  .state-btn-active::after {
+    background-color: mat.get-theme-color($theme, foreground, text);
+  }
 }
