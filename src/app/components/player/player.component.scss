@@ -4,6 +4,26 @@ cdk-virtual-scroll-viewport {
   height: 100%;
 }
 
+.state-btn-active {
+  opacity: 1;
+
+  &::after {
+    content: "";
+    position: absolute;
+    display: block;
+    border-radius: 50%;
+    bottom: 5px;
+    left: 50%;
+    height: 4px;
+    width: 4px;
+    transform: translateX(-50%);
+  }
+}
+
+.state-btn-inactive {
+  opacity: .3;
+}
+
 .playlist {
   margin-left: 80px;
   height: 80vh;

@@ -5,9 +5,9 @@ import { State, ThreadedPlayer } from "./player.wrapper";
 import {
   BehaviorSubject,
   Observable,
+  Subject,
   Subscription,
 } from 'rxjs';
-
 
 @Injectable({
   providedIn: 'root',
@@ -16,20 +16,25 @@ export class PlayerService implements OnDestroy {
   private _player: ThreadedPlayer;
   private _apiUrl: string;
 
+  shuffle: boolean;
+
   state$: Observable<State>;
-  playlist$: Observable<Song[]>;
-  playing$: Observable<Song>;
+  private playingSubj = new Subject<Song | null>();
+
+  private _audio: HTMLAudioElement;
 
   private playlist: Song[] = [];
   private playlistSubject = new BehaviorSubject<Song[]>([]);
   private subscriptions: Subscription[] = [];
 
-  private _currentIndex: number = -1;
-  get currentIndex(): number {
-    return this._currentIndex;
+  private _lastIndices: number[] = [];
+  currentIndex: number = -1;
+
+  get playlist$(): Observable<Song[]> {
+    return this.playlistSubject.asObservable()
   }
-  set currentIndex(idx: number) {
-    this._currentIndex = idx
+  get playing$(): Observable<Song | null> {
+    return this.playingSubj.asObservable()
   }
 
   configure(apiUrl: string) {
@@ -37,10 +42,13 @@ export class PlayerService implements OnDestroy {
   }
 
   constructor() {
+    this._audio = document.createElement("audio");
+    this._audio.id = "brstm_player";
+    this._audio.loop = true;
+    this._audio.src = "/assets/silence.mp3";
+
     this._player = new ThreadedPlayer();
-    this.playlist$ = this.playlistSubject.asObservable();
     this.state$ = this._player.state$;
-    this.playing$ = this._player.playing$;
   }
 
   play(song: Song) {
@@ -54,7 +62,9 @@ export class PlayerService implements OnDestroy {
     }
 
     let url = this._apiUrl + "/" + song.song_id
-    this._player.play(url, song);
+    this._setMediaSessionData(song)
+    this._player.play(url);
+    this.playingSubj.next(song)
   }
 
   playAtIndex(idx: number) {
@@ -64,6 +74,7 @@ export class PlayerService implements OnDestroy {
 
   stop() {
     this._player.stop();
+    this.playingSubj.next(null)
   }
 
   setVolume(level: number) {
@@ -80,16 +91,30 @@ export class PlayerService implements OnDestroy {
   }
 
   next() {
-    if (this.currentIndex + 1 >= this.playlist.length) return
-
-    this.currentIndex++;
+    this._lastIndices.push(this.currentIndex)
+    if (this.shuffle) {
+      let idx = pickRandomIdx(this.playlist)
+      this.currentIndex = idx
+    } else {
+      if (this.currentIndex + 1 >= this.playlist.length) return
+      this.currentIndex++;
+    }
     this.playAtIndex(this.currentIndex);
   }
 
   previous() {
-    if (this.currentIndex - 1 < 0) return
+    if (this.shuffle) {
+      if (this._lastIndices.length > 0) {
+        let idx = this._lastIndices.pop()
+        if (!idx)
+          return
+        this.currentIndex = idx
+      }
+    } else {
+      if (this.currentIndex - 1 < 0) return
+      this.currentIndex--;
+    }
 
-    this.currentIndex--;
     this.playAtIndex(this.currentIndex);
   }
 
@@ -112,8 +137,12 @@ export class PlayerService implements OnDestroy {
   }
 
   seek(to: number) {
-    if (this.currentIndex < 0)
+    if (this.currentIndex >= 0)
       this._player.seek(to * this._player.sampleRate());
+  }
+
+  toggleShuffle() {
+    this.shuffle = !this.shuffle
   }
 
   ngOnDestroy(): void {
@@ -121,4 +150,50 @@ export class PlayerService implements OnDestroy {
       s.unsubscribe();
     });
   }
+
+
+  private async _setMediaSessionData(song?: Song) {
+    this._audio
+      .play()
+      .then((_) => {
+        if (song)
+          navigator.mediaSession.metadata = new MediaMetadata({
+            title: song.name,
+            album: song.game_name,
+            artist: song.uploader,
+            artwork: [
+              {
+                src: "/assets/player-art.png",
+                type: "image/png",
+                sizes: "560x544",
+              },
+            ],
+          });
+
+        navigator.mediaSession.setActionHandler("play", () => {
+          navigator.mediaSession.playbackState = "playing";
+          this.playPause();
+        });
+        navigator.mediaSession.setActionHandler("pause", () => {
+          navigator.mediaSession.playbackState = "paused";
+          this.playPause();
+        });
+        navigator.mediaSession.setActionHandler("nexttrack", () => {
+          this.next();
+        });
+        navigator.mediaSession.setActionHandler("previoustrack", () => {
+          this.previous();
+        });
+        navigator.mediaSession.setActionHandler("seekto", (seekTime) => {
+          this.seek(Number(seekTime.seekOffset));
+        });
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }
+}
+
+function pickRandomIdx(arr: any[]): number {
+  return Math.floor(Math.random() * arr.length)
 }

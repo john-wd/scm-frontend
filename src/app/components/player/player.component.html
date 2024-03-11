@@ -76,8 +76,8 @@
 <!-- Templates -->
 <ng-template #mediaButtons>
   <span class="media-buttons">
-    <button mat-icon-button>
-      <mat-icon>shuffle</mat-icon>
+    <button mat-icon-button (click)="toggleShuffle()">
+      <mat-icon [class.state-btn-active]="isShuffle" [class.state-btn-inactive]="!isShuffle">shuffle</mat-icon>
     </button>
     <button mat-icon-button (click)="previous()">
       <mat-icon>skip_previous</mat-icon>

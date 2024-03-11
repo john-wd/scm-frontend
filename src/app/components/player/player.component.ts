@@ -51,7 +51,7 @@ export class PlayerComponent implements OnInit {
   private subscriptions: Subscription[] = [];
 
   isPlaying: boolean;
-  playing: Song;
+  playing: Song | null;
   playlist: Song[];
   timeElapsedPerc: number;
   timeElapsed: number = 0;
@@ -97,6 +97,14 @@ export class PlayerComponent implements OnInit {
 
   currentIndex(): number {
     return this.playerService.currentIndex;
+  }
+
+  get isShuffle(): boolean {
+    return this.playerService.shuffle
+  }
+
+  toggleShuffle() {
+    this.playerService.toggleShuffle()
   }
 
   seek(perc: string) {
