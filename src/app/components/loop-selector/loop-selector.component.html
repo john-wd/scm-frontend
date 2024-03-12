@@ -15,7 +15,8 @@
 
 <mat-menu #loopSelect="matMenu" (close)="focusInput(chip)">
   <ng-template matMenuContent>
-    <button mat-menu-item *ngFor="let type of availableTypes" (click)="setLoopType(type)">
+    <button mat-menu-item [matTooltip]="typeTooltips[type]" matTooltipPosition="after"
+      *ngFor="let type of availableTypes" (click)="setLoopType(type)">
       <mat-chip>{{type | titlecase}}</mat-chip>
     </button>
   </ng-template>
