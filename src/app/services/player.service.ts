@@ -175,6 +175,9 @@ export class PlayerService implements OnDestroy {
   }
 
   addToPlaylist(song: Song) {
+    if (this._playlist.findIndex(s => s.song_id === song.song_id) >= 0)
+      return
+
     this._playlist.push(song)
     this._playlistSubj.next(this._playlist)
     this.saveState()

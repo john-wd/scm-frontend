@@ -9,7 +9,14 @@
 </div>
 <div class="table">
   <table cdkDropList (cdkDropListDropped)="dragDrop($event)">
-    <!-- No thead for now -->
+    <thead>
+      <th style="text-align-last: center;">#</th>
+      <th>Song name</th>
+      <th>Game name</th>
+      <th>Length</th>
+      <th>Loop</th>
+      <th></th>
+    </thead>
     <tbody>
       <tr *ngFor="let song of (playlist$ | async); let i = index" (click)="playAtIndex(i)" (mouseenter)="hover(i)"
         (mouseleave)="nohover()" cdkDrag>
@@ -33,6 +40,9 @@
         </td>
         <td>
           {{song.length | date: "mm:ss"}}
+        </td>
+        <td (click)="$event.stopPropagation()">
+          <app-loop-selector></app-loop-selector>
         </td>
         <td>
           <button mat-icon-button [matMenuTriggerFor]="songMenu" [matMenuTriggerData]="{song, index: i}">

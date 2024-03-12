@@ -138,10 +138,14 @@ export class SonglistComponent implements OnInit, OnDestroy {
   onPlay(song: SongList.Entry) {
     this.playerService.play({
       name: song.song_name,
-      game_id: String(this.gameId),
       song_id: song.song_id,
+      game_id: String(this.gameId),
       game_name: this.gameName.nativeElement.textContent,
       uploader: song.song_uploader,
+      length: Number(song.song_length) * 1e3,
+      downloads: song.song_downloads,
+      available: song.song_available,
+      loop_type: song.song_loop,
     } as Song);
   }
 

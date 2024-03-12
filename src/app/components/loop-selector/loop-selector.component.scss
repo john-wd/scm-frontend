@@ -1,0 +1,16 @@
+.chip {
+  display: flex;
+  align-items: center;
+
+  input {
+    background-color: transparent;
+    border: none;
+
+    max-width: 80px;
+    text-align: right;
+
+    &[type=number] {
+      width: 8ex;
+    }
+  }
+}
