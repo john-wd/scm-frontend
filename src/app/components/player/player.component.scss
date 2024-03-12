@@ -76,6 +76,9 @@
 }
 
 .media-buttons {
+  display: flex;
+  align-items: center;
+
   .play-pause {
     scale: 150%;
   }

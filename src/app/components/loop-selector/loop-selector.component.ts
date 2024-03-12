@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { MatChipsModule } from '@angular/material/chips';
+import { FormsModule } from '@angular/forms';
+import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatTooltipModule } from '@angular/material/tooltip';
@@ -12,12 +13,20 @@ export type Loop = {
   value?: number;
 }
 
+const availableTypes: LoopType[] = [
+  "default",
+  "count",
+  "time",
+  "none"
+]
+
 @Component({
   selector: 'app-loop-selector',
   standalone: true,
   imports: [
     CommonModule,
-    MatChipsModule,
+    FormsModule,
+    MatButtonModule,
     MatMenuModule,
     MatIconModule,
     MatTooltipModule
@@ -27,24 +36,31 @@ export type Loop = {
 })
 export class LoopSelectorComponent {
   @Output() loopChange = new EventEmitter<Loop>()
-  @Input() enabledTypes: LoopType[];
+  @Input() enabledTypes: LoopType[] = availableTypes;
 
-  availableTypes: LoopType[] = [
-    "default",
-    "count",
-    "time",
-    "none"
-  ]
-  typeTooltips = {
-    "default": "The default amount set in the player",
-    "count": "Amount of times the song should loop",
-    "time": "Loops for this amount of time",
-    "none": "Only play the song once"
-  }
-  value: LoopType = "default";
+  selectedType: LoopType = "default";
+  selectedValue: string;
 
   setLoopType(val: LoopType) {
-    this.value = val
+    this.selectedType = val
+    this.loopChange.emit({
+      loopType: val,
+    })
+  }
+
+  inputChange() {
+    let value: number;
+    if (this.selectedType === "time" as LoopType) {
+      let splits = this.selectedValue.split(":")
+      value = (Number(splits[0]) * 60 + Number(splits[1])) * 1e3
+    } else {
+      value = Number(this.selectedValue)
+    }
+
+    this.loopChange.emit({
+      loopType: this.selectedType,
+      value: value
+    })
   }
 
   focusInput(el: HTMLElement) {

@@ -10,6 +10,7 @@ import { MatCell, MatCellDef, MatColumnDef, MatRow, MatRowDef, MatTable } from '
 import { Subscription } from 'rxjs';
 import { Song } from '../../models/scm.model';
 import { PlayerService } from '../../services/player.service';
+import { LoopSelectorComponent } from '../loop-selector/loop-selector.component';
 import { PlaylistComponent } from '../playlist/playlist.component';
 
 
@@ -39,6 +40,7 @@ import { PlaylistComponent } from '../playlist/playlist.component';
     MatDivider,
     DatePipe,
     PlaylistComponent,
+    LoopSelectorComponent,
   ],
   animations: [
     trigger("openClose", [
