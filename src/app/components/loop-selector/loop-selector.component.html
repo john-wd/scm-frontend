@@ -1,0 +1,22 @@
+<mat-chip #test [matMenuTriggerFor]="loopSelect">
+  <span #chip class="chip">
+    @if (value === "time") {
+    <mat-icon svgIcon="repeat_time"></mat-icon>
+    <input matInput type="time" [defaultValue]="'00:30'" (click)="$event.stopImmediatePropagation()" />
+    } @else if (value === "count") {
+    <mat-icon svgIcon="repeat_n"></mat-icon>
+    <input matInput type="number" [max]="999" width="10" [defaultValue]="2"
+      (click)="$event.stopImmediatePropagation()" />
+    } @else {
+    {{value | titlecase}}
+    }
+  </span>
+</mat-chip>
+
+<mat-menu #loopSelect="matMenu" (close)="focusInput(chip)">
+  <ng-template matMenuContent>
+    <button mat-menu-item *ngFor="let type of availableTypes" (click)="setLoopType(type)">
+      <mat-chip>{{type | titlecase}}</mat-chip>
+    </button>
+  </ng-template>
+</mat-menu>

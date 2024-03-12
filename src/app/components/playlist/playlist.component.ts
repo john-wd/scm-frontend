@@ -14,6 +14,7 @@ import { Song } from 'src/app/models/scm.model';
 import { SongDetailsModal } from 'src/app/pages/song-details-modal/song-details-modal.component';
 import { PlayerService } from 'src/app/services/player.service';
 import { FormatBRSTM, ScmApiService } from 'src/app/services/scm-api.service';
+import { LoopSelectorComponent } from '../loop-selector/loop-selector.component';
 
 @Component({
   selector: 'app-playlist',
@@ -30,7 +31,8 @@ import { FormatBRSTM, ScmApiService } from 'src/app/services/scm-api.service';
     MatMenuModule,
     MatDividerModule,
     MatTooltipModule,
-    DatePipe
+    DatePipe,
+    LoopSelectorComponent
   ],
   templateUrl: './playlist.component.html',
   styleUrl: './playlist.component.scss'
