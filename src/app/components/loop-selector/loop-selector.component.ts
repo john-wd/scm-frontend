@@ -20,6 +20,8 @@ const availableTypes: LoopType[] = [
   "none"
 ]
 
+let once = false;
+
 @Component({
   selector: 'app-loop-selector',
   standalone: true,
@@ -35,17 +37,24 @@ const availableTypes: LoopType[] = [
   styleUrl: './loop-selector.component.scss'
 })
 export class LoopSelectorComponent {
-  @Output() loopChange = new EventEmitter<Loop>()
+  @Input() loop: Loop;
+  @Output() loopChange = new EventEmitter<Loop>();
+
   @Input() enabledTypes: LoopType[] = availableTypes;
 
   selectedType: LoopType = "default";
   selectedValue: string;
 
+  set setloop(l: Loop) {
+    this.loop = l
+    this.loopChange.emit(this.loop)
+  }
+
   setLoopType(val: LoopType) {
     this.selectedType = val
-    this.loopChange.emit({
+    this.setloop = {
       loopType: val,
-    })
+    }
   }
 
   inputChange() {
@@ -57,10 +66,10 @@ export class LoopSelectorComponent {
       value = Number(this.selectedValue)
     }
 
-    this.loopChange.emit({
+    this.setloop = {
       loopType: this.selectedType,
       value: value
-    })
+    }
   }
 
   focusInput(el: HTMLElement) {
