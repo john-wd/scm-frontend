@@ -10,9 +10,8 @@ import { MatCell, MatCellDef, MatColumnDef, MatRow, MatRowDef, MatTable } from '
 import { Subscription } from 'rxjs';
 import { Song } from '../../models/scm.model';
 import { PlayerService } from '../../services/player.service';
-import { LoopSelectorComponent } from '../loop-selector/loop-selector.component';
+import { Loop, LoopSelectorComponent } from '../loop-selector/loop-selector.component';
 import { PlaylistComponent } from '../playlist/playlist.component';
-
 
 @Component({
   selector: 'app-player',
@@ -69,6 +68,8 @@ export class PlayerComponent implements OnInit {
   timeElapsedPerc: number;
   timeElapsed: number = 0;
   timeTotal: number = 0;
+
+  globalLoopSetting: Loop
 
   get isShuffle(): boolean {
     return this.playerService.shuffle
