@@ -8,9 +8,9 @@ import { MatMenu, MatMenuContent, MatMenuItem, MatMenuTrigger } from '@angular/m
 import { MatSlider, MatSliderThumb } from '@angular/material/slider';
 import { MatCell, MatCellDef, MatColumnDef, MatRow, MatRowDef, MatTable } from '@angular/material/table';
 import { Subscription } from 'rxjs';
-import { Song } from '../../models/scm.model';
+import { Loop, Song } from '../../models/scm.model';
 import { PlayerService } from '../../services/player.service';
-import { Loop, LoopSelectorComponent } from '../loop-selector/loop-selector.component';
+import { LoopSelectorComponent } from '../loop-selector/loop-selector.component';
 import { PlaylistComponent } from '../playlist/playlist.component';
 
 @Component({

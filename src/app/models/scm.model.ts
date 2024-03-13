@@ -32,7 +32,7 @@ export namespace SongList {
     song_id: number;
     song_name: string;
     song_length: number;
-    song_loop: LoopType;
+    song_loop: ScmLoopType;
     song_uploader: string;
     song_available: boolean;
     song_downloads: number;
@@ -51,7 +51,7 @@ export interface Song {
   game_id: string;
   game_name: string;
   game_banner_exists: boolean;
-  loop_type: LoopType;
+  loop_type: ScmLoopType;
   start_loop_point: number;
   end_loop_point: number;
   sample_rate: number;
@@ -59,11 +59,25 @@ export interface Song {
   size: number;
   remix: boolean;
   theme_type: string;
+  loop?: Loop;
 }
 
-export enum LoopType {
+export enum ScmLoopType {
   normal = 'Normal',
   custom = 'Custom',
   etos = 'E to S',
   none = 'None',
+}
+
+
+export type LoopType = "default" | "none" | "time" | "count"
+export const availableTypes: LoopType[] = [
+  "default",
+  "count",
+  "time",
+  "none"
+]
+export type Loop = {
+  loopType: LoopType;
+  value?: number;
 }

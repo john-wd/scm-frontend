@@ -5,12 +5,12 @@
   input {
     background-color: transparent;
     border: none;
-
     max-width: 80px;
     text-align: right;
 
     &[type=number] {
       width: 8ex;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.2)
     }
   }
 }
