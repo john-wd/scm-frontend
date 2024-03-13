@@ -1,5 +1,17 @@
 <button mat-button [matMenuTriggerFor]="loopSelect" style="min-width: 48px;">
-  <span #chip class="chip">
+  <span #chip>
+    @if (useChips) {
+    <mat-chip>
+      <ng-template [ngTemplateOutlet]="conditionalIcon"></ng-template>
+    </mat-chip>
+    } @else {
+    <ng-template [ngTemplateOutlet]="conditionalIcon"></ng-template>
+    }
+  </span>
+</button>
+
+<ng-template #conditionalIcon>
+  <span class="chip">
     @if (loop?.loopType === "time") {
     <mat-icon svgIcon="repeat_time"></mat-icon>
     <input matInput type="time" [defaultValue]="'00:30'" (click)="$event.stopImmediatePropagation()"
@@ -15,7 +27,7 @@
     <mat-icon>repeat</mat-icon>
     }
   </span>
-</button>
+</ng-template>
 
 <mat-menu #loopSelect="matMenu" (close)="focusInput(chip)">
   <ng-template matMenuContent>
