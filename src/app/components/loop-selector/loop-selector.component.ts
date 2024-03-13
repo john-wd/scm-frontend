@@ -6,20 +6,8 @@ import { MatChipsModule } from '@angular/material/chips';
 import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { Loop, LoopType, availableTypes } from 'src/app/models/scm.model';
 
-export type LoopType = "default" | "none" | "time" | "count"
-
-export type Loop = {
-  loopType: LoopType;
-  value?: number;
-}
-
-const availableTypes: LoopType[] = [
-  "default",
-  "count",
-  "time",
-  "none"
-]
 
 @Component({
   selector: 'app-loop-selector',
@@ -37,7 +25,7 @@ const availableTypes: LoopType[] = [
   styleUrl: './loop-selector.component.scss'
 })
 export class LoopSelectorComponent {
-  @Input() loop: Loop;
+  @Input() loop?: Loop;
   @Output() loopChange = new EventEmitter<Loop>();
 
   @Input() enabledTypes: LoopType[] = availableTypes;

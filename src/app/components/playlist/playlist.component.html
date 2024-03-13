@@ -42,7 +42,7 @@
           {{song.length | date: "mm:ss"}}
         </td>
         <td (click)="$event.stopPropagation()">
-          <app-loop-selector useChips></app-loop-selector>
+          <app-loop-selector useChips [(loop)]="song.loop"></app-loop-selector>
         </td>
         <td>
           <button mat-icon-button [matMenuTriggerFor]="songMenu" [matMenuTriggerData]="{song, index: i}">
