@@ -5,8 +5,8 @@
       (focus)="focus()" />
   </div>
 
-  <div class="results mat-elevation-z2"
-    [style.display]="(isFocused && results && results.length > 0)? 'block' : 'none'">
+  <div class="results mat-elevation-z2" [style.display]="(isFocused && results && results.length > 0)? 'block' : 'none'"
+    [@hasResults]="resultsState">
     <p>
       Games
     </p>
