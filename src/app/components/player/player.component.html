@@ -32,13 +32,13 @@
     </div>
     <div class="playlist">
       <h4>Play queue</h4>
-      <cdk-virtual-scroll-viewport itemSize="2">
-        <table>
+      <div class="table">
+        <table cdkDropList (cdkDropListDropped)="dragDrop($event)">
           <!-- No thead for now -->
           <tbody>
-            <tr *cdkVirtualFor="let song of playlist; let i = index" (click)="playAtIndex(i)" (mouseenter)="hover(i)"
-              (mouseleave)="nohover()">
-              <td class="element-index" (click)="$event.stopPropagation()">
+            <tr *ngFor="let song of (playlist$ | async); let i = index" (click)="playAtIndex(i)" (mouseenter)="hover(i)"
+              (mouseleave)="nohover()" cdkDrag>
+              <td class="element-index" (click)="$event.stopPropagation()" cdkDragHandle>
                 @if (i === hoverIdx) {
                 <mat-icon>drag_handle</mat-icon>
                 } @else if (i === currentIndex()) {
@@ -60,15 +60,14 @@
                 {{song.length | date: "mm:ss"}}
               </td>
               <td>
-                <button mat-icon-button [matMenuTriggerFor]="songMenu"
-                  [matMenuTriggerData]="{song: playlist[i], index: i}">
+                <button mat-icon-button [matMenuTriggerFor]="songMenu" [matMenuTriggerData]="{song, index: i}">
                   <mat-icon>more_horiz</mat-icon>
                 </button>
               </td>
             </tr>
           </tbody>
         </table>
-      </cdk-virtual-scroll-viewport>
+      </div>
     </div>
   </div>
 </div>
