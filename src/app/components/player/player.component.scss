@@ -101,10 +101,9 @@
   margin-top: 40px;
 
   .controls {
-    max-width: 300px;
+    width: 250px;
     display: flex;
     flex-direction: column;
-    flex-shrink: .3;
     text-align: center;
     margin-left: 140px;
   }

@@ -1,11 +1,19 @@
-<h4>Play queue</h4>
+<div class="header">
+  <h4>Play queue</h4>
+  <span class="spacer"></span>
+  <div class="actions">
+    <button mat-icon-button (click)="clear()" matTooltip="Clear play queue">
+      <mat-icon>playlist_remove</mat-icon>
+    </button>
+  </div>
+</div>
 <div class="table">
   <table cdkDropList (cdkDropListDropped)="dragDrop($event)">
     <!-- No thead for now -->
     <tbody>
       <tr *ngFor="let song of (playlist$ | async); let i = index" (click)="playAtIndex(i)" (mouseenter)="hover(i)"
         (mouseleave)="nohover()" cdkDrag>
-        <td class="element-index" (click)="$event.stopPropagation()" cdkDragHandle>
+        <td (click)="$event.stopPropagation()" cdkDragHandle>
           @if (i === hoverIdx) {
           <mat-icon>drag_handle</mat-icon>
           } @else if (i === currentIndex()) {
