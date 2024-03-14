@@ -4,6 +4,7 @@ import {
   Options as PlayerOptions
 } from "revolving-door-brstm/dist/player";
 import { Observable, fromEvent, map } from "rxjs";
+import { Loop } from "../models/scm.model";
 
 export type Options = PlayerOptions
 export type LoopType = PlayerLoopType
@@ -41,13 +42,11 @@ export class PlayerWrapper {
 
   play(url: string, options?: Options) {
     let opts: Options = {
-      loopType: "count", // loop 3 times by default
-      loopFor: 3,
+      loopType: "infinite",
       mediaControls: false,
       crossfade: true,
-      ...options
+      ...options // options should overide loopType
     }
-
     console.log(opts)
     this._player.play(url, opts);
   }
@@ -72,4 +71,7 @@ export class PlayerWrapper {
     this._player.setVolume(level);
   }
 
+  setLoop(loop: Loop) {
+    this._player.setLoop(loop.loopType as PlayerLoopType, loop.value)
+  }
 }

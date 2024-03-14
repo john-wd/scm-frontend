@@ -111,20 +111,35 @@ export class PlayerService implements OnDestroy {
     let url = this._apiUrl + "/" + song.song_id
     this._setMediaSessionData(song)
 
-    // disable looping for those songs that does not loop normally
     let opts: any
 
+    // disable looping for those songs that does not loop normally
     if (song.loop_type === ScmLoopType.none)
       opts = {
         loopType: 'none',
         crossfade: false,
       }
-    opts = (song.loop) ? {
-      loopType: song.loop.loopType,
-      loopFor: song.loop.value,
-    } : {
-      loopType: this.globalLoop.loopType,
-      loopFor: this.globalLoop.value,
+
+    // if the song has not set a custom loop, fallback to the global loop set
+    if (!song.loop || (song.loop.loopType === "default")) {
+      opts = {
+        loopType: this.globalLoop.loopType,
+        loopFor: this.globalLoop.value,
+      }
+    }
+    // otherwise use the custom loop
+    if (song.loop && song.loop.loopType !== "default") {
+      opts = {
+        loopType: song.loop.loopType,
+        loopFor: song.loop.value,
+      }
+    }
+
+    // if it is set to default still, loop forever
+    if (opts.loopType === "default") {
+      opts = {
+        loopType: "infinite"
+      }
     }
 
     this._player.play(url, opts as Options);
@@ -147,6 +162,11 @@ export class PlayerService implements OnDestroy {
     this._player.setVolume(level);
   }
 
+  setLoop(loop: Loop) {
+    this.globalLoop = loop
+    this._player.setLoop(loop)
+  }
+
   playPause() {
     if (this.currentIndex < 0) {
       if (this._playlist.length > 0)
@@ -160,6 +180,11 @@ export class PlayerService implements OnDestroy {
   }
 
   next() {
+    if (this.currentIndex + 1 >= this._playlist.length) {
+      this.stop()
+      return
+    }
+
     this._lastIndices.push(this.currentIndex)
     if (this.shuffle) {
       let idx = pickRandomIdx(this._playlist)
