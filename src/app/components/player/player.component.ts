@@ -1,5 +1,6 @@
+import { CdkDrag, CdkDragDrop, CdkDragHandle, CdkDropList } from '@angular/cdk/drag-drop';
 import { CdkVirtualScrollViewport, ScrollingModule } from '@angular/cdk/scrolling';
-import { DatePipe, NgIf, NgTemplateOutlet } from '@angular/common';
+import { CommonModule, DatePipe, NgIf, NgTemplateOutlet } from '@angular/common';
 import { Component, HostListener, OnInit } from '@angular/core';
 import { MatIconButton } from '@angular/material/button';
 import { MatDialog } from '@angular/material/dialog';
@@ -9,11 +10,12 @@ import { MatMenu, MatMenuContent, MatMenuItem, MatMenuTrigger } from '@angular/m
 import { MatSlider, MatSliderThumb } from '@angular/material/slider';
 import { MatCell, MatCellDef, MatColumnDef, MatRow, MatRowDef, MatTable } from '@angular/material/table';
 import { Router } from '@angular/router';
-import { Subscription } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { SongDetailsModal } from 'src/app/pages/song-details-modal/song-details-modal.component';
 import { Song } from '../../models/scm.model';
 import { PlayerService } from '../../services/player.service';
 import { FormatBRSTM, ScmApiService } from '../../services/scm-api.service';
+
 
 @Component({
   selector: 'app-player',
@@ -21,6 +23,7 @@ import { FormatBRSTM, ScmApiService } from '../../services/scm-api.service';
   styleUrls: ['./player.component.scss'],
   standalone: true,
   imports: [
+    CommonModule,
     ScrollingModule,
     CdkVirtualScrollViewport,
     MatIcon,
@@ -41,6 +44,9 @@ import { FormatBRSTM, ScmApiService } from '../../services/scm-api.service';
     MatMenuItem,
     MatDivider,
     DatePipe,
+    CdkDropList,
+    CdkDrag,
+    CdkDragHandle,
   ],
 })
 export class PlayerComponent implements OnInit {
@@ -52,7 +58,7 @@ export class PlayerComponent implements OnInit {
 
   isPlaying: boolean;
   playing: Song | null;
-  playlist: Song[];
+  playlist$: Observable<Song[]>;
   timeElapsedPerc: number;
   timeElapsed: number = 0;
   timeTotal: number = 0;
@@ -138,6 +144,10 @@ export class PlayerComponent implements OnInit {
     this.apiService.downloadSong(FormatBRSTM, song)
   }
 
+  dragDrop($event: CdkDragDrop<Song[]>) {
+    this.playerService.sortElementInPlaylist($event.previousIndex, $event.currentIndex)
+  }
+
 
   constructor(
     private playerService: PlayerService,
@@ -145,6 +155,7 @@ export class PlayerComponent implements OnInit {
     private router: Router,
     private dialog: MatDialog,
   ) { }
+
   ngOnInit(): void {
     this.subscriptions.push(
       this.playerService.state$.subscribe((state) => {
@@ -158,11 +169,7 @@ export class PlayerComponent implements OnInit {
         (playing) => (this.playing = playing)
       )
     );
-    this.subscriptions.push(
-      this.playerService.playlist$.subscribe(
-        (playlist) => (this.playlist = playlist)
-      )
-    );
+    this.playlist$ = this.playerService.playlist$
   }
 
   hover(idx: number) {

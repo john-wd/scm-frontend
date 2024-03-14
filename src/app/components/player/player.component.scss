@@ -28,8 +28,10 @@ cdk-virtual-scroll-viewport {
   margin-left: 80px;
   height: 80vh;
 
-  table {
+  .table {
     margin-top: 24px;
+    height: 100%;
+    overflow-y: auto;
   }
 }
 
@@ -149,4 +151,8 @@ h4 {
 
 ::ng-deep .mat-slide-toggle.mat-primary.mat-checked:not(.mat-disabled) .mat-slide-toggle-bar {
   background-color: #ff99ff;
+}
+
+.cdk-drag-preview {
+  filter: brightness(.95);
 }
