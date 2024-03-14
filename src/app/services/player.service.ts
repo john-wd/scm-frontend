@@ -3,6 +3,7 @@ import { Song } from '../models/scm.model';
 import { State, ThreadedPlayer } from "./player.wrapper";
 
 import { moveItemInArray } from '@angular/cdk/drag-drop';
+import { StorageMap } from '@ngx-pwa/local-storage';
 import {
   BehaviorSubject,
   Observable,
@@ -10,39 +11,51 @@ import {
   Subscription,
 } from 'rxjs';
 
+const storagePlayerKey = "player"
+type storageObject = {
+  playlist: Song[],
+  player: {
+    currentSong: Song,
+    currentIndex: number,
+  }
+}
+
 @Injectable({
   providedIn: 'root',
 })
 export class PlayerService implements OnDestroy {
   private _player: ThreadedPlayer;
+  private _playerLoaded: boolean;
   private _apiUrl: string;
 
   shuffle: boolean;
 
   state$: Observable<State>;
-  private playingSubj = new Subject<Song | null>();
+  private _playingSubj = new Subject<Song | null>();
 
   private _audio: HTMLAudioElement;
 
-  private playlist: Song[] = [];
-  private playlistSubject = new BehaviorSubject<Song[]>([]);
-  private subscriptions: Subscription[] = [];
+  private _playlist: Song[] = [];
+  private _playlistSubj = new BehaviorSubject<Song[]>([]);
+  private _subscriptions: Subscription[] = [];
 
   private _lastIndices: number[] = [];
   currentIndex: number = -1;
 
   get playlist$(): Observable<Song[]> {
-    return this.playlistSubject.asObservable()
+    return this._playlistSubj.asObservable()
   }
   get playing$(): Observable<Song | null> {
-    return this.playingSubj.asObservable()
+    return this._playingSubj.asObservable()
   }
 
   configure(apiUrl: string) {
     this._apiUrl = apiUrl
   }
 
-  constructor() {
+  constructor(
+    private storage: StorageMap
+  ) {
     this._audio = document.createElement("audio");
     this._audio.id = "brstm_player";
     this._audio.loop = true;
@@ -50,32 +63,58 @@ export class PlayerService implements OnDestroy {
 
     this._player = new ThreadedPlayer();
     this.state$ = this._player.state$;
+    this.loadState()
+  }
+
+  private saveState() {
+    this.storage.set(storagePlayerKey, {
+      playlist: this._playlist,
+      player: {
+        currentSong: this._playlist[this.currentIndex],
+        currentIndex: this.currentIndex
+      }
+    } as storageObject).subscribe(() => { })
+  }
+  private loadState() {
+    this.storage.get(storagePlayerKey).subscribe((data) => {
+      let cache = data as storageObject
+      if (cache) {
+        this._playlist = cache.playlist || []
+        this._playlistSubj.next(this._playlist)
+        if (cache.player) {
+          this.currentIndex = cache.player.currentIndex
+          this._playingSubj.next(cache.player.currentSong)
+        }
+      }
+    })
   }
 
   play(song: Song) {
-    let existsIdx = this.playlist.findIndex(s => s.song_id === song.song_id)
+    let existsIdx = this._playlist.findIndex(s => s.song_id === song.song_id)
     if (existsIdx >= 0) {
       this.currentIndex = existsIdx
     } else {
-      this.playlist.unshift(song)
-      this.playlistSubject.next(this.playlist)
+      this._playlist.unshift(song)
+      this._playlistSubj.next(this._playlist)
       this.currentIndex = 0
     }
 
     let url = this._apiUrl + "/" + song.song_id
     this._setMediaSessionData(song)
     this._player.play(url);
-    this.playingSubj.next(song)
+    this._playingSubj.next(song)
+    this.saveState()
+    this._playerLoaded = true
   }
 
   playAtIndex(idx: number) {
-    this.play(this.playlist[idx]);
+    this.play(this._playlist[idx]);
     this.currentIndex = idx
   }
 
   stop() {
     this._player.stop();
-    this.playingSubj.next(null)
+    this._playingSubj.next(null)
   }
 
   setVolume(level: number) {
@@ -84,20 +123,23 @@ export class PlayerService implements OnDestroy {
 
   playPause() {
     if (this.currentIndex < 0) {
-      if (this.playlist.length > 0)
+      if (this._playlist.length > 0)
         this.playAtIndex(0)
     } else {
-      this._player.playPause();
+      if (this._playerLoaded)
+        this._player.playPause();
+      else
+        this.playAtIndex(this.currentIndex)
     }
   }
 
   next() {
     this._lastIndices.push(this.currentIndex)
     if (this.shuffle) {
-      let idx = pickRandomIdx(this.playlist)
+      let idx = pickRandomIdx(this._playlist)
       this.currentIndex = idx
     } else {
-      if (this.currentIndex + 1 >= this.playlist.length) return
+      if (this.currentIndex + 1 >= this._playlist.length) return
       this.currentIndex++;
     }
     this.playAtIndex(this.currentIndex);
@@ -120,26 +162,30 @@ export class PlayerService implements OnDestroy {
   }
 
   sortElementInPlaylist(prevIdx: number, nextIdx: number) {
-    moveItemInArray(this.playlist, prevIdx, nextIdx)
-    this.playlistSubject.next(this.playlist)
+    moveItemInArray(this._playlist, prevIdx, nextIdx)
+    this._playlistSubj.next(this._playlist)
+    this.saveState()
   }
 
   clearPlaylist() {
     this.currentIndex = -1
-    this.playlist = [];
-    this.playlistSubject.next(this.playlist)
+    this._playlist = [];
+    this._playlistSubj.next(this._playlist)
+    this.saveState()
   }
 
   addToPlaylist(song: Song) {
-    this.playlist.push(song)
-    this.playlistSubject.next(this.playlist)
+    this._playlist.push(song)
+    this._playlistSubj.next(this._playlist)
+    this.saveState()
   }
 
   removeFromPlaylist(songId: number) {
-    this.playlist = this.playlist.filter(s => {
+    this._playlist = this._playlist.filter(s => {
       return s.song_id !== songId
     })
-    this.playlistSubject.next(this.playlist);
+    this._playlistSubj.next(this._playlist);
+    this.saveState()
   }
 
   seek(to: number) {
@@ -152,7 +198,7 @@ export class PlayerService implements OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.subscriptions.forEach((s) => {
+    this._subscriptions.forEach((s) => {
       s.unsubscribe();
     });
   }
