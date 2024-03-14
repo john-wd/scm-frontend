@@ -31,113 +31,45 @@
       </div>
     </div>
     <div class="playlist">
-      <h4>Play queue</h4>
-      <div class="table">
-        <table cdkDropList (cdkDropListDropped)="dragDrop($event)">
-          <!-- No thead for now -->
-          <tbody>
-            <tr *ngFor="let song of (playlist$ | async); let i = index" (click)="playAtIndex(i)" (mouseenter)="hover(i)"
-              (mouseleave)="nohover()" cdkDrag>
-              <td class="element-index" (click)="$event.stopPropagation()" cdkDragHandle>
-                @if (i === hoverIdx) {
-                <mat-icon>drag_handle</mat-icon>
-                } @else if (i === currentIndex()) {
-                <mat-icon>play_arrow</mat-icon>
-                } @else {
-                {{i+1}}
-                }
-              </td>
-              <td>
-                <div>
-                  <div>{{song.name}}</div>
-                  <span class="small">{{song.uploader}}</span>
-                </div>
-              </td>
-              <td>
-                {{song.game_name}}
-              </td>
-              <td>
-                {{song.length | date: "mm:ss"}}
-              </td>
-              <td>
-                <button mat-icon-button [matMenuTriggerFor]="songMenu" [matMenuTriggerData]="{song, index: i}">
-                  <mat-icon>more_horiz</mat-icon>
-                </button>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
+      <app-playlist (close)="toggled = false"></app-playlist>
     </div>
   </div>
-</div>
 
-<!-- Templates -->
-<ng-template #mediaButtons>
-  <span class="media-buttons">
-    <button mat-icon-button (click)="toggleShuffle()">
-      <mat-icon [class.state-btn-active]="isShuffle" [class.state-btn-inactive]="!isShuffle">shuffle</mat-icon>
-    </button>
-    <button mat-icon-button (click)="previous()">
-      <mat-icon>skip_previous</mat-icon>
-    </button>
-    <button mat-icon-button (click)="playPause()" class="play-pause">
-      <mat-icon>{{ isPlaying ? "pause" : "play_arrow" }}</mat-icon>
-    </button>
-    <button (click)="next()" mat-icon-button>
-      <mat-icon>skip_next</mat-icon>
-    </button>
-    <button mat-icon-button>
-      <mat-icon>repeat</mat-icon>
-    </button>
-  </span>
-</ng-template>
-
-<ng-template #seekBar>
-  <span class="seekbar">
-    <span class="time time-elapsed">{{ timeElapsed | date : "mm:ss" }}</span>
-    <div class="progress-bar">
-      <mat-slider>
-        <input matSliderThumb [value]="percElapsed()" (click)="seek(elapsedSlider.value)" #elapsedSlider>
-      </mat-slider>
-    </div>
-    <span class="time time-total">{{ timeTotal | date : "mm:ss" }}</span>
-  </span>
-</ng-template>
-
-<ng-template #trackInfo>
-  <span class="track-info" *ngIf="playing">
-    {{ playing.name }} ({{ playing.uploader }}) · <span class="game-name">{{ playing.game_name }}</span>
-  </span>
-</ng-template>
-
-<mat-menu #songMenu="matMenu" xPosition="before">
-  <ng-template matMenuContent let-song="song" let-index="index">
-    <button mat-menu-item (click)="playAtIndex(index)">
-      <mat-icon>play_arrow</mat-icon>
-      <span>Play</span>
-    </button>
-    <button mat-menu-item (click)="remove(song.song_id)">
-      <mat-icon>delete</mat-icon>
-      <span>Remove</span>
-    </button>
-    <mat-divider></mat-divider>
-    <button mat-menu-item (click)="onOpenDetails(song)">
-      <mat-icon>description</mat-icon>
-      <span>Open details</span>
-    </button>
-    <button mat-menu-item (click)="downloadSong(song)">
-      <mat-icon>download</mat-icon>
-      <span>Download</span>
-    </button>
-    <mat-divider></mat-divider>
-    <button mat-menu-item (click)="routeToGame(song.game_id)">
-      <mat-icon>arrow_circle_left</mat-icon>
-      <span>Go to game</span>
-    </button>
-    <button mat-menu-item>
-      <mat-icon>share</mat-icon>
-      <span>Share</span>
-    </button>
+  <!-- Templates -->
+  <ng-template #mediaButtons>
+    <span class="media-buttons">
+      <button mat-icon-button (click)="toggleShuffle()">
+        <mat-icon [class.state-btn-active]="isShuffle" [class.state-btn-inactive]="!isShuffle">shuffle</mat-icon>
+      </button>
+      <button mat-icon-button (click)="previous()">
+        <mat-icon>skip_previous</mat-icon>
+      </button>
+      <button mat-icon-button (click)="playPause()" class="play-pause">
+        <mat-icon>{{ isPlaying ? "pause" : "play_arrow" }}</mat-icon>
+      </button>
+      <button (click)="next()" mat-icon-button>
+        <mat-icon>skip_next</mat-icon>
+      </button>
+      <button mat-icon-button>
+        <mat-icon>repeat</mat-icon>
+      </button>
+    </span>
   </ng-template>
-</mat-menu>
+
+  <ng-template #seekBar>
+    <span class="seekbar">
+      <span class="time time-elapsed">{{ timeElapsed | date : "mm:ss" }}</span>
+      <div class="progress-bar">
+        <mat-slider>
+          <input matSliderThumb [value]="percElapsed()" (click)="seek(elapsedSlider.value)" #elapsedSlider>
+        </mat-slider>
+      </div>
+      <span class="time time-total">{{ timeTotal | date : "mm:ss" }}</span>
+    </span>
+  </ng-template>
+
+  <ng-template #trackInfo>
+    <span class="track-info" *ngIf="playing">
+      {{ playing.name }} ({{ playing.uploader }}) · <span class="game-name">{{ playing.game_name }}</span>
+    </span>
+  </ng-template>
