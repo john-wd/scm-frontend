@@ -98,6 +98,4 @@ export class GamelistComponent implements OnInit, OnDestroy {
     this.setFilterLetter(letter)
   }
 
-  onScroll() { console.log("scrolled") }
-
 }

@@ -130,18 +130,18 @@ export class PlayerComponent implements OnInit {
 
   ngOnInit(): void {
     this.subscriptions.push(
-      this.playerService.state$.subscribe((state) => {
-        this.timeElapsed = state.curTime * 1e3;
-        this.timeTotal = state.totalTime * 1e3;
-      })
-    );
-    this.subscriptions.push(
       this.playerService.playing$.subscribe(
         (playing) => {
           this.playing = playing
-          this.isPlaying = playing !== null
         }
       )
+    );
+    this.subscriptions.push(
+      this.playerService.state$.subscribe((state) => {
+        this.timeElapsed = state.curTime * 1e3;
+        this.timeTotal = state.totalTime * 1e3;
+        this.isPlaying = state.paused
+      })
     );
   }
 

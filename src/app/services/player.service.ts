@@ -97,7 +97,6 @@ export class PlayerService implements OnDestroy {
           this._playingSubj.next(cache.player.currentSong)
         }
         this.globalLoop = cache.player.currentLoop
-        console.log(cache)
       }
     })
   }
@@ -174,14 +173,16 @@ export class PlayerService implements OnDestroy {
   }
 
   playPause() {
-    if (this.currentIndex < 0) {
+    if (this._playerLoaded) {
+      this._player.playPause()
+      return
+    }
+
+    if (this.currentIndex === -1) {
       if (this._playlist.length > 0)
         this.playAtIndex(0)
     } else {
-      if (this._playerLoaded)
-        this._player.playPause();
-      else
-        this.playAtIndex(this.currentIndex)
+      this.playAtIndex(this.currentIndex)
     }
   }
 
