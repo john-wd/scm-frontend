@@ -17,6 +17,7 @@ type storageObject = {
   player: {
     currentSong: Song,
     currentIndex: number,
+    currentLoop: Loop
   }
 }
 
@@ -80,7 +81,8 @@ export class PlayerService implements OnDestroy {
       playlist: this._playlist,
       player: {
         currentSong: this._playlist[this.currentIndex],
-        currentIndex: this.currentIndex
+        currentIndex: this.currentIndex,
+        currentLoop: this.globalLoop
       }
     } as storageObject).subscribe(() => { })
   }
@@ -94,6 +96,8 @@ export class PlayerService implements OnDestroy {
           this.currentIndex = cache.player.currentIndex
           this._playingSubj.next(cache.player.currentSong)
         }
+        this.globalLoop = cache.player.currentLoop
+        console.log(cache)
       }
     })
   }
@@ -164,7 +168,9 @@ export class PlayerService implements OnDestroy {
 
   setLoop(loop: Loop) {
     this.globalLoop = loop
-    this._player.setLoop(loop)
+    if (this._playerLoaded)
+      this._player.setLoop(loop)
+    this.saveState()
   }
 
   playPause() {
