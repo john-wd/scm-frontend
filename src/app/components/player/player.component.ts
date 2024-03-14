@@ -73,7 +73,7 @@ export class PlayerComponent implements OnInit {
     return this.playerService.globalLoop
   }
   setLoop(loop: Loop) {
-    this.playerService.globalLoop = loop
+    this.playerService.setLoop(loop)
   }
 
   get isShuffle(): boolean {
@@ -131,14 +131,16 @@ export class PlayerComponent implements OnInit {
   ngOnInit(): void {
     this.subscriptions.push(
       this.playerService.state$.subscribe((state) => {
-        this.isPlaying = !state.paused;
         this.timeElapsed = state.curTime * 1e3;
         this.timeTotal = state.totalTime * 1e3;
       })
     );
     this.subscriptions.push(
       this.playerService.playing$.subscribe(
-        (playing) => (this.playing = playing)
+        (playing) => {
+          this.playing = playing
+          this.isPlaying = playing !== null
+        }
       )
     );
   }
