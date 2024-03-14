@@ -47,7 +47,6 @@ export class PlayerWrapper {
       crossfade: true,
       ...options // options should overide loopType
     }
-    console.log(opts)
     this._player.play(url, opts);
   }
 
