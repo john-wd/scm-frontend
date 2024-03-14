@@ -24,6 +24,7 @@
     "@ngrx/effects": "^17.1.1",
     "@ngrx/store": "^17.1.1",
     "@ngrx/store-devtools": "^17.1.1",
+    "@ngx-pwa/local-storage": "^17.0.0",
     "file-saver": "^2.0.5",
     "immer": "^10.0.3",
     "memoizee": "^0.4.15",
