@@ -15,11 +15,11 @@
     @if (loop?.loopType === "time") {
     <mat-icon svgIcon="repeat_time"></mat-icon>
     <input matInput type="time" [defaultValue]="'00:30'" (click)="$event.stopImmediatePropagation()"
-      [(ngModel)]="selectedValue" (ngModelChange)="inputChange()" [ngModelOptions]="{updateOn: 'blur'}" />
+      [ngModel]="selectedValue" (ngModelChange)="inputChange($event)" [ngModelOptions]="{updateOn: 'blur'}" />
     } @else if (loop?.loopType === "count") {
     <mat-icon svgIcon="repeat_n"></mat-icon>
-    <input matInput type="number" [max]="999" width="10" [defaultValue]="2" [(ngModel)]="selectedValue"
-      (ngModelChange)="inputChange()" [ngModelOptions]="{updateOn: 'blur'}"
+    <input matInput type="number" [max]="999" width="10" [defaultValue]="2" [ngModel]="selectedValue"
+      (ngModelChange)="inputChange($event)" [ngModelOptions]="{updateOn: 'blur'}"
       (click)="$event.stopImmediatePropagation()" />
     } @else if (loop?.loopType === "none"){
     <mat-icon class="disabled">repeat</mat-icon>

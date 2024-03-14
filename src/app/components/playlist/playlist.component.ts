@@ -10,7 +10,7 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
-import { Song } from 'src/app/models/scm.model';
+import { Loop, Song } from 'src/app/models/scm.model';
 import { SongDetailsModal } from 'src/app/pages/song-details-modal/song-details-modal.component';
 import { PlayerService } from 'src/app/services/player.service';
 import { FormatBRSTM, ScmApiService } from 'src/app/services/scm-api.service';
@@ -55,10 +55,6 @@ export class PlaylistComponent {
     return this.playerService.shuffle
   }
 
-  toggleShuffle() {
-    this.playerService.toggleShuffle()
-  }
-
   playAtIndex(idx: number) {
     this.playerService.playAtIndex(idx);
   }
@@ -76,6 +72,10 @@ export class PlaylistComponent {
   routeToGame(gameId: number) {
     this.router.navigate(["/explore/games", gameId])
     this.close.emit()
+  }
+
+  editSongLoop(songId: number, loop: Loop) {
+    this.playerService.editSongLoop(songId, loop)
   }
 
   downloadSong(song: Song) {

@@ -1,6 +1,6 @@
 import { Injectable, OnDestroy } from '@angular/core';
-import { Song } from '../models/scm.model';
-import { State, ThreadedPlayer } from "./player.wrapper";
+import { Loop, ScmLoopType, Song } from '../models/scm.model';
+import { Options, PlayerWrapper, State } from "./player.wrapper";
 
 import { moveItemInArray } from '@angular/cdk/drag-drop';
 import { StorageMap } from '@ngx-pwa/local-storage';
@@ -24,11 +24,14 @@ type storageObject = {
   providedIn: 'root',
 })
 export class PlayerService implements OnDestroy {
-  private _player: ThreadedPlayer;
+  private _player: PlayerWrapper;
   private _playerLoaded: boolean;
   private _apiUrl: string;
 
   shuffle: boolean;
+  globalLoop: Loop = {
+    loopType: "default"
+  };
 
   state$: Observable<State>;
   private _playingSubj = new Subject<Song | null>();
@@ -61,9 +64,15 @@ export class PlayerService implements OnDestroy {
     this._audio.loop = true;
     this._audio.src = "/assets/silence.mp3";
 
-    this._player = new ThreadedPlayer();
+    this._player = new PlayerWrapper();
     this.state$ = this._player.state$;
     this.loadState()
+
+    this._subscriptions.push(
+      this._player.next$.subscribe(() => {
+        this.next()
+      })
+    )
   }
 
   private saveState() {
@@ -101,7 +110,24 @@ export class PlayerService implements OnDestroy {
 
     let url = this._apiUrl + "/" + song.song_id
     this._setMediaSessionData(song)
-    this._player.play(url);
+
+    // disable looping for those songs that does not loop normally
+    let opts: any
+
+    if (song.loop_type === ScmLoopType.none)
+      opts = {
+        loopType: 'none',
+        crossfade: false,
+      }
+    opts = (song.loop) ? {
+      loopType: song.loop.loopType,
+      loopFor: song.loop.value,
+    } : {
+      loopType: this.globalLoop.loopType,
+      loopFor: this.globalLoop.value,
+    }
+
+    this._player.play(url, opts as Options);
     this._playingSubj.next(song)
     this.saveState()
     this._playerLoaded = true
@@ -196,6 +222,15 @@ export class PlayerService implements OnDestroy {
       this._player.seek(to * this._player.sampleRate());
   }
 
+  editSongLoop(songId: number, loop: Loop) {
+    let idx = this._playlist.findIndex(s => s.song_id === songId)
+    if (idx === -1) return
+
+    this._playlist[idx].loop = loop
+    this._playlistSubj.next(this._playlist)
+    this.saveState()
+  }
+
   toggleShuffle() {
     this.shuffle = !this.shuffle
   }
@@ -205,7 +240,6 @@ export class PlayerService implements OnDestroy {
       s.unsubscribe();
     });
   }
-
 
   private async _setMediaSessionData(song?: Song) {
     this._audio

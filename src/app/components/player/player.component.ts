@@ -69,7 +69,12 @@ export class PlayerComponent implements OnInit {
   timeElapsed: number = 0;
   timeTotal: number = 0;
 
-  globalLoopSetting: Loop
+  get globalLoopSetting(): Loop {
+    return this.playerService.globalLoop
+  }
+  setLoop(loop: Loop) {
+    this.playerService.globalLoop = loop
+  }
 
   get isShuffle(): boolean {
     return this.playerService.shuffle
