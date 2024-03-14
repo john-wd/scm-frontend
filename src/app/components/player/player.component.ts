@@ -1,20 +1,15 @@
-import { CdkDrag, CdkDragDrop, CdkDragHandle, CdkDropList } from '@angular/cdk/drag-drop';
-import { CdkVirtualScrollViewport, ScrollingModule } from '@angular/cdk/scrolling';
 import { CommonModule, DatePipe, NgIf, NgTemplateOutlet } from '@angular/common';
 import { Component, HostListener, OnInit } from '@angular/core';
 import { MatIconButton } from '@angular/material/button';
-import { MatDialog } from '@angular/material/dialog';
 import { MatDivider } from '@angular/material/divider';
 import { MatIcon } from '@angular/material/icon';
 import { MatMenu, MatMenuContent, MatMenuItem, MatMenuTrigger } from '@angular/material/menu';
 import { MatSlider, MatSliderThumb } from '@angular/material/slider';
 import { MatCell, MatCellDef, MatColumnDef, MatRow, MatRowDef, MatTable } from '@angular/material/table';
-import { Router } from '@angular/router';
-import { Observable, Subscription } from 'rxjs';
-import { SongDetailsModal } from 'src/app/pages/song-details-modal/song-details-modal.component';
+import { Subscription } from 'rxjs';
 import { Song } from '../../models/scm.model';
 import { PlayerService } from '../../services/player.service';
-import { FormatBRSTM, ScmApiService } from '../../services/scm-api.service';
+import { PlaylistComponent } from '../playlist/playlist.component';
 
 
 @Component({
@@ -24,8 +19,6 @@ import { FormatBRSTM, ScmApiService } from '../../services/scm-api.service';
   standalone: true,
   imports: [
     CommonModule,
-    ScrollingModule,
-    CdkVirtualScrollViewport,
     MatIcon,
     NgIf,
     NgTemplateOutlet,
@@ -44,49 +37,35 @@ import { FormatBRSTM, ScmApiService } from '../../services/scm-api.service';
     MatMenuItem,
     MatDivider,
     DatePipe,
-    CdkDropList,
-    CdkDrag,
-    CdkDragHandle,
+    PlaylistComponent,
   ],
 })
 export class PlayerComponent implements OnInit {
   @HostListener('document:keydown.escape', ['$event']) onKeydownHandler(event: KeyboardEvent) { this.toggled = false }
   toggled = false;
 
-  hoverIdx = -1;
   private subscriptions: Subscription[] = [];
 
   isPlaying: boolean;
   playing: Song | null;
-  playlist$: Observable<Song[]>;
   timeElapsedPerc: number;
   timeElapsed: number = 0;
   timeTotal: number = 0;
 
-  tableColumns: string[] = [
-    "itemNumber",
-    "songName",
-    "gameName",
-    "length",
-    "menu"
-  ]
-
-  routeToGame(gameId: number) {
-    this.toggled = false
-    this.router.navigate(["/explore/games", gameId])
+  get isShuffle(): boolean {
+    return this.playerService.shuffle
   }
+
+  toggleShuffle() {
+    this.playerService.toggleShuffle()
+  }
+
   onToggle() {
     this.toggled = !this.toggled;
   }
 
   onClose() {
     this.toggled = false;
-  }
-
-  onOpenDetails(song: Song) {
-    this.dialog.open(SongDetailsModal, {
-      data: song.song_id
-    })
   }
 
   percElapsed(): number {
@@ -97,24 +76,8 @@ export class PlayerComponent implements OnInit {
     this.playerService.playPause();
   }
 
-  playAtIndex(idx: number) {
-    this.playerService.playAtIndex(idx);
-  }
-
-  currentIndex(): number {
-    return this.playerService.currentIndex;
-  }
-
-  get isShuffle(): boolean {
-    return this.playerService.shuffle
-  }
-
-  toggleShuffle() {
-    this.playerService.toggleShuffle()
-  }
-
   seek(perc: string) {
-    if (this.currentIndex() < 0)
+    if (this.playerService.currentIndex < 0)
       return
 
     let percentage = Number(perc) / 100
@@ -136,24 +99,9 @@ export class PlayerComponent implements OnInit {
   previous() {
     this.playerService.previous();
   }
-  remove(songId: number) {
-    this.playerService.removeFromPlaylist(songId)
-  }
-
-  downloadSong(song: Song) {
-    this.apiService.downloadSong(FormatBRSTM, song)
-  }
-
-  dragDrop($event: CdkDragDrop<Song[]>) {
-    this.playerService.sortElementInPlaylist($event.previousIndex, $event.currentIndex)
-  }
-
 
   constructor(
     private playerService: PlayerService,
-    private apiService: ScmApiService,
-    private router: Router,
-    private dialog: MatDialog,
   ) { }
 
   ngOnInit(): void {
@@ -169,14 +117,6 @@ export class PlayerComponent implements OnInit {
         (playing) => (this.playing = playing)
       )
     );
-    this.playlist$ = this.playerService.playlist$
   }
 
-  hover(idx: number) {
-    this.hoverIdx = idx
-  }
-
-  nohover() {
-    this.hoverIdx = -1
-  }
 }
