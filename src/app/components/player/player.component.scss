@@ -2,7 +2,7 @@
 
 .playlist {
   margin-left: 80px;
-  height: 80vh;
+  max-height: 80vh;
   flex-grow: 1;
   margin-right: 140px;
 }
@@ -36,11 +36,6 @@
   margin: auto;
   display: block;
   position: fixed;
-}
-
-.main {
-  height: 92%;
-  z-index: 90;
 }
 
 .toggle {
