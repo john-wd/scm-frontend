@@ -50,7 +50,7 @@
       <button (click)="next()" mat-icon-button>
         <mat-icon>skip_next</mat-icon>
       </button>
-      <app-loop-selector [(loop)]="globalLoopSetting"></app-loop-selector>
+      <app-loop-selector [loop]="globalLoopSetting" (loopChange)="setLoop($event)"></app-loop-selector>
     </span>
   </ng-template>
 

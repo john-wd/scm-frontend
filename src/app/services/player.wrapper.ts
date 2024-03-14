@@ -1,8 +1,12 @@
 import {
-  BrstmPlayer
+  BrstmPlayer,
+  LoopType as PlayerLoopType,
+  Options as PlayerOptions
 } from "revolving-door-brstm/dist/player";
 import { Observable, fromEvent, map } from "rxjs";
 
+export type Options = PlayerOptions
+export type LoopType = PlayerLoopType
 export interface State {
   position: number;
   paused: boolean;
@@ -14,9 +18,10 @@ export interface State {
   sampleRate: number;
 }
 
-export class ThreadedPlayer {
+export class PlayerWrapper {
   private _player: BrstmPlayer;
   state$: Observable<State>;
+  next$: Observable<any>;
 
   constructor() {
     this._player = new BrstmPlayer();
@@ -31,14 +36,20 @@ export class ThreadedPlayer {
         } as State;
       })
     );
+    this.next$ = fromEvent(document, "brstm_next")
   }
 
-  play(url: string) {
-    this._player.play(url, {
-      loopType: "infinite",
-      crossfade: true,
+  play(url: string, options?: Options) {
+    let opts: Options = {
+      loopType: "count", // loop 3 times by default
+      loopFor: 3,
       mediaControls: false,
-    });
+      crossfade: true,
+      ...options
+    }
+
+    console.log(opts)
+    this._player.play(url, opts);
   }
 
   playPause() {
