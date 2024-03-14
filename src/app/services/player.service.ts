@@ -2,6 +2,7 @@ import { Injectable, OnDestroy } from '@angular/core';
 import { Song } from '../models/scm.model';
 import { State, ThreadedPlayer } from "./player.wrapper";
 
+import { moveItemInArray } from '@angular/cdk/drag-drop';
 import {
   BehaviorSubject,
   Observable,
@@ -116,6 +117,11 @@ export class PlayerService implements OnDestroy {
     }
 
     this.playAtIndex(this.currentIndex);
+  }
+
+  sortElementInPlaylist(prevIdx: number, nextIdx: number) {
+    moveItemInArray(this.playlist, prevIdx, nextIdx)
+    this.playlistSubject.next(this.playlist)
   }
 
   clearPlaylist() {
