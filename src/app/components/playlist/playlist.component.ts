@@ -7,6 +7,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatIcon } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { Song } from 'src/app/models/scm.model';
@@ -28,6 +29,7 @@ import { FormatBRSTM, ScmApiService } from 'src/app/services/scm-api.service';
     MatIconButton,
     MatMenuModule,
     MatDividerModule,
+    MatTooltipModule,
     DatePipe
   ],
   templateUrl: './playlist.component.html',
@@ -80,6 +82,10 @@ export class PlaylistComponent {
 
   remove(songId: number) {
     this.playerService.removeFromPlaylist(songId)
+  }
+
+  clear() {
+    this.playerService.clearPlaylist()
   }
 
   hover(idx: number) {
