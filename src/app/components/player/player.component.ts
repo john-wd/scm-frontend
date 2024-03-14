@@ -140,7 +140,7 @@ export class PlayerComponent implements OnInit {
       this.playerService.state$.subscribe((state) => {
         this.timeElapsed = state.curTime * 1e3;
         this.timeTotal = state.totalTime * 1e3;
-        this.isPlaying = state.paused
+        this.isPlaying = !state.paused
       })
     );
   }

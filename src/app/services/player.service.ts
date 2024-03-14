@@ -140,7 +140,8 @@ export class PlayerService implements OnDestroy {
       // disable looping for those songs that does not loop normally
       if (song.loop_type === ScmLoopType.none) {
         opts = {
-          loopType: "none"
+          loopType: "none",
+          crossfade: false
         }
       } else {
         // if it is set to default still, loop forever
