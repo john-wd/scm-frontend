@@ -1,3 +1,4 @@
+import { animate, state, style, transition, trigger } from '@angular/animations';
 import { CommonModule, DatePipe, NgIf, NgTemplateOutlet } from '@angular/common';
 import { Component, HostListener, OnInit } from '@angular/core';
 import { MatIconButton } from '@angular/material/button';
@@ -39,6 +40,21 @@ import { PlaylistComponent } from '../playlist/playlist.component';
     DatePipe,
     PlaylistComponent,
   ],
+  animations: [
+    trigger("openClose", [
+      state("true", style({
+        height: "92%",
+      })),
+      state("false", style({
+      })),
+      transition("true => false", [
+        animate("200ms ease-out")
+      ]),
+      transition("false => true", [
+        animate("200ms ease-out")
+      ])
+    ])
+  ]
 })
 export class PlayerComponent implements OnInit {
   @HostListener('document:keydown.escape', ['$event']) onKeydownHandler(event: KeyboardEvent) { this.toggled = false }
