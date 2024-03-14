@@ -116,10 +116,8 @@ export class PlayerService implements OnDestroy {
 
     let opts: any
 
-    // disable looping for those songs that does not loop normally
     if (song.loop_type === ScmLoopType.none)
       opts = {
-        loopType: 'none',
         crossfade: false,
       }
 
@@ -138,10 +136,17 @@ export class PlayerService implements OnDestroy {
       }
     }
 
-    // if it is set to default still, loop forever
     if (opts.loopType === "default") {
-      opts = {
-        loopType: "infinite"
+      // disable looping for those songs that does not loop normally
+      if (song.loop_type === ScmLoopType.none) {
+        opts = {
+          loopType: "none"
+        }
+      } else {
+        // if it is set to default still, loop forever
+        opts = {
+          loopType: "infinite"
+        }
       }
     }
 
