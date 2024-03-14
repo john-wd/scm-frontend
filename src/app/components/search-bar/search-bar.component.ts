@@ -1,3 +1,4 @@
+import { animate, state, style, transition, trigger } from '@angular/animations';
 import { CommonModule } from '@angular/common';
 import { Component, ElementRef, HostListener, OnDestroy } from '@angular/core';
 import { FormsModule } from '@angular/forms';
@@ -25,7 +26,22 @@ const minQueryLength = 3
     MatListModule,
   ],
   templateUrl: './search-bar.component.html',
-  styleUrl: './search-bar.component.scss'
+  styleUrl: './search-bar.component.scss',
+  animations: [
+    trigger("hasResults", [
+      state("results", style({
+      })),
+      state("no-results", style({
+        width: 0,
+        height: 0,
+        padding: 0,
+        margin: 0,
+      })),
+      transition("no-results => results", [
+        animate("50ms ease-out")
+      ]),
+    ])
+  ]
 })
 export class SearchBarComponent implements OnDestroy {
   query: string;
@@ -33,6 +49,7 @@ export class SearchBarComponent implements OnDestroy {
   isFocused: boolean = false
 
   results: GameList.Entry[]
+  resultsState: "results" | "no-results" = "no-results"
   subscriptions: Subscription[] = [];
 
   constructor(
@@ -57,6 +74,7 @@ export class SearchBarComponent implements OnDestroy {
         })
       ).subscribe(results => {
         this.results = results
+        this.resultsState = (results.length > 0) ? 'results' : "no-results"
       }))
   }
 
@@ -67,6 +85,7 @@ export class SearchBarComponent implements OnDestroy {
   ontype() {
     if (this.query.length < minQueryLength) {
       this.results = []
+      this.resultsState = "no-results"
     }
     this.querySubj.next(this.query)
   }

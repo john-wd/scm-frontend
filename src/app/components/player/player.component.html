@@ -1,4 +1,4 @@
-<div class="bar" [class.main]="toggled">
+<div class="bar" [@openClose]="toggled">
   <div class="toggle" (click)="onToggle()">
     <mat-icon>{{ toggled ? "expand_more" : "expand_less" }}</mat-icon>
   </div>
