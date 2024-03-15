@@ -1,15 +1,15 @@
+import { CommonModule } from '@angular/common';
 import { Component, Inject } from '@angular/core';
 import { MatButtonModule, MatIconButton } from '@angular/material/button';
 import { MAT_DIALOG_DATA, MatDialogActions, MatDialogClose, MatDialogContent, MatDialogRef, MatDialogTitle } from '@angular/material/dialog';
-import { Song } from '../../models/scm.model';
-import { MatIcon } from '@angular/material/icon';
-import { CommonModule } from '@angular/common';
-import { FormatBCSTM, FormatBFSTM, FormatBRSTM, FormatBWAV, FormatNUS3AUDIO, FormatSWBFSTM, FormatType, ScmApiService } from '../../services/scm-api.service';
-import { Observable } from 'rxjs';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatIcon } from '@angular/material/icon';
 import { MatSelectModule } from '@angular/material/select';
 import { NgxFilesizeModule } from 'ngx-filesize';
+import { Observable } from 'rxjs';
 import { PlayerService } from 'src/app/services/player.service';
+import { Song } from '../../models/scm.model';
+import { FormatBCSTM, FormatBFSTM, FormatBRSTM, FormatBWAV, FormatNUS3AUDIO, FormatSWBFSTM, FormatType, ScmApiService } from '../../services/scm-api.service';
 
 @Component({
   selector: 'app-song-details-modal',

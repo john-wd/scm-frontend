@@ -1,27 +1,22 @@
+import { CdkVirtualScrollViewport, ScrollingModule } from '@angular/cdk/scrolling';
+import { CommonModule } from '@angular/common';
 import {
   Component,
-  ElementRef,
   OnDestroy,
   OnInit,
-  Renderer2,
-  ViewChild,
 } from '@angular/core';
-import { MatSort, MatSortHeader } from '@angular/material/sort';
-import { MatTableDataSource, MatTable, MatColumnDef, MatHeaderCellDef, MatHeaderCell, MatCellDef, MatCell, MatHeaderRowDef, MatHeaderRow, MatRowDef, MatRow, MatTableModule } from '@angular/material/table';
-import { Store } from '@ngrx/store';
-import { BehaviorSubject, debounceTime, filter, fromEvent, map, Observable, Subscription, switchMap, } from 'rxjs';
-import { GameList } from '../../models/scm.model';
-import * as fromActions from '../../state/scm/scm.actions';
-import { RouterLink } from '@angular/router';
+import { MatIconButton } from '@angular/material/button';
 import { MatRipple } from '@angular/material/core';
 import { MatIcon } from '@angular/material/icon';
-import { MatMenuTrigger, MatMenu, MatMenuContent } from '@angular/material/menu';
-import { MatIconButton } from '@angular/material/button';
-import { FeatureFlagDirective } from '../../shared/directives/feature-flag.directive';
-import { NgIf, AsyncPipe, NgFor, NgClass, CommonModule } from '@angular/common';
+import { MatMenu, MatMenuContent, MatMenuTrigger } from '@angular/material/menu';
+import { MatTableModule } from '@angular/material/table';
+import { RouterLink } from '@angular/router';
+import { Store } from '@ngrx/store';
+import { BehaviorSubject, Observable, Subscription, map, switchMap, } from 'rxjs';
 import { getGamelistEntity, getGamelistUIState } from 'src/app/state/scm/scm.selector';
-import { InfiniteScrollModule } from 'ngx-infinite-scroll';
-import { CdkVirtualForOf, CdkVirtualScrollViewport, ScrollingModule } from '@angular/cdk/scrolling';
+import { GameList } from '../../models/scm.model';
+import { FeatureFlagDirective } from '../../shared/directives/feature-flag.directive';
+import * as fromActions from '../../state/scm/scm.actions';
 
 
 type tableState = {
@@ -102,7 +97,5 @@ export class GamelistComponent implements OnInit, OnDestroy {
 
     this.setFilterLetter(letter)
   }
-
-  onScroll() { console.log("scrolled") }
 
 }

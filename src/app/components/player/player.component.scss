@@ -1,21 +1,31 @@
 @import "variables";
 
-cdk-virtual-scroll-viewport {
-  height: 100%;
-}
-
 .playlist {
   margin-left: 80px;
-  height: 80vh;
+  max-height: 80vh;
+  flex-grow: 1;
+  margin-right: 140px;
+  margin-top: 24px
+}
 
-  table {
-    margin-top: 24px;
+.state-btn-active {
+  opacity: 1;
+
+  &::after {
+    content: "";
+    position: absolute;
+    display: block;
+    border-radius: 50%;
+    bottom: 5px;
+    left: 50%;
+    height: 4px;
+    width: 4px;
+    transform: translateX(-50%);
   }
 }
 
-.element-index {
-  min-width: 4ex;
-  text-align: center;
+.state-btn-inactive {
+  opacity: .3;
 }
 
 .bar {
@@ -27,11 +37,6 @@ cdk-virtual-scroll-viewport {
   margin: auto;
   display: block;
   position: fixed;
-}
-
-.main {
-  height: 92%;
-  z-index: 90;
 }
 
 .toggle {
@@ -71,6 +76,9 @@ cdk-virtual-scroll-viewport {
 }
 
 .media-buttons {
+  display: flex;
+  align-items: center;
+
   .play-pause {
     scale: 150%;
   }
@@ -92,17 +100,11 @@ cdk-virtual-scroll-viewport {
   margin-top: 40px;
 
   .controls {
-    max-width: 300px;
+    width: 250px;
     display: flex;
     flex-direction: column;
-    flex-shrink: .3;
     text-align: center;
     margin-left: 140px;
-  }
-
-  .playlist {
-    flex-grow: 1;
-    margin-right: 140px;
   }
 }
 
@@ -115,12 +117,6 @@ cdk-virtual-scroll-viewport {
 .full-track-info {
   overflow: hidden;
   text-align: left;
-}
-
-h1,
-h4 {
-  margin-top: 4px;
-  margin-bottom: 4px;
 }
 
 .mat-mdc-slider .mdc-slider__track--active_fill {

@@ -2,17 +2,25 @@
 @use '@angular/material' as mat;
 
 @mixin theme($theme) {
-  $background-color: mat.get-theme-color($theme, background, status-bar);
-  $background-card: mat.get-theme-color($theme, background, card);
+  $border-color: mat.get-theme-color($theme, background, status-bar);
+  $background-color: mat.get-theme-color($theme, background, card);
+
+  .cdk-drag-preview {
+    background-color: $background-color;
+  }
 
   .bar,
   .toggle {
-    border-top: 1px solid rgba($background-color, .7);
-    background-color: $background-card;
+    border-top: 1px solid rgba($border-color, .7);
+    background-color: $background-color;
   }
 
   .time,
   .game-name {
     color: mat.get-theme-color($theme, foreground, hint-text);
+  }
+
+  .state-btn-active::after {
+    background-color: mat.get-theme-color($theme, foreground, text);
   }
 }

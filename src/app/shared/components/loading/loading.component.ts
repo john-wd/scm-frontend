@@ -1,7 +1,7 @@
-import { Component, Input } from '@angular/core';
-import { LoadingService } from '../../services/loading.service';
 import { CommonModule } from '@angular/common';
+import { Component, Input } from '@angular/core';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { LoadingService } from '../../services/loading.service';
 
 
 @Component({

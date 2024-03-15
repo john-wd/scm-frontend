@@ -1,0 +1,87 @@
+<div class="header">
+  <h4>Play queue</h4>
+  <span class="spacer"></span>
+  <div class="actions">
+    <button mat-icon-button (click)="clear()" matTooltip="Clear play queue">
+      <mat-icon>playlist_remove</mat-icon>
+    </button>
+  </div>
+</div>
+<div class="table">
+  <table cdkDropList (cdkDropListDropped)="dragDrop($event)">
+    <thead>
+      <th style="text-align-last: center;">#</th>
+      <th>Song name</th>
+      <th>Game name</th>
+      <th>Length</th>
+      <th>Loop</th>
+      <th></th>
+    </thead>
+    <tbody>
+      <tr *ngFor="let song of (playlist$ | async); let i = index" (click)="playAtIndex(i)" (mouseenter)="hover(i)"
+        (mouseleave)="nohover()" cdkDrag>
+        <td (click)="$event.stopPropagation()" cdkDragHandle>
+          @if (i === hoverIdx) {
+          <mat-icon>drag_handle</mat-icon>
+          } @else if (i === currentIndex()) {
+          <mat-icon>play_arrow</mat-icon>
+          } @else {
+          {{i+1}}
+          }
+        </td>
+        <td>
+          <div>
+            <div>{{song.name}}</div>
+            <span class="small">{{song.uploader}}</span>
+          </div>
+        </td>
+        <td>
+          {{song.game_name}}
+        </td>
+        <td>
+          {{song.length | date: "mm:ss"}}
+        </td>
+        <td (click)="$event.stopPropagation()">
+          <app-loop-selector useChips [loop]="song.loop"
+            (loopChange)="editSongLoop(song.song_id, $event)"></app-loop-selector>
+        </td>
+        <td>
+          <button mat-icon-button [matMenuTriggerFor]="songMenu" [matMenuTriggerData]="{song, index: i}">
+            <mat-icon>more_horiz</mat-icon>
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<mat-menu #songMenu="matMenu" xPosition="before">
+  <ng-template matMenuContent let-song="song" let-index="index">
+    <button mat-menu-item (click)="playAtIndex(index)">
+      <mat-icon>play_arrow</mat-icon>
+      <span>Play</span>
+    </button>
+    <button mat-menu-item (click)="remove(song.song_id)">
+      <mat-icon>delete</mat-icon>
+      <span>Remove</span>
+    </button>
+    <mat-divider></mat-divider>
+    <button mat-menu-item (click)="onOpenDetails(song)">
+      <mat-icon>description</mat-icon>
+      <span>Open details</span>
+    </button>
+    <button mat-menu-item (click)="downloadSong(song)">
+      <mat-icon>download</mat-icon>
+      <span>Download</span>
+    </button>
+    <mat-divider></mat-divider>
+    <button mat-menu-item (click)="routeToGame(song.game_id)">
+      <mat-icon>arrow_circle_left</mat-icon>
+      <span>Go to game</span>
+    </button>
+    <button mat-menu-item>
+      <mat-icon>share</mat-icon>
+      <span>Share</span>
+    </button>
+  </ng-template>
+</mat-menu>

@@ -9,6 +9,12 @@
 
     input {
       background-color: $background-color;
+      color: mat.get-theme-color($theme, foreground, text)
     }
+  }
+
+  .results {
+    border: 1px solid mat.get-theme-color($theme, foreground, divider);
+    background-color: mat.get-theme-color($theme, background, background);
   }
 }

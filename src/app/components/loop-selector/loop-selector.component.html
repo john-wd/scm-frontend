@@ -1,0 +1,54 @@
+<button mat-button [matMenuTriggerFor]="loopSelect" style="min-width: 48px;">
+  <span #chip>
+    @if (useChips) {
+    <mat-chip>
+      <ng-template [ngTemplateOutlet]="conditionalIcon"></ng-template>
+    </mat-chip>
+    } @else {
+    <ng-template [ngTemplateOutlet]="conditionalIcon"></ng-template>
+    }
+  </span>
+</button>
+
+<ng-template #conditionalIcon>
+  <span class="chip">
+    @if (loop?.loopType === "time") {
+    <mat-icon svgIcon="repeat_time"></mat-icon>
+    <input matInput type="time" [defaultValue]="'00:30'" (click)="$event.stopImmediatePropagation()"
+      [ngModel]="selectedValue" (ngModelChange)="inputChange($event)" [ngModelOptions]="{updateOn: 'blur'}" />
+    } @else if (loop?.loopType === "count") {
+    <mat-icon svgIcon="repeat_n"></mat-icon>
+    <input matInput type="number" [max]="999" width="10" [defaultValue]="2" [ngModel]="selectedValue"
+      (ngModelChange)="inputChange($event)" [ngModelOptions]="{updateOn: 'blur'}"
+      (click)="$event.stopImmediatePropagation()" />
+    } @else if (loop?.loopType === "none"){
+    <mat-icon class="disabled">repeat</mat-icon>
+    } @else {
+    <mat-icon>repeat</mat-icon>
+    }
+  </span>
+</ng-template>
+
+<mat-menu #loopSelect="matMenu" (close)="focusInput(chip)">
+  <ng-template matMenuContent>
+    <button mat-menu-item matTooltip="The default amount set in the player" matTooltipPosition="after"
+      (click)="setLoopType('default')">
+      <mat-icon>repeat</mat-icon>
+      <span>Default</span>
+    </button>
+    <button mat-menu-item matTooltip="Amount of times the song should loop" matTooltipPosition="after"
+      (click)="setLoopType('count')">
+      <mat-icon svgIcon="repeat_n"></mat-icon>
+      <span>Count</span>
+    </button>
+    <button mat-menu-item matTooltip="Loops for this amount of time" matTooltipPosition="after"
+      (click)="setLoopType('time')">
+      <mat-icon svgIcon="repeat_time"></mat-icon>
+      <span>Time</span>
+    </button>
+    <button mat-menu-item matTooltip="Only play the song once" matTooltipPosition="after" (click)="setLoopType('none')">
+      <mat-icon class="disabled">repeat</mat-icon>
+      <span>Disabled</span>
+    </button>
+  </ng-template>
+</mat-menu>
