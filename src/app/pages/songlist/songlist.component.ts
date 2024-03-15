@@ -164,6 +164,7 @@ export class SonglistComponent implements OnInit, OnDestroy {
   }
 
   onPlayAll(shuffle = false) {
+    this.playerService.clearPlaylist()
     this.onAddAllToPlaylist(shuffle)
     this.playerService.playAtIndex(0)
   }
