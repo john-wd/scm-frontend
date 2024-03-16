@@ -4,16 +4,16 @@ import { provideAnimations } from '@angular/platform-browser/animations';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
-import { AppRoutingModule } from './app/app-routing.module';
 import { AppComponent } from './app/app.component';
 
 import { HttpClientModule } from '@angular/common/http';
-import { ActivatedRouteSnapshot, BaseRouteReuseStrategy, RouteReuseStrategy } from '@angular/router';
+import { ActivatedRouteSnapshot, BaseRouteReuseStrategy, RouteReuseStrategy, provideRouter, withComponentInputBinding } from '@angular/router';
 import { PlayerService } from './app/services/player.service';
 import { ScmApiService } from './app/services/scm-api.service';
 import { FeatureFlagService } from './app/shared/services/feature-flag.service';
 import { SmashCustomMusicStateModule } from './app/state/scm/scm.module';
 import config from "./config/production.config.json";
+import { routes } from './routes';
 
 const featureFlagFactory = (featureFlagService: FeatureFlagService) => () => featureFlagService.loadConfig(config.flags)
 const apiServiceFactory = (apiService: ScmApiService) => () => {
@@ -34,7 +34,6 @@ bootstrapApplication(AppComponent, {
   providers: [
     importProvidersFrom(
       BrowserModule,
-      AppRoutingModule,
       HttpClientModule,
       StoreModule.forRoot(),
       EffectsModule.forRoot(),
@@ -67,6 +66,10 @@ bootstrapApplication(AppComponent, {
       useClass: ReloadRouterStrategy,
     },
     provideAnimations(),
+    provideRouter(
+      routes,
+      withComponentInputBinding()
+    )
   ]
 })
   .catch(err => console.error(err));
