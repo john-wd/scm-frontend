@@ -20,7 +20,6 @@ export class RouteWrapperComponent<T> implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    console.log(this.routeId, this.component)
     this.dialog.open(this.component, {
       data: this.routeId
     }).afterClosed().subscribe(

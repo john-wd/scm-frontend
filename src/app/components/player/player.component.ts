@@ -45,9 +45,9 @@ import { PlaylistComponent } from '../playlist/playlist.component';
     trigger("openClose", [
       state("true", style({
         height: "92%",
+        zIndex: 90
       })),
-      state("false", style({
-      })),
+      state("false", style({})),
       transition("true => false", [
         animate("200ms ease-out")
       ]),

@@ -23,7 +23,6 @@ import { Song, SongList } from '../../models/scm.model';
 import { PlayerService } from '../../services/player.service';
 import { FormatBRSTM, ScmApiService } from '../../services/scm-api.service';
 import { fetchSonglist } from '../../state/scm/scm.actions';
-import { SongDetailsModal } from '../song-details-modal/song-details-modal.component';
 
 @Component({
   selector: 'app-songlist',
@@ -185,12 +184,6 @@ export class SonglistComponent implements OnInit, OnDestroy {
 
   bannerUrl(gameId: number): string {
     return this.scmApi.getBannerUrl(gameId);
-  }
-
-  openDetails(song: Song) {
-    this.dialog.open(SongDetailsModal, {
-      data: song,
-    })
   }
 }
 

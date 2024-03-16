@@ -46,7 +46,8 @@
             (loopChange)="editSongLoop(song.song_id, $event)"></app-loop-selector>
         </td>
         <td>
-          <button mat-icon-button [matMenuTriggerFor]="songMenu" [matMenuTriggerData]="{song, index: i}">
+          <button mat-icon-button [matMenuTriggerFor]="songMenu" [matMenuTriggerData]="{song, index: i}"
+            (click)="$event.stopPropagation()">
             <mat-icon>more_horiz</mat-icon>
           </button>
         </td>
@@ -66,7 +67,7 @@
       <span>Remove</span>
     </button>
     <mat-divider></mat-divider>
-    <button mat-menu-item (click)="onOpenDetails(song)">
+    <button mat-menu-item [routerLink]="['/explore/songs/', song.song_id]">
       <mat-icon>description</mat-icon>
       <span>Open details</span>
     </button>

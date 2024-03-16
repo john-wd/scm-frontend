@@ -3,15 +3,13 @@ import { CdkVirtualScrollViewport, ScrollingModule } from '@angular/cdk/scrollin
 import { CommonModule, DatePipe } from '@angular/common';
 import { Component, EventEmitter, Output } from '@angular/core';
 import { MatIconButton } from '@angular/material/button';
-import { MatDialog } from '@angular/material/dialog';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatIcon } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatTooltipModule } from '@angular/material/tooltip';
-import { Router } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { Observable } from 'rxjs';
 import { Loop, Song } from 'src/app/models/scm.model';
-import { SongDetailsModal } from 'src/app/pages/song-details-modal/song-details-modal.component';
 import { PlayerService } from 'src/app/services/player.service';
 import { FormatBRSTM, ScmApiService } from 'src/app/services/scm-api.service';
 import { LoopSelectorComponent } from '../loop-selector/loop-selector.component';
@@ -21,6 +19,7 @@ import { LoopSelectorComponent } from '../loop-selector/loop-selector.component'
   standalone: true,
   imports: [
     CommonModule,
+    RouterModule,
     ScrollingModule,
     CdkVirtualScrollViewport,
     CdkDropList,
@@ -46,7 +45,6 @@ export class PlaylistComponent {
     private playerService: PlayerService,
     private apiService: ScmApiService,
     private router: Router,
-    private dialog: MatDialog,
   ) {
     this.playlist$ = this.playerService.playlist$
   }
@@ -61,12 +59,6 @@ export class PlaylistComponent {
 
   currentIndex(): number {
     return this.playerService.currentIndex;
-  }
-
-  onOpenDetails(song: Song) {
-    this.dialog.open(SongDetailsModal, {
-      data: song.song_id
-    })
   }
 
   routeToGame(gameId: number) {

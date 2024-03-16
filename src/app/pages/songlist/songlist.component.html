@@ -62,7 +62,7 @@
 
 <mat-menu #songMenu="matMenu" xPosition="before">
   <ng-template matMenuContent let-song="song" let-index="index">
-    <button mat-menu-item (click)="openDetails(song.song_id)">
+    <button mat-menu-item [routerLink]="['/explore/songs/',song.song_id]">
       <mat-icon>description</mat-icon>
       <span>Open details</span>
     </button>
