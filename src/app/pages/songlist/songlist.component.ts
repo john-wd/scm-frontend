@@ -18,6 +18,7 @@ import { MatCell, MatCellDef, MatColumnDef, MatHeaderCell, MatHeaderCellDef, Mat
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { Observable, Subscription, map } from 'rxjs';
+import { ShareModal } from 'src/app/components/share-modal/share-modal.component';
 import { getSonglistEntityById, getSonglistUIState } from 'src/app/state/scm/scm.selector';
 import { Song, SongList } from '../../models/scm.model';
 import { PlayerService } from '../../services/player.service';
@@ -184,6 +185,15 @@ export class SonglistComponent implements OnInit, OnDestroy {
 
   bannerUrl(gameId: number): string {
     return this.scmApi.getBannerUrl(gameId);
+  }
+
+  openShareDialog(songId: string) {
+    this.dialog.open(ShareModal, {
+      data: {
+        resourceType: "song",
+        resourceId: songId
+      }
+    })
   }
 }
 

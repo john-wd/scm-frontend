@@ -1,0 +1,48 @@
+.modal {
+  margin: {
+    top: 30px;
+    bottom: 30px;
+    left: 40px;
+    right: 40px;
+  }
+}
+
+.title {
+  display: flex;
+  flex-direction: row;
+  align-items: top;
+  margin-bottom: 24px;
+
+  h2 {
+    margin-top: 0px;
+    margin-bottom: 4px;
+    margin-right: 48px;
+  }
+
+  .close {
+    margin-left: auto;
+    float: right;
+    scale: 1.5;
+  }
+}
+
+.body {
+  display: flex;
+  flex-direction: row;
+  align-items: top;
+
+  .link {
+    width: 100%;
+    display: flex;
+    align-items: center;
+
+    input {
+      width: 100%;
+    }
+  }
+}
+
+::ng-deep .cdk-overlay-container {
+  z-index: 90;
+  backdrop-filter: blur(10px);
+}

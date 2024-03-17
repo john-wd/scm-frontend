@@ -1,0 +1,24 @@
+<div class="modal">
+  <div class="title">
+    <h2>
+      Share this {{data.resourceType}}
+    </h2>
+    <button mat-icon-button class="close" (click)="onclose()">
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
+
+  <div class="body">
+    <div class="link">
+      <input [type]="exportType" [value]="getContent()" />
+      <button mat-icon-button #copyTooltip="matTooltip" [matTooltip]="copied ? 'Copied!' : 'Copy to clipboard'"
+        (mouseleave)="copyToClipboardBlur()" (click)="copyToClipboard()">
+        @if (copied) {
+        <mat-icon #cpTooltip>assignment_turned_in</mat-icon>
+        } @else {
+        <mat-icon>content_paste</mat-icon>
+        }
+      </button>
+    </div>
+  </div>
+</div>
