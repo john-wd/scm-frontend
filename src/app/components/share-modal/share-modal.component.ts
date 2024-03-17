@@ -1,10 +1,11 @@
+import { Clipboard } from '@angular/cdk/clipboard';
 import { Component, Inject, OnInit, ViewChild } from '@angular/core';
 import { MatIconButton } from '@angular/material/button';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import { MatFormField, MatInput } from '@angular/material/input';
 import { MatTooltip, MatTooltipModule } from '@angular/material/tooltip';
-import { memoize } from 'src/app/shared/utils/memoization';
+
 import { default as urlcat } from "urlcat";
 
 export type ResourceType = "song" | "playlist" | "game"
@@ -38,7 +39,6 @@ export class ShareModal implements OnInit {
   exportType: exportType = "link"
   @ViewChild("copyTooltip") copyTooltipRef: MatTooltip
 
-  @memoize()
   resourceUrl(): string {
     let origin = window.location.origin
     return urlcat(origin, this.typePath(), {
@@ -71,6 +71,7 @@ export class ShareModal implements OnInit {
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: DialogData,
     public dialogRef: MatDialogRef<ShareModal>,
+    private clipboard: Clipboard
   ) {
     if (!data) {
       throw "data must be provided to this modal"
@@ -90,6 +91,7 @@ export class ShareModal implements OnInit {
     if (!this.copied)
       setTimeout(() => {
         this.copied = true
+        this.clipboard.copy(this.getContent())
         this.copyTooltipRef.hideDelay = 1000
         this.copyTooltipRef.show()
       }, 50)
