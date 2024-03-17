@@ -188,7 +188,17 @@ export class SonglistComponent implements OnInit, OnDestroy {
     return this.scmApi.getBannerUrl(gameId);
   }
 
-  openShareDialog(song: SongList.Entry) {
+  openGameShareDialog() {
+    this.dialog.open(ShareModal, {
+      data: {
+        resourceType: "game",
+        resourceId: this.gameId,
+        title: this.gameName.nativeElement.textContent,
+      }
+    })
+  }
+
+  openSongShareDialog(song: SongList.Entry) {
     let details = templateStr`From ${"game_name"}, length ${"length"}. ${"downloads"} downloads`
     const datePipe = new DatePipe('en-US');
     this.dialog.open(ShareModal, {

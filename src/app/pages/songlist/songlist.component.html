@@ -88,7 +88,7 @@
       <mat-icon>arrow_circle_left</mat-icon>
       <span>Go to game</span>
     </button>
-    <button mat-menu-item (click)="openShareDialog(song)">
+    <button mat-menu-item (click)="openSongShareDialog(song)">
       <mat-icon>share</mat-icon>
       <span>Share</span>
     </button>
@@ -112,7 +112,7 @@
 
     <mat-divider></mat-divider>
 
-    <button mat-menu-item>
+    <button mat-menu-item (click)="openGameShareDialog()">
       <mat-icon>share</mat-icon>
       <span>Share</span>
     </button>

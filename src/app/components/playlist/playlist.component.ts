@@ -3,6 +3,7 @@ import { CdkVirtualScrollViewport, ScrollingModule } from '@angular/cdk/scrollin
 import { CommonModule, DatePipe } from '@angular/common';
 import { Component, EventEmitter, Output } from '@angular/core';
 import { MatIconButton } from '@angular/material/button';
+import { MatDialog } from '@angular/material/dialog';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatIcon } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
@@ -12,7 +13,9 @@ import { Observable } from 'rxjs';
 import { Loop, Song } from 'src/app/models/scm.model';
 import { PlayerService } from 'src/app/services/player.service';
 import { FormatBRSTM, ScmApiService } from 'src/app/services/scm-api.service';
+import { templateStr } from 'src/app/shared/utils/template';
 import { LoopSelectorComponent } from '../loop-selector/loop-selector.component';
+import { ShareModal } from '../share-modal/share-modal.component';
 
 @Component({
   selector: 'app-playlist',
@@ -45,6 +48,7 @@ export class PlaylistComponent {
     private playerService: PlayerService,
     private apiService: ScmApiService,
     private router: Router,
+    public dialog: MatDialog
   ) {
     this.playlist$ = this.playerService.playlist$
   }
@@ -94,4 +98,20 @@ export class PlaylistComponent {
     this.playerService.sortElementInPlaylist($event.previousIndex, $event.currentIndex)
   }
 
+  openSongShareDialog(song: Song) {
+    let details = templateStr`From ${"game_name"}, length ${"length"}. ${"downloads"} downloads`
+    const datePipe = new DatePipe('en-US');
+    this.dialog.open(ShareModal, {
+      data: {
+        resourceType: "song",
+        resourceId: song.song_id,
+        title: song.name,
+        description: details({
+          game_name: song.game_name,
+          length: datePipe.transform(song.length * 1e3, "mm 'minutes and' ss 'seconds'"),
+          downloads: song.downloads
+        })
+      }
+    })
+  }
 }
