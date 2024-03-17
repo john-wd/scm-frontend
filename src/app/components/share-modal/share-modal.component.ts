@@ -2,6 +2,7 @@ import { Component, Inject, OnInit, ViewChild } from '@angular/core';
 import { MatIconButton } from '@angular/material/button';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
+import { MatFormField, MatInput } from '@angular/material/input';
 import { MatTooltip, MatTooltipModule } from '@angular/material/tooltip';
 import { memoize } from 'src/app/shared/utils/memoization';
 import { default as urlcat } from "urlcat";
@@ -10,6 +11,8 @@ export type ResourceType = "song" | "playlist" | "game"
 export type DialogData = {
   resourceType: ResourceType,
   resourceId: string,
+  title: string,
+  description: string,
 }
 
 type exportType = "link" | "embed" | "twitter"
@@ -21,6 +24,8 @@ type exportType = "link" | "embed" | "twitter"
     MatIconButton,
     MatIconModule,
     MatTooltipModule,
+    MatInput,
+    MatFormField,
   ],
   templateUrl: './share-modal.component.html',
   styleUrl: './share-modal.component.scss'
@@ -72,8 +77,8 @@ export class ShareModal implements OnInit {
     }
   }
 
-  ngOnInit(): void {
-    console.log(this.copyTooltipRef)
+  ngOnInit(
+  ): void {
   }
 
   onclose() {
