@@ -1,6 +1,8 @@
 import { createAction, props } from '@ngrx/store';
 import { GameList, Song, SongList } from '../../models/scm.model';
 
+export const setLoading = createAction("Set loaded status", props<{ loading: boolean, page: string }>())
+
 export namespace fetchGamelist {
   const tag = '[Game List]';
 
