@@ -3,8 +3,8 @@ import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 import { catchError, map, mergeMap, of, switchMap, withLatestFrom } from 'rxjs';
 import { ScmApiService } from '../../services/scm-api.service';
-import { fetchGamelist, fetchSongDetails, fetchSonglist } from './scm.actions';
-import { getGamelistUIState, getSonglistUIState } from './scm.selector';
+import { fetchGamelist, fetchSongDetails, fetchSonglist, setLoading } from './scm.actions';
+import { getGamelistUIState, getState } from './scm.selector';
 
 @Injectable()
 export class ScmEffects {
@@ -14,7 +14,8 @@ export class ScmEffects {
       withLatestFrom(this.store$.select(getGamelistUIState)),
       switchMap(([action, state]) => {
         if (state.loaded)
-          return of()
+          return of(setLoading({ loading: false, page: "gamelist" }))
+
 
         return this.scmService.fetchGamelist().pipe(
           map((games) => fetchGamelist.success({ games })),
@@ -29,10 +30,11 @@ export class ScmEffects {
   fetchSonglist$ = createEffect(() =>
     this.actions$.pipe(
       ofType(fetchSonglist.action),
-      withLatestFrom(this.store$.select(getSonglistUIState)),
+      withLatestFrom(this.store$.select(getState)),
       switchMap(([action, state]) => {
-        if (state.loaded)
-          return of()
+        if (state.ui.pages.songlist.loaded && Object.hasOwn(state.entities.songsByGame, action.gameId))
+          return of(setLoading({ loading: false, page: "songlist" }))
+
 
         return this.scmService.fetchSonglist(action.gameId).pipe(
           map((songs) => fetchSonglist.success({ songs })),

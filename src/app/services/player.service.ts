@@ -35,6 +35,9 @@ export class PlayerService implements OnDestroy {
   };
 
   state$: Observable<State>;
+  get buffering$(): Observable<boolean> {
+    return this._player.buffering$
+  }
   private _playingSubj = new Subject<Song | null>();
 
   private _audio: HTMLAudioElement;
