@@ -23,6 +23,7 @@ export class PlayerWrapper {
   private _player: BrstmPlayer;
   state$: Observable<State>;
   next$: Observable<any>;
+  buffering$: Observable<boolean>;
 
   constructor() {
     this._player = new BrstmPlayer();
@@ -38,6 +39,11 @@ export class PlayerWrapper {
       })
     );
     this.next$ = fromEvent(document, "brstm_next")
+    this.buffering$ = fromEvent(document, "brstm_buffering").pipe(map((ev: any) => {
+      console.log(ev.detail.buffering)
+      return ev.detail.buffering
+    }
+    ))
   }
 
   play(url: string, options?: Options) {
