@@ -24,11 +24,13 @@ import { PlayerService, PlayerState } from 'src/app/services/player.service';
 export class VolumeComponent {
   @Input() isHidden: boolean = false;
 
-  step = 0.1;
+  step = 0.01;
 
   // number from 0 to 1
   _current: number = 1;
   muted: boolean;
+
+  private lastValue: number;
 
   get current(): number {
     return this._current
@@ -36,6 +38,8 @@ export class VolumeComponent {
 
   set current(val: number) {
     this._current = val
+    this.muted = false
+    this.playerService.setVolume(val)
   }
 
   private subscriptions: Subscription[] = []
@@ -51,10 +55,13 @@ export class VolumeComponent {
   }
 
   toggleMute() {
-    this.muted = !this.muted
-  }
-
-  setVolume(val: string) {
-    let value = Number(val)
+    if (this.muted) {
+      this.playerService.setVolume(this.lastValue)
+      this.muted = false
+    } else {
+      this.lastValue = this.current
+      this.playerService.setVolume(0)
+      this.muted = true
+    }
   }
 }
