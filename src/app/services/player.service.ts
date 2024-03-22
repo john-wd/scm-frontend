@@ -173,6 +173,7 @@ export class PlayerService implements OnDestroy {
   }
 
   setVolume(level: number) {
+    if (!this._playerLoaded) return
     this._player.setVolume(level);
   }
 

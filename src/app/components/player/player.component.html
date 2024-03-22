@@ -31,6 +31,9 @@
       <div>
         <ng-template [ngTemplateOutlet]="mediaButtons"></ng-template>
       </div>
+      <div>
+        <app-volume></app-volume>
+      </div>
     </div>
     <div class="playlist">
       <app-playlist (close)="toggled = false"></app-playlist>

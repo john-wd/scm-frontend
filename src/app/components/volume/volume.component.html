@@ -7,22 +7,24 @@
 </span>
 
 <ng-template #hidden>
-  <button mat-icon-button [matMenuTriggerFor]="volumeMenu" [matMenuTriggerData]="{vertical: true}">
+  <button mat-icon-button [matMenuTriggerFor]="volumeMenu">
     <ng-template [ngTemplateOutlet]="buttonIcon"></ng-template>
   </button>
 
   <mat-menu #volumeMenu="matMenu">
     <ng-template matMenuContent>
-      <ng-template [ngTemplateOutlet]="slider"></ng-template>
+      <div (click)="$event.stopPropagation()">
+        <ng-template [ngTemplateOutlet]="slider"></ng-template>
+      </div>
     </ng-template>
   </mat-menu>
 </ng-template>
 
 <ng-template #nohidden>
-  <ng-template [ngTemplateOutlet]="slider" [matMenuTriggerData]="{vertical: false}"></ng-template>
   <button mat-icon-button (click)="toggleMute()">
     <ng-template [ngTemplateOutlet]="buttonIcon"></ng-template>
   </button>
+  <ng-template [ngTemplateOutlet]="slider"></ng-template>
 </ng-template>
 
 <ng-template #buttonIcon>
@@ -38,9 +40,8 @@
       }
 </ng-template>
 
-<ng-template #slider let-vertical>
+<ng-template #slider>
   <mat-slider [step]="step" [max]="1" [min]="0">
     <input matSliderThumb [(value)]="current">
   </mat-slider>
-
 </ng-template>
