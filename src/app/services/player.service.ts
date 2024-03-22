@@ -11,6 +11,8 @@ import {
   Subscription,
 } from 'rxjs';
 
+export { State as PlayerState } from "./player.wrapper";
+
 const storagePlayerKey = "player"
 type storageObject = {
   playlist: Song[],
@@ -171,6 +173,7 @@ export class PlayerService implements OnDestroy {
   }
 
   setVolume(level: number) {
+    if (!this._playerLoaded) return
     this._player.setVolume(level);
   }
 

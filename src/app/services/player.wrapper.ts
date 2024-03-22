@@ -40,7 +40,6 @@ export class PlayerWrapper {
     );
     this.next$ = fromEvent(document, "brstm_next")
     this.buffering$ = fromEvent(document, "brstm_buffering").pipe(map((ev: any) => {
-      console.log(ev.detail.buffering)
       return ev.detail.buffering
     }
     ))

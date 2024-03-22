@@ -1,5 +1,9 @@
 @import "variables";
 
+.spacer {
+  flex-grow: 1;
+}
+
 .playlist {
   margin-left: 80px;
   max-height: 80vh;
@@ -62,14 +66,6 @@
     flex-shrink: 1;
     display: inline-block;
     text-wrap: nowrap;
-
-    ::ng-deep .mat-mdc-slider .mdc-slider__thumb {
-      opacity: 0 !important;
-    }
-
-    ::ng-deep .mat-mdc-slider:hover .mdc-slider__thumb {
-      opacity: 1 !important;
-    }
   }
 
   .time {
@@ -120,12 +116,4 @@
 .full-track-info {
   overflow: hidden;
   text-align: left;
-}
-
-.mat-mdc-slider .mdc-slider__track--active_fill {
-  border-color: green;
-}
-
-::ng-deep .mat-slide-toggle.mat-primary.mat-checked:not(.mat-disabled) .mat-slide-toggle-bar {
-  background-color: #ff99ff;
 }
