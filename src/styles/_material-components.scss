@@ -10,7 +10,8 @@
    opacity: 1 !important;
  }
 
- .cdk-overlay-container {
+ // only blur dialog background
+ .cdk-global-container:has(mat-dialog-container) {
    z-index: 90;
    backdrop-filter: blur(10px);
  }
