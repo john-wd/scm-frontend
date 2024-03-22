@@ -1,0 +1,16 @@
+ .mat-slide-toggle.mat-primary.mat-checked:not(.mat-disabled) .mat-slide-toggle-bar {
+   background-color: #ff99ff;
+ }
+
+ .mat-mdc-slider .mdc-slider__thumb {
+   opacity: 0 !important;
+ }
+
+ .mat-mdc-slider:hover .mdc-slider__thumb {
+   opacity: 1 !important;
+ }
+
+ .cdk-overlay-container {
+   z-index: 90;
+   backdrop-filter: blur(10px);
+ }

@@ -70,8 +70,3 @@
     }
   }
 }
-
-::ng-deep .cdk-overlay-container {
-  z-index: 90;
-  backdrop-filter: blur(10px);
-}
