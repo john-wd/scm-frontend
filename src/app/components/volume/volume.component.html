@@ -1,0 +1,46 @@
+<span class="container">
+  @if (isHidden) {
+  <ng-template [ngTemplateOutlet]="hidden"></ng-template>
+  } @else {
+  <ng-template [ngTemplateOutlet]="nohidden"></ng-template>
+  }
+</span>
+
+<ng-template #hidden>
+  <button mat-icon-button [matMenuTriggerFor]="volumeMenu" [matMenuTriggerData]="{vertical: true}">
+    <ng-template [ngTemplateOutlet]="buttonIcon"></ng-template>
+  </button>
+
+  <mat-menu #volumeMenu="matMenu">
+    <ng-template matMenuContent>
+      <ng-template [ngTemplateOutlet]="slider"></ng-template>
+    </ng-template>
+  </mat-menu>
+</ng-template>
+
+<ng-template #nohidden>
+  <ng-template [ngTemplateOutlet]="slider" [matMenuTriggerData]="{vertical: false}"></ng-template>
+  <button mat-icon-button (click)="toggleMute()">
+    <ng-template [ngTemplateOutlet]="buttonIcon"></ng-template>
+  </button>
+</ng-template>
+
+<ng-template #buttonIcon>
+  @if (muted) {
+  <mat-icon>volume_off</mat-icon>
+  } @else {
+  @if (current <= .1) { <mat-icon>volume_mute</mat-icon>
+    } @else if (current <= .5 && current> .1) {
+      <mat-icon>volume_down</mat-icon>
+      } @else {
+      <mat-icon>volume_up</mat-icon>
+      }
+      }
+</ng-template>
+
+<ng-template #slider let-vertical>
+  <mat-slider [step]="step" [max]="1" [min]="0">
+    <input matSliderThumb [(value)]="current">
+  </mat-slider>
+
+</ng-template>

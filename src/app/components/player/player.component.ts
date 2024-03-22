@@ -14,6 +14,7 @@ import { Loop, Song } from '../../models/scm.model';
 import { PlayerService } from '../../services/player.service';
 import { LoopSelectorComponent } from '../loop-selector/loop-selector.component';
 import { PlaylistComponent } from '../playlist/playlist.component';
+import { VolumeComponent } from '../volume/volume.component';
 
 @Component({
   selector: 'app-player',
@@ -44,6 +45,7 @@ import { PlaylistComponent } from '../playlist/playlist.component';
     DatePipe,
     PlaylistComponent,
     LoopSelectorComponent,
+    VolumeComponent,
   ],
   animations: [
     trigger("openClose", [

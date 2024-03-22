@@ -7,6 +7,8 @@
     <ng-template [ngTemplateOutlet]="mediaButtons"></ng-template>
     <ng-template [ngTemplateOutlet]="seekBar"></ng-template>
     <ng-template [ngTemplateOutlet]="trackInfo"></ng-template>
+    <span class="spacer"></span>
+    <app-volume></app-volume>
   </div>
 
   <div class="full-player" *ngIf="toggled">
