@@ -31,6 +31,7 @@ export class PlayerService implements OnDestroy {
   private _playerLoaded: boolean;
   private _apiUrl: string;
 
+  volume: number = 1;
   shuffle: boolean;
   globalLoop: Loop = {
     loopType: "default"
@@ -156,6 +157,8 @@ export class PlayerService implements OnDestroy {
       }
     }
 
+    // set volume as current set
+    opts.volume = this.volume || 1;
     this._player.play(url, opts as Options);
     this._playingSubj.next(song)
     this.saveState()
@@ -173,6 +176,8 @@ export class PlayerService implements OnDestroy {
   }
 
   setVolume(level: number) {
+    this.volume = level
+
     if (!this._playerLoaded) return
     this._player.setVolume(level);
   }
