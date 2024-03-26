@@ -18,12 +18,13 @@ import { MatCell, MatCellDef, MatColumnDef, MatHeaderCell, MatHeaderCellDef, Mat
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { Observable, Subscription, map } from 'rxjs';
+import { ShareModal } from 'src/app/components/share-modal/share-modal.component';
 import { getSonglistEntityById, getSonglistUIState } from 'src/app/state/scm/scm.selector';
 import { Song, SongList } from '../../models/scm.model';
 import { PlayerService } from '../../services/player.service';
 import { FormatBRSTM, ScmApiService } from '../../services/scm-api.service';
+import { templateStr } from "../../shared/utils/template";
 import { fetchSonglist } from '../../state/scm/scm.actions';
-import { SongDetailsModal } from '../song-details-modal/song-details-modal.component';
 
 @Component({
   selector: 'app-songlist',
@@ -187,9 +188,30 @@ export class SonglistComponent implements OnInit, OnDestroy {
     return this.scmApi.getBannerUrl(gameId);
   }
 
-  openDetails(song: Song) {
-    this.dialog.open(SongDetailsModal, {
-      data: song,
+  openGameShareDialog() {
+    this.dialog.open(ShareModal, {
+      data: {
+        resourceType: "game",
+        resourceId: this.gameId,
+        title: this.gameName.nativeElement.textContent,
+      }
+    })
+  }
+
+  openSongShareDialog(song: SongList.Entry) {
+    let details = templateStr`From ${"game_name"}, length ${"length"}. ${"downloads"} downloads`
+    const datePipe = new DatePipe('en-US');
+    this.dialog.open(ShareModal, {
+      data: {
+        resourceType: "song",
+        resourceId: song.song_id,
+        title: song.song_name,
+        description: details({
+          game_name: this.gameName.nativeElement.textContent,
+          length: datePipe.transform(song.song_length * 1e3, "mm 'minutes and' ss 'seconds'"),
+          downloads: song.song_downloads
+        })
+      }
     })
   }
 }
@@ -211,3 +233,4 @@ function shuffleArray(array: any[]) {
 
   return array;
 }
+

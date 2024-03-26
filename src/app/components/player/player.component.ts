@@ -5,13 +5,17 @@ import { MatIconButton } from '@angular/material/button';
 import { MatDivider } from '@angular/material/divider';
 import { MatIcon } from '@angular/material/icon';
 import { MatMenu, MatMenuContent, MatMenuItem, MatMenuTrigger } from '@angular/material/menu';
+import { MatProgressBar } from '@angular/material/progress-bar';
+import { MatProgressSpinner } from '@angular/material/progress-spinner';
 import { MatSlider, MatSliderThumb } from '@angular/material/slider';
 import { MatCell, MatCellDef, MatColumnDef, MatRow, MatRowDef, MatTable } from '@angular/material/table';
-import { Subscription } from 'rxjs';
+import { MatTooltip } from '@angular/material/tooltip';
+import { Observable, Subscription } from 'rxjs';
 import { Loop, Song } from '../../models/scm.model';
 import { PlayerService } from '../../services/player.service';
 import { LoopSelectorComponent } from '../loop-selector/loop-selector.component';
 import { PlaylistComponent } from '../playlist/playlist.component';
+import { VolumeComponent } from '../volume/volume.component';
 
 @Component({
   selector: 'app-player',
@@ -37,17 +41,21 @@ import { PlaylistComponent } from '../playlist/playlist.component';
     MatMenuContent,
     MatMenuItem,
     MatDivider,
+    MatProgressSpinner,
+    MatProgressBar,
+    MatTooltip,
     DatePipe,
     PlaylistComponent,
     LoopSelectorComponent,
+    VolumeComponent,
   ],
   animations: [
     trigger("openClose", [
       state("true", style({
         height: "92%",
+        zIndex: 90
       })),
-      state("false", style({
-      })),
+      state("false", style({})),
       transition("true => false", [
         animate("200ms ease-out")
       ]),
@@ -63,6 +71,7 @@ export class PlayerComponent implements OnInit {
 
   private subscriptions: Subscription[] = [];
 
+  buffering$: Observable<boolean>;
   isPlaying: boolean;
   playing: Song | null;
   timeElapsedPerc: number;
@@ -126,7 +135,9 @@ export class PlayerComponent implements OnInit {
 
   constructor(
     private playerService: PlayerService,
-  ) { }
+  ) {
+    this.buffering$ = playerService.buffering$
+  }
 
   ngOnInit(): void {
     this.subscriptions.push(

@@ -11,10 +11,13 @@ import {
   Subscription,
 } from 'rxjs';
 
+export { State as PlayerState } from "./player.wrapper";
+
 const storagePlayerKey = "player"
 type storageObject = {
   playlist: Song[],
   player: {
+    volume: number,
     currentSong: Song,
     currentIndex: number,
     currentLoop: Loop
@@ -29,12 +32,16 @@ export class PlayerService implements OnDestroy {
   private _playerLoaded: boolean;
   private _apiUrl: string;
 
+  volume: number = 1;
   shuffle: boolean;
   globalLoop: Loop = {
     loopType: "default"
   };
 
   state$: Observable<State>;
+  get buffering$(): Observable<boolean> {
+    return this._player.buffering$
+  }
   private _playingSubj = new Subject<Song | null>();
 
   private _audio: HTMLAudioElement;
@@ -76,10 +83,11 @@ export class PlayerService implements OnDestroy {
     )
   }
 
-  private saveState() {
+  private async saveState() {
     this.storage.set(storagePlayerKey, {
       playlist: this._playlist,
       player: {
+        volume: this.volume,
         currentSong: this._playlist[this.currentIndex],
         currentIndex: this.currentIndex,
         currentLoop: this.globalLoop
@@ -97,6 +105,7 @@ export class PlayerService implements OnDestroy {
           this._playingSubj.next(cache.player.currentSong)
         }
         this.globalLoop = cache.player.currentLoop
+        this.volume = cache.player.volume
       }
     })
   }
@@ -151,6 +160,8 @@ export class PlayerService implements OnDestroy {
       }
     }
 
+    // set volume as current set
+    opts.volume = this.volume || 1;
     this._player.play(url, opts as Options);
     this._playingSubj.next(song)
     this.saveState()
@@ -168,6 +179,10 @@ export class PlayerService implements OnDestroy {
   }
 
   setVolume(level: number) {
+    this.volume = level
+    this.saveState()
+
+    if (!this._playerLoaded) return
     this._player.setVolume(level);
   }
 

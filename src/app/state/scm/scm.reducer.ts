@@ -91,11 +91,8 @@ export const scmReducer = createReducer(
     }
   })),
   on(fromActions.fetchSonglist.action, (state, { gameId }) => produce(state, draft => {
-    draft.ui.pages.songlist = {
-      loaded: false,
-      loading: true,
-      error: undefined
-    }
+    draft.ui.pages.songlist.loading = true
+    draft.ui.pages.songlist.error = undefined
   })),
   on(fromActions.fetchSonglist.error, (state, { error }) => produce(state, draft => {
     draft.ui.pages.songlist = {
@@ -110,6 +107,15 @@ export const scmReducer = createReducer(
       loaded: true,
       loading: false,
       error: undefined
+    }
+  })),
+  on(fromActions.setLoading, (state, { loading, page }) => produce(state, draft => {
+    if (Object.hasOwn(draft.ui.pages, page)) {
+      let curPage = (draft.ui.pages as any)[page] as UiState
+      (draft.ui.pages as any)[page] = {
+        ...curPage,
+        loading: loading,
+      }
     }
   })),
 );

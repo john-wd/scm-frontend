@@ -7,6 +7,8 @@
     <ng-template [ngTemplateOutlet]="mediaButtons"></ng-template>
     <ng-template [ngTemplateOutlet]="seekBar"></ng-template>
     <ng-template [ngTemplateOutlet]="trackInfo"></ng-template>
+    <span class="spacer"></span>
+    <app-volume></app-volume>
   </div>
 
   <div class="full-player" *ngIf="toggled">
@@ -28,6 +30,9 @@
       </div>
       <div>
         <ng-template [ngTemplateOutlet]="mediaButtons"></ng-template>
+      </div>
+      <div>
+        <app-volume></app-volume>
       </div>
     </div>
     <div class="playlist">
@@ -58,16 +63,24 @@
     <span class="seekbar">
       <span class="time time-elapsed">{{ timeElapsed | date : "mm:ss" }}</span>
       <div class="progress-bar">
+        @if (this.buffering$ | async) {
+        <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+        } @else {
         <mat-slider>
           <input matSliderThumb [value]="percElapsed()" (click)="seek(elapsedSlider.value)" #elapsedSlider>
         </mat-slider>
+
+        }
       </div>
       <span class="time time-total">{{ timeTotal | date : "mm:ss" }}</span>
     </span>
   </ng-template>
 
   <ng-template #trackInfo>
-    <span class="track-info" *ngIf="playing">
-      {{ playing.name }} ({{ playing.uploader }}) · <span class="game-name">{{ playing.game_name }}</span>
+    <span class="track-info" *ngIf="playing" [matTooltip]="'Uploaded by: ' + playing.uploader">
+      <p>
+        {{ playing.name }}
+      </p>
+      <p class="game-name">{{ playing.game_name }}</p>
     </span>
   </ng-template>

@@ -62,7 +62,7 @@
 
 <mat-menu #songMenu="matMenu" xPosition="before">
   <ng-template matMenuContent let-song="song" let-index="index">
-    <button mat-menu-item (click)="openDetails(song.song_id)">
+    <button mat-menu-item [routerLink]="['/explore/songs/',song.song_id]">
       <mat-icon>description</mat-icon>
       <span>Open details</span>
     </button>
@@ -88,7 +88,7 @@
       <mat-icon>arrow_circle_left</mat-icon>
       <span>Go to game</span>
     </button>
-    <button mat-menu-item>
+    <button mat-menu-item (click)="openSongShareDialog(song)">
       <mat-icon>share</mat-icon>
       <span>Share</span>
     </button>
@@ -112,7 +112,7 @@
 
     <mat-divider></mat-divider>
 
-    <button mat-menu-item>
+    <button mat-menu-item (click)="openGameShareDialog()">
       <mat-icon>share</mat-icon>
       <span>Share</span>
     </button>
