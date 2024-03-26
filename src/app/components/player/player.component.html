@@ -64,7 +64,7 @@
       <span class="time time-elapsed">{{ timeElapsed | date : "mm:ss" }}</span>
       <div class="progress-bar">
         @if (this.buffering$ | async) {
-        <mat-progress-bar mode="indeterminate" style="width: 120px"></mat-progress-bar>
+        <mat-progress-bar mode="indeterminate"></mat-progress-bar>
         } @else {
         <mat-slider>
           <input matSliderThumb [value]="percElapsed()" (click)="seek(elapsedSlider.value)" #elapsedSlider>
@@ -77,7 +77,10 @@
   </ng-template>
 
   <ng-template #trackInfo>
-    <span class="track-info" *ngIf="playing">
-      {{ playing.name }} ({{ playing.uploader }}) · <span class="game-name">{{ playing.game_name }}</span>
+    <span class="track-info" *ngIf="playing" [matTooltip]="'Uploaded by: ' + playing.uploader">
+      <p>
+        {{ playing.name }}
+      </p>
+      <p class="game-name">{{ playing.game_name }}</p>
     </span>
   </ng-template>

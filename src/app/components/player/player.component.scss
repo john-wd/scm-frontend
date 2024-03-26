@@ -61,11 +61,19 @@
   max-width: 100%;
   display: flex;
   align-items: center;
+  flex: 3;
 
   .progress-bar {
     flex-shrink: 1;
     display: inline-block;
     text-wrap: nowrap;
+    width: 100%;
+
+    .mat-mdc-slider,
+    .mat-mdc-progress-bar {
+      width: 100%;
+      margin: 0 auto;
+    }
   }
 
   .time {
@@ -90,6 +98,11 @@
 
   .track-info {
     margin-left: 35px;
+    flex: 4;
+
+    p {
+      margin: auto 0;
+    }
   }
 }
 
