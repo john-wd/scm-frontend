@@ -77,7 +77,10 @@
   </ng-template>
 
   <ng-template #trackInfo>
-    <span class="track-info" *ngIf="playing">
-      {{ playing.name }} ({{ playing.uploader }}) · <span class="game-name">{{ playing.game_name }}</span>
+    <span class="track-info" *ngIf="playing" [matTooltip]="'Uploaded by: ' + playing.uploader">
+      <p>
+        {{ playing.name }}
+      </p>
+      <p class="game-name">{{ playing.game_name }}</p>
     </span>
   </ng-template>

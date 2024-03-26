@@ -9,6 +9,7 @@ import { MatProgressBar } from '@angular/material/progress-bar';
 import { MatProgressSpinner } from '@angular/material/progress-spinner';
 import { MatSlider, MatSliderThumb } from '@angular/material/slider';
 import { MatCell, MatCellDef, MatColumnDef, MatRow, MatRowDef, MatTable } from '@angular/material/table';
+import { MatTooltip } from '@angular/material/tooltip';
 import { Observable, Subscription } from 'rxjs';
 import { Loop, Song } from '../../models/scm.model';
 import { PlayerService } from '../../services/player.service';
@@ -42,6 +43,7 @@ import { VolumeComponent } from '../volume/volume.component';
     MatDivider,
     MatProgressSpinner,
     MatProgressBar,
+    MatTooltip,
     DatePipe,
     PlaylistComponent,
     LoopSelectorComponent,
