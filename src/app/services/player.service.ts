@@ -17,6 +17,7 @@ const storagePlayerKey = "player"
 type storageObject = {
   playlist: Song[],
   player: {
+    volume: number,
     currentSong: Song,
     currentIndex: number,
     currentLoop: Loop
@@ -82,10 +83,11 @@ export class PlayerService implements OnDestroy {
     )
   }
 
-  private saveState() {
+  private async saveState() {
     this.storage.set(storagePlayerKey, {
       playlist: this._playlist,
       player: {
+        volume: this.volume,
         currentSong: this._playlist[this.currentIndex],
         currentIndex: this.currentIndex,
         currentLoop: this.globalLoop
@@ -103,6 +105,7 @@ export class PlayerService implements OnDestroy {
           this._playingSubj.next(cache.player.currentSong)
         }
         this.globalLoop = cache.player.currentLoop
+        this.volume = cache.player.volume
       }
     })
   }
@@ -177,6 +180,7 @@ export class PlayerService implements OnDestroy {
 
   setVolume(level: number) {
     this.volume = level
+    this.saveState()
 
     if (!this._playerLoaded) return
     this._player.setVolume(level);
