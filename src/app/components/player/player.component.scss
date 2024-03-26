@@ -69,7 +69,8 @@
     text-wrap: nowrap;
     width: 100%;
 
-    .mat-mdc-slider {
+    .mat-mdc-slider,
+    .mat-mdc-progress-bar {
       width: 100%;
       margin: 0 auto;
     }
