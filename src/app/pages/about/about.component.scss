@@ -1,1 +1,41 @@
+.disclaimer {
+  background-color: #CFF4FC;
+  border: #9EEAF9 solid 1px;
+  border-radius: 8px;
+  padding: 16px;
+  margin-bottom: 12px;
+}
 
+.container {
+  display: flex;
+  flex-direction: row;
+  margin-right: 48px;
+  overflow-y: auto;
+  height: 100%1;
+
+  .logo {
+    flex: 1;
+
+    img {
+      width: 400px;
+    }
+  }
+
+  .content {
+    flex: 3;
+  }
+}
+
+.footer {
+  margin-top: 8px;
+  display: flex;
+
+  .item {
+    align-content: center;
+    margin-right: 12px;
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    background-color: rgba(0, 0, 0, 0.05);
+  }
+}
