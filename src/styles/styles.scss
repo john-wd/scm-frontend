@@ -2,6 +2,9 @@
 @import "variables";
 @import "material";
 
+// includes font awesome glyphs
+@import "~@fortawesome/fontawesome-free/css/all.css";
+
 html,
 body {
   padding: 0;
@@ -21,10 +24,6 @@ body {
   h5,
   h6 {
     font-weight: 700;
-  }
-
-  p {
-    font-size: 12px;
   }
 
   .small {
