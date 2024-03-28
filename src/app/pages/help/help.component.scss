@@ -1,1 +1,16 @@
+.container {
+  overflow-y: auto;
+  height: 100%;
+}
 
+.entry {
+  margin-bottom: 32px;
+}
+
+.tools {
+  tbody {
+    td:first-child {
+      font-weight: 700;
+    }
+  }
+}
