@@ -1,5 +1,5 @@
 import { Injectable, OnDestroy } from '@angular/core';
-import { Loop, ScmLoopType, Song } from '../models/scm.model';
+import { Loop, Song } from '../models/scm.model';
 import { Options, PlayerWrapper, State } from "./player.wrapper";
 
 import { moveItemInArray } from '@angular/cdk/drag-drop';
@@ -123,7 +123,7 @@ export class PlayerService implements OnDestroy {
 
     let opts: any
 
-    if (song.loop_type === ScmLoopType.none)
+    if (song.loop && song.loop.loopType === "none")
       opts = {
         crossfade: false,
       }
@@ -145,7 +145,7 @@ export class PlayerService implements OnDestroy {
 
     if (opts.loopType === "default") {
       // disable looping for those songs that does not loop normally
-      if (song.loop_type === ScmLoopType.none) {
+      if (song.loop?.loopType === "none") {
         opts = {
           loopType: "none",
           crossfade: false
@@ -298,7 +298,7 @@ export class PlayerService implements OnDestroy {
       .then((_) => {
         if (song)
           navigator.mediaSession.metadata = new MediaMetadata({
-            title: song.name,
+            title: song.song_name,
             album: song.game_name,
             artist: song.uploader,
             artwork: [

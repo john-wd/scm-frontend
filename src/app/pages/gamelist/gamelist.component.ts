@@ -14,7 +14,7 @@ import { RouterLink } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { BehaviorSubject, Subscription, map, switchMap } from 'rxjs';
 import { getGamelistEntity } from 'src/app/state/scm/scm.selector';
-import { GameList } from '../../models/scm.model';
+import { Game } from '../../models/scm.model';
 import { FeatureFlagDirective } from '../../shared/directives/feature-flag.directive';
 import * as fromActions from '../../state/scm/scm.actions';
 
@@ -45,7 +45,7 @@ type tableState = {
   ],
 })
 export class GamelistComponent implements OnInit, OnDestroy {
-  data: GameList.Entry[]
+  data: Game[]
 
   initials = "#ABCDEFGHIJKLMNOPQRSTUVWYXZ"
   filterStartsWith?: string

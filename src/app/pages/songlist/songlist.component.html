@@ -12,7 +12,7 @@
       <div>
         <h1 #gameName>{{ game?.game_name }}</h1>
         <p class="description" *ngIf="description">{{description}}</p>
-        <p>{{ game?.track_count }} songs</p>
+        <p>{{ game?.song_count }} songs</p>
         <!-- TODO -->
         <!-- <p>{{ game?.track_count }} songs · {{game?.downloads}} downloads · {{game?.total_length}}</p> -->
       </div>
@@ -45,8 +45,8 @@
             <td>{{i+1}}</td>
             <td>{{song.song_name}}</td>
             <td>{{gameName.textContent}}</td>
-            <td>{{song.song_uploader}}</td>
-            <td>{{song.song_length * 1e3| date: "mm:ss"}}</td>
+            <td>{{song.uploader}}</td>
+            <td>{{song.length | date: "mm:ss"}}</td>
             <td>
               <button mat-icon-button [matMenuTriggerFor]="songMenu" [matMenuTriggerData]="{song: song, index: i}"
                 (click)="$event.stopPropagation()">

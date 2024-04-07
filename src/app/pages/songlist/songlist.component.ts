@@ -16,7 +16,7 @@ import { Store } from '@ngrx/store';
 import { Observable, Subscription, map } from 'rxjs';
 import { ShareModal } from 'src/app/components/share-modal/share-modal.component';
 import { getSonglistEntityById, getSonglistUIState } from 'src/app/state/scm/scm.selector';
-import { Song, SongList } from '../../models/scm.model';
+import { Song, Songlist } from '../../models/scm.model';
 import { PlayerService } from '../../services/player.service';
 import { FormatBRSTM, ScmApiService } from '../../services/scm-api.service';
 import { templateStr } from "../../shared/utils/template";
@@ -42,10 +42,12 @@ export class SonglistComponent implements OnInit, OnDestroy {
   @ViewChild('gameName') gameName: ElementRef;
   description: string;
 
-  songlist$: Observable<SongList.Root>;
+  songlist$: Observable<Songlist>;
   loaded$: Observable<boolean>;
 
-  songs: SongList.Entry[] = [];
+  songs: Song[] = [];
+  bannerExists: boolean;
+  song_count: number;
 
   subscriptions: Subscription[] = [];
 
@@ -60,9 +62,11 @@ export class SonglistComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     const gameId = Number(this.route.snapshot.paramMap.get('gameId'));
     this.store.dispatch(fetchSonglist.action({ gameId: gameId }));
-    this.songlist$ = this.store
-      .select(getSonglistEntityById(gameId))
-    let songs$ = this.songlist$.pipe(map((list) => (list ? list.songs : [])));
+    this.songlist$ = this.store.select(getSonglistEntityById(gameId))
+    let songs$ = this.songlist$.pipe(map((list) => {
+      if (!list) return []
+      return list.songs || []
+    }));
 
     this.loaded$ = this.store
       .select(getSonglistUIState)
@@ -71,7 +75,7 @@ export class SonglistComponent implements OnInit, OnDestroy {
     this.subscriptions.push(
       songs$.subscribe((songs) => {
         this.songs = songs;
-      })
+      }),
     );
     this.gameId = gameId
   }
@@ -80,32 +84,18 @@ export class SonglistComponent implements OnInit, OnDestroy {
     this.subscriptions.forEach((s) => s.unsubscribe());
   }
 
-  onPlay(song: SongList.Entry) {
-    this.playerService.play({
-      name: song.song_name,
-      song_id: song.song_id,
-      game_id: String(this.gameId),
-      game_name: this.gameName.nativeElement.textContent,
-      uploader: song.song_uploader,
-      length: Number(song.song_length) * 1e3,
-      downloads: song.song_downloads,
-      available: song.song_available,
-      loop_type: song.song_loop,
-    } as Song);
+  onPlay(song: Song) {
+    this.playerService.play(song);
+    // this.playerService.play({
+    //   ...song,
+    //   game_id: String(this.gameId),
+    //   game_name: this.gameName.nativeElement.textContent,
+    // } as Song);
   }
 
-  onAddToPlaylist(song: SongList.Entry) {
-    this.playerService.addToPlaylist({
-      name: song.song_name,
-      song_id: song.song_id,
-      game_id: String(this.gameId),
-      game_name: this.gameName.nativeElement.textContent,
-      uploader: song.song_uploader,
-      length: Number(song.song_length) * 1e3,
-      downloads: song.song_downloads,
-      available: song.song_available,
-      loop_type: song.song_loop,
-    } as Song);
+  onAddToPlaylist(song: Song) {
+    console.log(song)
+    this.playerService.addToPlaylist(song);
   }
 
   onPlayAll(shuffle = false) {
@@ -119,7 +109,7 @@ export class SonglistComponent implements OnInit, OnDestroy {
     if (shuffle)
       songs = shuffleArray(songs)
 
-    songs.forEach((s: SongList.Entry) => {
+    songs.forEach((s: Song) => {
       this.onAddToPlaylist(s)
     })
   }
@@ -142,7 +132,7 @@ export class SonglistComponent implements OnInit, OnDestroy {
     })
   }
 
-  openSongShareDialog(song: SongList.Entry) {
+  openSongShareDialog(song: Song) {
     let details = templateStr`From ${"game_name"}, length ${"length"}. ${"downloads"} downloads`
     const datePipe = new DatePipe('en-US');
     this.dialog.open(ShareModal, {
@@ -152,8 +142,8 @@ export class SonglistComponent implements OnInit, OnDestroy {
         title: song.song_name,
         description: details({
           game_name: this.gameName.nativeElement.textContent,
-          length: datePipe.transform(song.song_length * 1e3, "mm 'minutes and' ss 'seconds'"),
-          downloads: song.song_downloads
+          length: datePipe.transform(song.length, "mm 'minutes and' ss 'seconds'"),
+          downloads: song.downloads
         })
       }
     })

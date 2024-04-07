@@ -98,7 +98,7 @@ export class PlaylistComponent {
       data: {
         resourceType: "song",
         resourceId: song.song_id,
-        title: song.name,
+        title: song.song_name,
         description: details({
           game_name: song.game_name,
           length: datePipe.transform(song.length * 1e3, "mm 'minutes and' ss 'seconds'"),

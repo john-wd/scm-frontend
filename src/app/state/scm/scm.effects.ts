@@ -18,7 +18,7 @@ export class ScmEffects {
 
 
         return this.scmService.fetchGamelist().pipe(
-          map((games) => fetchGamelist.success({ games })),
+          map((gamelist) => fetchGamelist.success({ gamelist })),
           catchError(() =>
             of(fetchGamelist.error({ error: 'failed to fetch game list' }))
           )
@@ -37,7 +37,7 @@ export class ScmEffects {
 
 
         return this.scmService.fetchSonglist(action.gameId).pipe(
-          map((songs) => fetchSonglist.success({ songs })),
+          map((songlist) => fetchSonglist.success({ songlist })),
           catchError(() =>
             of(
               fetchSonglist.error({

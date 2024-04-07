@@ -8,7 +8,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { NgxFilesizeModule } from 'ngx-filesize';
 import { Observable } from 'rxjs';
 import { PlayerService } from 'src/app/services/player.service';
-import { Song } from '../../models/scm.model';
+import { SongDetails } from '../../models/scm.model';
 import { FormatBCSTM, FormatBFSTM, FormatBRSTM, FormatBWAV, FormatNUS3AUDIO, FormatSWBFSTM, FormatType, ScmApiService } from '../../services/scm-api.service';
 
 @Component({
@@ -31,7 +31,7 @@ import { FormatBCSTM, FormatBFSTM, FormatBRSTM, FormatBWAV, FormatNUS3AUDIO, For
   styleUrl: './song-details-modal.component.scss'
 })
 export class SongDetailsModal {
-  song$: Observable<Song>
+  song$: Observable<SongDetails>
 
   downloadTypes = ['brstm', 'bcstm', 'bfstm', 'sw_bfstm', 'bwav', 'nus3audio'];
   downloadTypesMap: { [type: string]: FormatType } = {
@@ -57,15 +57,15 @@ export class SongDetailsModal {
     this.dialogRef.close()
   }
 
-  onPlay(song: Song) {
+  onPlay(song: SongDetails) {
     this.playerService.play(song);
   }
 
-  onAddToPlaylist(song: Song) {
+  onAddToPlaylist(song: SongDetails) {
     this.playerService.addToPlaylist(song);
   }
 
-  onDownload(song: Song) {
+  onDownload(song: SongDetails) {
     this.apiService.downloadSong(this.downloadTypesMap[this.selectedDownloadType], song)
   }
 }
