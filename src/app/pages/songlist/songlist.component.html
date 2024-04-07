@@ -41,7 +41,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let song of dataSource.data; let i = index" (click)="onPlay(song)">
+          <tr *ngFor="let song of songs; let i = index" (click)="onPlay(song)">
             <td>{{i+1}}</td>
             <td>{{song.song_name}}</td>
             <td>{{gameName.textContent}}</td>

@@ -1,11 +1,10 @@
 import { CdkDrag, CdkDragDrop, CdkDragHandle, CdkDropList } from '@angular/cdk/drag-drop';
-import { CdkVirtualScrollViewport, ScrollingModule } from '@angular/cdk/scrolling';
 import { CommonModule, DatePipe } from '@angular/common';
 import { Component, EventEmitter, Output } from '@angular/core';
-import { MatIconButton } from '@angular/material/button';
+import { MatButtonModule } from '@angular/material/button';
 import { MatDialog } from '@angular/material/dialog';
 import { MatDividerModule } from '@angular/material/divider';
-import { MatIcon } from '@angular/material/icon';
+import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { Router, RouterModule } from '@angular/router';
@@ -23,13 +22,11 @@ import { ShareModal } from '../share-modal/share-modal.component';
   imports: [
     CommonModule,
     RouterModule,
-    ScrollingModule,
-    CdkVirtualScrollViewport,
     CdkDropList,
     CdkDrag,
     CdkDragHandle,
-    MatIcon,
-    MatIconButton,
+    MatIconModule,
+    MatButtonModule,
     MatMenuModule,
     MatDividerModule,
     MatTooltipModule,
@@ -51,10 +48,6 @@ export class PlaylistComponent {
     public dialog: MatDialog
   ) {
     this.playlist$ = this.playerService.playlist$
-  }
-
-  get isShuffle(): boolean {
-    return this.playerService.shuffle
   }
 
   playAtIndex(idx: number) {

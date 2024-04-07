@@ -11,8 +11,6 @@ import {
   Subscription,
 } from 'rxjs';
 
-export { State as PlayerState } from "./player.wrapper";
-
 const storagePlayerKey = "player"
 type storageObject = {
   playlist: Song[],

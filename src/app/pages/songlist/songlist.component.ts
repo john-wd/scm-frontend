@@ -1,4 +1,4 @@
-import { AsyncPipe, DatePipe, NgFor, NgIf } from '@angular/common';
+import { CommonModule, DatePipe } from '@angular/common';
 import {
   Component,
   ElementRef,
@@ -6,15 +6,11 @@ import {
   OnInit,
   ViewChild
 } from '@angular/core';
-import { MatFabButton, MatIconButton } from '@angular/material/button';
-import { MatRipple } from '@angular/material/core';
+import { MatButtonModule } from '@angular/material/button';
 import { MatDialog } from '@angular/material/dialog';
 import { MatDivider } from '@angular/material/divider';
-import { MatIcon } from '@angular/material/icon';
-import { MatMenu, MatMenuContent, MatMenuItem, MatMenuTrigger } from '@angular/material/menu';
-import { MatPaginator } from '@angular/material/paginator';
-import { MatSort, MatSortHeader } from '@angular/material/sort';
-import { MatCell, MatCellDef, MatColumnDef, MatHeaderCell, MatHeaderCellDef, MatRow, MatRowDef, MatTable, MatTableDataSource } from '@angular/material/table';
+import { MatIconModule } from '@angular/material/icon';
+import { MatMenuModule } from '@angular/material/menu';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { Observable, Subscription, map } from 'rxjs';
@@ -32,29 +28,12 @@ import { fetchSonglist } from '../../state/scm/scm.actions';
   styleUrls: ['./songlist.component.scss'],
   standalone: true,
   imports: [
-    NgIf,
-    NgFor,
+    CommonModule,
     RouterModule,
-    MatIconButton,
-    MatIcon,
-    MatMenuTrigger,
-    MatFabButton,
-    MatTable,
-    MatSort,
-    MatColumnDef,
-    MatHeaderCellDef,
-    MatHeaderCell,
-    MatSortHeader,
-    MatCellDef,
-    MatCell,
-    MatRowDef,
-    MatRow,
-    MatRipple,
-    MatMenu,
-    MatMenuContent,
-    MatMenuItem,
+    MatIconModule,
+    MatButtonModule,
+    MatMenuModule,
     MatDivider,
-    AsyncPipe,
     DatePipe,
   ],
 })
@@ -64,19 +43,9 @@ export class SonglistComponent implements OnInit, OnDestroy {
   description: string;
 
   songlist$: Observable<SongList.Root>;
-  loading$: Observable<boolean>;
   loaded$: Observable<boolean>;
-  songs$: Observable<SongList.Entry[]>;
 
-  columsToDisplay: string[] = [
-    'index',
-    'song_name',
-    'game_name',
-    'song_uploader',
-    'song_length',
-    'actions',
-  ];
-  dataSource = new MatTableDataSource<any>();
+  songs: SongList.Entry[] = [];
 
   subscriptions: Subscription[] = [];
 
@@ -93,18 +62,15 @@ export class SonglistComponent implements OnInit, OnDestroy {
     this.store.dispatch(fetchSonglist.action({ gameId: gameId }));
     this.songlist$ = this.store
       .select(getSonglistEntityById(gameId))
-    this.songs$ = this.songlist$.pipe(map((list) => (list ? list.songs : [])));
+    let songs$ = this.songlist$.pipe(map((list) => (list ? list.songs : [])));
 
-    this.loading$ = this.store
-      .select(getSonglistUIState)
-      .pipe(map((state) => state.loading));
     this.loaded$ = this.store
       .select(getSonglistUIState)
       .pipe(map((state) => state.loaded));
 
     this.subscriptions.push(
-      this.songs$.subscribe((songs) => {
-        this.dataSource.data = songs;
+      songs$.subscribe((songs) => {
+        this.songs = songs;
       })
     );
     this.gameId = gameId
@@ -112,28 +78,6 @@ export class SonglistComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.subscriptions.forEach((s) => s.unsubscribe());
-  }
-
-  private paginator: MatPaginator;
-  @ViewChild(MatPaginator) set matPaginator(mp: MatPaginator) {
-    this.paginator = mp;
-    this.dataSource.paginator = this.paginator;
-  }
-  private sort: MatSort;
-  @ViewChild(MatSort) set matMatSort(ms: MatSort) {
-    this.sort = ms;
-    this.dataSource.sort = this.sort;
-  }
-
-  applyFilter(event: Event) {
-    if (this.dataSource) {
-      const filterValue = (event.target as HTMLInputElement).value;
-      this.dataSource.filter = filterValue.trim().toLowerCase();
-
-      if (this.dataSource.paginator) {
-        this.dataSource.paginator.firstPage();
-      }
-    }
   }
 
   onPlay(song: SongList.Entry) {
@@ -171,7 +115,7 @@ export class SonglistComponent implements OnInit, OnDestroy {
   }
 
   onAddAllToPlaylist(shuffle = false) {
-    let songs = this.dataSource.data.slice()
+    let songs = this.songs.slice()
     if (shuffle)
       songs = shuffleArray(songs)
 

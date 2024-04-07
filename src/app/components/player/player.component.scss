@@ -1,9 +1,5 @@
 @import "variables";
 
-.spacer {
-  flex-grow: 1;
-}
-
 .playlist {
   margin-left: 80px;
   max-height: 80vh;
@@ -91,6 +87,7 @@
   }
 }
 
+// styles just from small player
 .small-player {
   display: flex;
   flex-direction: row;
@@ -106,6 +103,7 @@
   }
 }
 
+// styles just from full player
 .full-player {
   display: flex;
   flex-direction: row;
@@ -118,15 +116,15 @@
     text-align: center;
     margin-left: 140px;
   }
-}
 
-.disk {
-  width: 60%;
-  padding-top: 8px;
-  padding-bottom: 16px;
-}
+  .full-track-info {
+    overflow: hidden;
+    text-align: left;
+  }
 
-.full-track-info {
-  overflow: hidden;
-  text-align: left;
+  .disk {
+    width: 60%;
+    padding-top: 8px;
+    padding-bottom: 16px;
+  }
 }

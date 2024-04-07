@@ -93,13 +93,15 @@ export class SearchBarComponent implements OnDestroy {
   focus() {
     this.isFocused = true
   }
+
+  hide() {
+    this.isFocused = false;
+  }
+
   @HostListener('document:click', ['$event'])
   blur(event: Event) {
     if (!this.eRef.nativeElement.contains(event.target))
       this.hide()
-  }
-  hide() {
-    this.isFocused = false;
   }
 }
 

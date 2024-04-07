@@ -19,5 +19,4 @@ import { RouterModule } from '@angular/router';
   styleUrl: './help.component.scss'
 })
 export class HelpComponent {
-  step = 0;
 }

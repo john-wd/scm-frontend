@@ -3,7 +3,7 @@ import { Component, Inject, OnInit, ViewChild } from '@angular/core';
 import { MatIconButton } from '@angular/material/button';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
-import { MatFormField, MatInput } from '@angular/material/input';
+import { MatFormField, MatInputModule } from '@angular/material/input';
 import { MatTooltip, MatTooltipModule } from '@angular/material/tooltip';
 
 import { default as urlcat } from "urlcat";
@@ -25,17 +25,14 @@ type exportType = "link" | "embed" | "twitter"
     MatIconButton,
     MatIconModule,
     MatTooltipModule,
-    MatInput,
     MatFormField,
+    MatInputModule,
   ],
   templateUrl: './share-modal.component.html',
   styleUrl: './share-modal.component.scss'
 })
 export class ShareModal implements OnInit {
   copied: boolean;
-  inputTypes: { [key in exportType]?: string; } = {
-    link: "text"
-  }
   exportType: exportType = "link"
   @ViewChild("copyTooltip") copyTooltipRef: MatTooltip
 
