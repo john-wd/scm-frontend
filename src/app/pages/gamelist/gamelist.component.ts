@@ -12,9 +12,9 @@ import { MatMenu, MatMenuContent, MatMenuTrigger } from '@angular/material/menu'
 import { MatTableModule } from '@angular/material/table';
 import { RouterLink } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { BehaviorSubject, Observable, Subscription, map, switchMap, } from 'rxjs';
-import { getGamelistEntity, getGamelistUIState } from 'src/app/state/scm/scm.selector';
-import { GameList } from '../../models/scm.model';
+import { BehaviorSubject, Subscription, map, switchMap } from 'rxjs';
+import { getGamelistEntity } from 'src/app/state/scm/scm.selector';
+import { Game } from '../../models/scm.model';
 import { FeatureFlagDirective } from '../../shared/directives/feature-flag.directive';
 import * as fromActions from '../../state/scm/scm.actions';
 
@@ -45,10 +45,7 @@ type tableState = {
   ],
 })
 export class GamelistComponent implements OnInit, OnDestroy {
-  gamelist$: Observable<GameList.Entry[]>;
-  loading$: Observable<boolean>;
-  loaded$: Observable<boolean | undefined>;
-  data: GameList.Entry[]
+  data: Game[]
 
   initials = "#ABCDEFGHIJKLMNOPQRSTUVWYXZ"
   filterStartsWith?: string
@@ -62,13 +59,11 @@ export class GamelistComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.store.dispatch(fromActions.fetchGamelist.action());
-    this.gamelist$ = this.store.select(getGamelistEntity);
-    this.loaded$ = this.store.select(getGamelistUIState).pipe(map(s => s.loaded));
-    this.loading$ = this.store.select(getGamelistUIState).pipe(map(s => s.loading));
+    let gamelist$ = this.store.select(getGamelistEntity);
 
     this.subscriptions.push(
       this.filterSubj.asObservable().pipe(switchMap(letter => {
-        return this.gamelist$.pipe(map(games => {
+        return gamelist$.pipe(map(games => {
           return games.filter(g => {
             if (!letter)
               return true
@@ -90,6 +85,7 @@ export class GamelistComponent implements OnInit, OnDestroy {
     this.filterStartsWith = letter
     this.filterSubj.next(letter)
   }
+
   filter(letter?: string) {
     if (letter === this.filterStartsWith) {
       letter = undefined

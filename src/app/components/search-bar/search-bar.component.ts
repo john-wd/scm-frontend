@@ -7,7 +7,7 @@ import { MatListModule } from '@angular/material/list';
 import { RouterModule } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { Subject, Subscription, debounceTime, distinctUntilChanged, filter, map, switchMap } from 'rxjs';
-import { GameList } from 'src/app/models/scm.model';
+import { Game } from 'src/app/models/scm.model';
 import { State } from 'src/app/state/scm/scm.reducer';
 import { getState } from 'src/app/state/scm/scm.selector';
 import * as fromActions from '../../state/scm/scm.actions';
@@ -48,7 +48,7 @@ export class SearchBarComponent implements OnDestroy {
   querySubj = new Subject<string>()
   isFocused: boolean = false
 
-  results: GameList.Entry[]
+  results: Game[]
   resultsState: "results" | "no-results" = "no-results"
   subscriptions: Subscription[] = [];
 
@@ -93,13 +93,15 @@ export class SearchBarComponent implements OnDestroy {
   focus() {
     this.isFocused = true
   }
+
+  hide() {
+    this.isFocused = false;
+  }
+
   @HostListener('document:click', ['$event'])
   blur(event: Event) {
     if (!this.eRef.nativeElement.contains(event.target))
       this.hide()
-  }
-  hide() {
-    this.isFocused = false;
   }
 }
 

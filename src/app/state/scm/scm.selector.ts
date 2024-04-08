@@ -3,6 +3,11 @@ import { State, scmFeatureKey } from './scm.reducer';
 
 export const getState = createFeatureSelector<State>(scmFeatureKey);
 
+export const getEntities = createSelector(
+  getState,
+  (state: State) => state.entities
+);
+
 export const getGamelistEntity = createSelector(
   getState,
   (state: State) => state.entities.games

@@ -1,5 +1,5 @@
 import { createAction, props } from '@ngrx/store';
-import { GameList, Song, SongList } from '../../models/scm.model';
+import { Gamelist, SongDetails, Songlist } from '../../models/scm.model';
 
 export const setLoading = createAction("Set loaded status", props<{ loading: boolean, page: string }>())
 
@@ -10,7 +10,7 @@ export namespace fetchGamelist {
 
   export const success = createAction(
     `${tag} Fetch game list success`,
-    props<{ games: GameList.Root }>()
+    props<{ gamelist: Gamelist }>()
   );
 
   export const error = createAction(
@@ -29,7 +29,7 @@ export namespace fetchSonglist {
 
   export const success = createAction(
     `${tag} Fetch song list success`,
-    props<{ songs: SongList.Root }>()
+    props<{ songlist: Songlist }>()
   );
 
   export const error = createAction(
@@ -48,7 +48,7 @@ export namespace fetchSongDetails {
 
   export const success = createAction(
     `${tag} Fetch song details success`,
-    props<{ song: Song }>()
+    props<{ song: SongDetails }>()
   );
 
   export const error = createAction(

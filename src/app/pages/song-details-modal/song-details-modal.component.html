@@ -1,7 +1,7 @@
 <div *ngIf="song$ | async as song" class="modal">
   <div class="title">
     <div>
-      <h2>{{song.name}}</h2>
+      <h2>{{song.song_name}}</h2>
       <div class="id">#{{song.song_id}}</div>
     </div>
     <button mat-icon-button class="close" (click)="onclose()">
@@ -40,16 +40,16 @@
         <h5>Loop</h5>
         <div style="display: flex;">
           <div>
-            {{song.loop_type}}
+            {{song.loop?.loopType}}
           </div>
           <div style="margin-left: 4px; margin-right: 4px;">
             ·
           </div>
           <div style="text-align: center;">
             <div>
-              {{song.start_loop_point}} — {{song.end_loop_point}}
+              {{song.loop_start}} — {{song.loop_end}}
             </div>
-            <div>{{song.start_loop_point / song.sample_rate * 1e3 | date: "mm:ss"}} — {{song.end_loop_point /
+            <div>{{song.loop_start / song.sample_rate * 1e3 | date: "mm:ss"}} — {{song.loop_end /
               song.sample_rate * 1e3 | date: "mm:ss"}}
             </div>
           </div>
@@ -78,7 +78,7 @@
                 {{ downloadTypesMap[type].label }}
               </mat-option>
             </mat-select>
-            <mat-hint class="filesize">Size: {{song.size | filesize}}</mat-hint>
+            <mat-hint class="filesize">Size: {{song.filesize | filesize}}</mat-hint>
           </mat-form-field>
           <button mat-flat-button color="primary" (click)="onDownload(song)">
             <mat-icon>download</mat-icon>
