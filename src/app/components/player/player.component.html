@@ -19,7 +19,7 @@
       <p *ngIf="!playing"> Nothing is playing </p>
       <div class="full-track-info" *ngIf="playing">
         <h4 class="song-name">
-          {{playing.name}}
+          {{playing.song_name}}
         </h4>
         <p class="game-name">
           {{playing.game_name}}
@@ -36,7 +36,7 @@
       </div>
     </div>
     <div class="playlist">
-      <app-playlist (close)="toggled = false"></app-playlist>
+      <app-playlist (close)="onClose()"></app-playlist>
     </div>
   </div>
 
@@ -79,7 +79,7 @@
   <ng-template #trackInfo>
     <span class="track-info" *ngIf="playing" [matTooltip]="'Uploaded by: ' + playing.uploader">
       <p>
-        {{ playing.name }}
+        {{ playing.song_name }}
       </p>
       <p class="game-name">{{ playing.game_name }}</p>
     </span>

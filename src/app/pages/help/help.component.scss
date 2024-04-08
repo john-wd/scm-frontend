@@ -1,1 +1,12 @@
+.container {
+  overflow-y: auto;
+  height: 100%;
+}
 
+.tools {
+  tbody {
+    td:first-child {
+      font-weight: 700;
+    }
+  }
+}

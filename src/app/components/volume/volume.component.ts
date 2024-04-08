@@ -3,7 +3,7 @@ import { Component, Input } from '@angular/core';
 import { MatIconButton } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
-import { MatSlider, MatSliderThumb } from '@angular/material/slider';
+import { MatSliderModule } from '@angular/material/slider';
 import { PlayerService } from 'src/app/services/player.service';
 
 @Component({
@@ -14,8 +14,7 @@ import { PlayerService } from 'src/app/services/player.service';
     MatIconButton,
     MatIconModule,
     MatMenuModule,
-    MatSlider,
-    MatSliderThumb
+    MatSliderModule,
   ],
   templateUrl: './volume.component.html',
   styleUrl: './volume.component.scss'

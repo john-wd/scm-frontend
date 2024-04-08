@@ -1,15 +1,11 @@
 import { animate, state, style, transition, trigger } from '@angular/animations';
-import { CommonModule, DatePipe, NgIf, NgTemplateOutlet } from '@angular/common';
+import { CommonModule, DatePipe } from '@angular/common';
 import { Component, HostListener, OnInit } from '@angular/core';
-import { MatIconButton } from '@angular/material/button';
-import { MatDivider } from '@angular/material/divider';
-import { MatIcon } from '@angular/material/icon';
-import { MatMenu, MatMenuContent, MatMenuItem, MatMenuTrigger } from '@angular/material/menu';
-import { MatProgressBar } from '@angular/material/progress-bar';
-import { MatProgressSpinner } from '@angular/material/progress-spinner';
-import { MatSlider, MatSliderThumb } from '@angular/material/slider';
-import { MatCell, MatCellDef, MatColumnDef, MatRow, MatRowDef, MatTable } from '@angular/material/table';
-import { MatTooltip } from '@angular/material/tooltip';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { MatSliderModule } from '@angular/material/slider';
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { Observable, Subscription } from 'rxjs';
 import { Loop, Song } from '../../models/scm.model';
 import { PlayerService } from '../../services/player.service';
@@ -24,26 +20,11 @@ import { VolumeComponent } from '../volume/volume.component';
   standalone: true,
   imports: [
     CommonModule,
-    MatIcon,
-    NgIf,
-    NgTemplateOutlet,
-    MatTable,
-    MatColumnDef,
-    MatCellDef,
-    MatCell,
-    MatIconButton,
-    MatMenuTrigger,
-    MatRowDef,
-    MatRow,
-    MatSlider,
-    MatSliderThumb,
-    MatMenu,
-    MatMenuContent,
-    MatMenuItem,
-    MatDivider,
-    MatProgressSpinner,
-    MatProgressBar,
-    MatTooltip,
+    MatIconModule,
+    MatButtonModule,
+    MatProgressBarModule,
+    MatTooltipModule,
+    MatSliderModule,
     DatePipe,
     PlaylistComponent,
     LoopSelectorComponent,
@@ -74,7 +55,6 @@ export class PlayerComponent implements OnInit {
   buffering$: Observable<boolean>;
   isPlaying: boolean;
   playing: Song | null;
-  timeElapsedPerc: number;
   timeElapsed: number = 0;
   timeTotal: number = 0;
 
@@ -123,9 +103,6 @@ export class PlayerComponent implements OnInit {
     this.playerService.seek((percentage * this.timeTotal) / 1e3);
   }
 
-  stop() {
-    this.playerService.stop();
-  }
   next() {
     this.playerService.next();
   }

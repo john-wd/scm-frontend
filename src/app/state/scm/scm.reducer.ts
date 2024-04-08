@@ -1,7 +1,7 @@
 import { createReducer, on } from '@ngrx/store';
 
 import { produce } from "immer";
-import { GameList, SongList } from '../../models/scm.model';
+import { Game, Songlist } from '../../models/scm.model';
 import * as fromActions from './scm.actions';
 
 export const scmFeatureKey = 'scm';
@@ -14,9 +14,9 @@ type UiState = {
 
 export interface State {
   entities: {
-    games: GameList.Entry[],
+    games: Game[],
     songsByGame: {
-      [game_id: number]: SongList.Root
+      [game_id: number]: Songlist
     }
     game_count: number,
     total_song_count: number,
@@ -62,10 +62,10 @@ export const scmReducer = createReducer(
       error: error
     }
   })),
-  on(fromActions.fetchGamelist.success, (state, { games }) => produce(state, draft => {
-    draft.entities.game_count = games.game_count
-    draft.entities.total_song_count = games.total_song_count
-    draft.entities.games = games.games
+  on(fromActions.fetchGamelist.success, (state, { gamelist }) => produce(state, draft => {
+    draft.entities.game_count = gamelist.game_count
+    draft.entities.total_song_count = gamelist.song_count
+    draft.entities.games = gamelist.games
     draft.ui.pages.gamelist = {
       loaded: true,
       loading: false,
@@ -101,8 +101,8 @@ export const scmReducer = createReducer(
       error: error
     }
   })),
-  on(fromActions.fetchSonglist.success, (state, { songs }) => produce(state, draft => {
-    draft.entities.songsByGame[songs.game_id] = songs
+  on(fromActions.fetchSonglist.success, (state, { songlist }) => produce(state, draft => {
+    draft.entities.songsByGame[songlist.game_id] = songlist
     draft.ui.pages.songlist = {
       loaded: true,
       loading: false,

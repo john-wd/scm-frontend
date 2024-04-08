@@ -12,7 +12,12 @@ import { ThemeToggleService } from './shared/services/theme-toggle.service';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
   standalone: true,
-  imports: [SidebarComponent, MainNavComponent, RouterOutlet, PlayerComponent]
+  imports: [
+    RouterOutlet,
+    SidebarComponent,
+    MainNavComponent,
+    PlayerComponent,
+  ]
 })
 export class AppComponent {
   title = 'smash-custom-music'

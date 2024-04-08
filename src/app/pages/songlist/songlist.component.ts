@@ -1,4 +1,4 @@
-import { AsyncPipe, DatePipe, NgFor, NgIf } from '@angular/common';
+import { CommonModule, DatePipe } from '@angular/common';
 import {
   Component,
   ElementRef,
@@ -6,21 +6,17 @@ import {
   OnInit,
   ViewChild
 } from '@angular/core';
-import { MatFabButton, MatIconButton } from '@angular/material/button';
-import { MatRipple } from '@angular/material/core';
+import { MatButtonModule } from '@angular/material/button';
 import { MatDialog } from '@angular/material/dialog';
 import { MatDivider } from '@angular/material/divider';
-import { MatIcon } from '@angular/material/icon';
-import { MatMenu, MatMenuContent, MatMenuItem, MatMenuTrigger } from '@angular/material/menu';
-import { MatPaginator } from '@angular/material/paginator';
-import { MatSort, MatSortHeader } from '@angular/material/sort';
-import { MatCell, MatCellDef, MatColumnDef, MatHeaderCell, MatHeaderCellDef, MatRow, MatRowDef, MatTable, MatTableDataSource } from '@angular/material/table';
+import { MatIconModule } from '@angular/material/icon';
+import { MatMenuModule } from '@angular/material/menu';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { Observable, Subscription, map } from 'rxjs';
 import { ShareModal } from 'src/app/components/share-modal/share-modal.component';
 import { getSonglistEntityById, getSonglistUIState } from 'src/app/state/scm/scm.selector';
-import { Song, SongList } from '../../models/scm.model';
+import { Song, Songlist } from '../../models/scm.model';
 import { PlayerService } from '../../services/player.service';
 import { FormatBRSTM, ScmApiService } from '../../services/scm-api.service';
 import { templateStr } from "../../shared/utils/template";
@@ -32,29 +28,12 @@ import { fetchSonglist } from '../../state/scm/scm.actions';
   styleUrls: ['./songlist.component.scss'],
   standalone: true,
   imports: [
-    NgIf,
-    NgFor,
+    CommonModule,
     RouterModule,
-    MatIconButton,
-    MatIcon,
-    MatMenuTrigger,
-    MatFabButton,
-    MatTable,
-    MatSort,
-    MatColumnDef,
-    MatHeaderCellDef,
-    MatHeaderCell,
-    MatSortHeader,
-    MatCellDef,
-    MatCell,
-    MatRowDef,
-    MatRow,
-    MatRipple,
-    MatMenu,
-    MatMenuContent,
-    MatMenuItem,
+    MatIconModule,
+    MatButtonModule,
+    MatMenuModule,
     MatDivider,
-    AsyncPipe,
     DatePipe,
   ],
 })
@@ -63,20 +42,12 @@ export class SonglistComponent implements OnInit, OnDestroy {
   @ViewChild('gameName') gameName: ElementRef;
   description: string;
 
-  songlist$: Observable<SongList.Root>;
-  loading$: Observable<boolean>;
+  songlist$: Observable<Songlist>;
   loaded$: Observable<boolean>;
-  songs$: Observable<SongList.Entry[]>;
 
-  columsToDisplay: string[] = [
-    'index',
-    'song_name',
-    'game_name',
-    'song_uploader',
-    'song_length',
-    'actions',
-  ];
-  dataSource = new MatTableDataSource<any>();
+  songs: Song[] = [];
+  bannerExists: boolean;
+  song_count: number;
 
   subscriptions: Subscription[] = [];
 
@@ -91,21 +62,20 @@ export class SonglistComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     const gameId = Number(this.route.snapshot.paramMap.get('gameId'));
     this.store.dispatch(fetchSonglist.action({ gameId: gameId }));
-    this.songlist$ = this.store
-      .select(getSonglistEntityById(gameId))
-    this.songs$ = this.songlist$.pipe(map((list) => (list ? list.songs : [])));
+    this.songlist$ = this.store.select(getSonglistEntityById(gameId))
+    let songs$ = this.songlist$.pipe(map((list) => {
+      if (!list) return []
+      return list.songs || []
+    }));
 
-    this.loading$ = this.store
-      .select(getSonglistUIState)
-      .pipe(map((state) => state.loading));
     this.loaded$ = this.store
       .select(getSonglistUIState)
       .pipe(map((state) => state.loaded));
 
     this.subscriptions.push(
-      this.songs$.subscribe((songs) => {
-        this.dataSource.data = songs;
-      })
+      songs$.subscribe((songs) => {
+        this.songs = songs;
+      }),
     );
     this.gameId = gameId
   }
@@ -114,54 +84,18 @@ export class SonglistComponent implements OnInit, OnDestroy {
     this.subscriptions.forEach((s) => s.unsubscribe());
   }
 
-  private paginator: MatPaginator;
-  @ViewChild(MatPaginator) set matPaginator(mp: MatPaginator) {
-    this.paginator = mp;
-    this.dataSource.paginator = this.paginator;
-  }
-  private sort: MatSort;
-  @ViewChild(MatSort) set matMatSort(ms: MatSort) {
-    this.sort = ms;
-    this.dataSource.sort = this.sort;
+  onPlay(song: Song) {
+    this.playerService.play(song);
+    // this.playerService.play({
+    //   ...song,
+    //   game_id: String(this.gameId),
+    //   game_name: this.gameName.nativeElement.textContent,
+    // } as Song);
   }
 
-  applyFilter(event: Event) {
-    if (this.dataSource) {
-      const filterValue = (event.target as HTMLInputElement).value;
-      this.dataSource.filter = filterValue.trim().toLowerCase();
-
-      if (this.dataSource.paginator) {
-        this.dataSource.paginator.firstPage();
-      }
-    }
-  }
-
-  onPlay(song: SongList.Entry) {
-    this.playerService.play({
-      name: song.song_name,
-      song_id: song.song_id,
-      game_id: String(this.gameId),
-      game_name: this.gameName.nativeElement.textContent,
-      uploader: song.song_uploader,
-      length: Number(song.song_length) * 1e3,
-      downloads: song.song_downloads,
-      available: song.song_available,
-      loop_type: song.song_loop,
-    } as Song);
-  }
-
-  onAddToPlaylist(song: SongList.Entry) {
-    this.playerService.addToPlaylist({
-      name: song.song_name,
-      song_id: song.song_id,
-      game_id: String(this.gameId),
-      game_name: this.gameName.nativeElement.textContent,
-      uploader: song.song_uploader,
-      length: Number(song.song_length) * 1e3,
-      downloads: song.song_downloads,
-      available: song.song_available,
-      loop_type: song.song_loop,
-    } as Song);
+  onAddToPlaylist(song: Song) {
+    console.log(song)
+    this.playerService.addToPlaylist(song);
   }
 
   onPlayAll(shuffle = false) {
@@ -171,11 +105,11 @@ export class SonglistComponent implements OnInit, OnDestroy {
   }
 
   onAddAllToPlaylist(shuffle = false) {
-    let songs = this.dataSource.data.slice()
+    let songs = this.songs.slice()
     if (shuffle)
       songs = shuffleArray(songs)
 
-    songs.forEach((s: SongList.Entry) => {
+    songs.forEach((s: Song) => {
       this.onAddToPlaylist(s)
     })
   }
@@ -198,7 +132,7 @@ export class SonglistComponent implements OnInit, OnDestroy {
     })
   }
 
-  openSongShareDialog(song: SongList.Entry) {
+  openSongShareDialog(song: Song) {
     let details = templateStr`From ${"game_name"}, length ${"length"}. ${"downloads"} downloads`
     const datePipe = new DatePipe('en-US');
     this.dialog.open(ShareModal, {
@@ -208,8 +142,8 @@ export class SonglistComponent implements OnInit, OnDestroy {
         title: song.song_name,
         description: details({
           game_name: this.gameName.nativeElement.textContent,
-          length: datePipe.transform(song.song_length * 1e3, "mm 'minutes and' ss 'seconds'"),
-          downloads: song.song_downloads
+          length: datePipe.transform(song.length, "mm 'minutes and' ss 'seconds'"),
+          downloads: song.downloads
         })
       }
     })
