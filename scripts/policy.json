@@ -1,0 +1,15 @@
+{
+  "Id": "SCM-Public-Access",
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "Stmt1712571245992",
+      "Action": [
+        "s3:GetObject"
+      ],
+      "Effect": "Allow",
+      "Resource": "arn:aws:s3:::smashcustommusic-frontend/*",
+      "Principal": "*"
+    }
+  ]
+}
