@@ -30,7 +30,7 @@
     "immer": "^10.0.3",
     "memoizee": "^0.4.15",
     "ngx-filesize": "^3.0.1",
-    "revolving-door-brstm": "john-wd/revolving-door-brstm#dev",
+    "revolving-door-brstm": "john-wd/revolving-door-brstm#master",
     "rxjs": "~7.5.0",
     "tslib": "^2.3.0",
     "urlcat": "^3.1.0",
@@ -58,7 +58,6 @@
     "karma-coverage": "~2.2.0",
     "karma-jasmine": "~5.1.0",
     "karma-jasmine-html-reporter": "~2.0.0",
-    "revolving-door-brstm": "file:../revolving-door-brstm",
     "typescript": "~5.3.3"
   }
 }
