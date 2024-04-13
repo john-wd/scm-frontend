@@ -299,8 +299,8 @@ export class PlayerService implements OnDestroy {
         if (song)
           navigator.mediaSession.metadata = new MediaMetadata({
             title: song.song_name,
-            album: song.game_name,
-            artist: song.uploader,
+            album: song.uploader,
+            artist: song.game_name,
             artwork: [
               {
                 src: "/assets/player-art.png",
