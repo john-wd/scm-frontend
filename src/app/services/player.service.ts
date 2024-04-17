@@ -18,7 +18,8 @@ type storageObject = {
     volume: number,
     currentSong: Song,
     currentIndex: number,
-    currentLoop: Loop
+    currentLoop: Loop,
+    shuffle: boolean
   }
 }
 
@@ -88,7 +89,8 @@ export class PlayerService implements OnDestroy {
         volume: this.volume,
         currentSong: this._playlist[this.currentIndex],
         currentIndex: this.currentIndex,
-        currentLoop: this.globalLoop
+        currentLoop: this.globalLoop,
+        shuffle: this.shuffle,
       }
     } as storageObject).subscribe(() => { })
   }
@@ -103,6 +105,7 @@ export class PlayerService implements OnDestroy {
           this._playingSubj.next(cache.player.currentSong)
         }
         this.globalLoop = cache.player.currentLoop
+        this.shuffle = cache.player.shuffle
         this.volume = cache.player.volume
       }
     })
