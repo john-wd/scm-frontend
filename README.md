@@ -1,27 +1,78 @@
-# SmashCustomMusic
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 15.0.1.
+# Smash Custom Music
 
-## Development server
+A spotify-like frontend for [smashcustommusic.net](https://smashcustommusic.net/) with slicker interface and better player controls written in [Angular 17](https://angular.io) and [Angular Material](https://material.angular.io/).
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+This is only possible thanks to the forked [revolving door BRSTM player](https://github.com/john-wd/revolving-door-brstm) which features a headless player to play streamed BRSTM music with ease.
 
-## Code scaffolding
+## Features
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+- Single page application, you can continue listening to music while you browse the website
+- Playlist controls
+- Shuffle
+- Global seach bar to find new games
+- Save playing playlist to the browser's local storage
+- Customizable looping behaviors: 
+  - Default: Infinite
+  - Count: Loop N times
+  - Time: Loop for X minutes
+  - None: Disabled 
 
-## Build
+## Planned work
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+I would like to also revamp the Smash Custom Music backend to be able to implement
 
-## Running unit tests
+- User management, login, signup and roles to use the website
+- Song and Game likes
+- Music submission
+- Moderator management page to approve new user submissions
+- Playlist management
+  - Saving your playlists private to your user or publically available to all users of the website
+- Adding new params to existing songs, such as franchise and console
+- Better search
+  - Context search bar
+  - Search for playlists, games or songs
+  - Search operators
+- Home screen with a summary of things and recommended playlists/games
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+## How to contribute
 
-## Running end-to-end tests
+### General public
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+I encourage you to file new issues if you want found bugs, have suggestions or enhancements.
 
-## Further help
+### Developer
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+This project is based in Typescript and Angular, so first clone this repository, install `npm` and angular globally. Then, run
+
+```sh
+$ npm i
+```
+
+to install all the project dependencies.
+
+You can start creating new components, services and whatnot using angular's scaffolding CLI
+
+```sh
+$ ng generate component /path/to/my/component
+```
+
+#### Contribute
+
+After you are happy with what you developed, you need to open a PR to master so I can review it and merge it.
+
+#### Building 
+
+To build this application, just run
+
+```sh
+$ npm run build
+```
+
+and if you have AWS cli configured in your machine, you can run
+
+```sh
+$ npm run deploy
+```
+
+to upload this to a smash-custom-music S3 bucket with static website hosting.
