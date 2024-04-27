@@ -126,10 +126,6 @@ export class PlayerService implements OnDestroy {
 
     let opts: any
 
-    if (song.loop && song.loop.loopType === "none")
-      opts = {
-        crossfade: false,
-      }
 
     // if the song has not set a custom loop, fallback to the global loop set
     if (!song.loop || (song.loop.loopType === "default")) {
@@ -160,6 +156,10 @@ export class PlayerService implements OnDestroy {
         }
       }
     }
+
+    if (song.loop && song.loop.loopType === "none")
+      opts.crossfade = false
+
 
     // set volume as current set
     opts.volume = this.volume || 1;
