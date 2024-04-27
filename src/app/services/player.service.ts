@@ -18,7 +18,8 @@ type storageObject = {
     volume: number,
     currentSong: Song,
     currentIndex: number,
-    currentLoop: Loop
+    currentLoop: Loop,
+    shuffle: boolean
   }
 }
 
@@ -88,7 +89,8 @@ export class PlayerService implements OnDestroy {
         volume: this.volume,
         currentSong: this._playlist[this.currentIndex],
         currentIndex: this.currentIndex,
-        currentLoop: this.globalLoop
+        currentLoop: this.globalLoop,
+        shuffle: this.shuffle,
       }
     } as storageObject).subscribe(() => { })
   }
@@ -103,6 +105,7 @@ export class PlayerService implements OnDestroy {
           this._playingSubj.next(cache.player.currentSong)
         }
         this.globalLoop = cache.player.currentLoop
+        this.shuffle = cache.player.shuffle
         this.volume = cache.player.volume
       }
     })
@@ -123,10 +126,6 @@ export class PlayerService implements OnDestroy {
 
     let opts: any
 
-    if (song.loop && song.loop.loopType === "none")
-      opts = {
-        crossfade: false,
-      }
 
     // if the song has not set a custom loop, fallback to the global loop set
     if (!song.loop || (song.loop.loopType === "default")) {
@@ -157,6 +156,10 @@ export class PlayerService implements OnDestroy {
         }
       }
     }
+
+    if (song.loop && song.loop.loopType === "none")
+      opts.crossfade = false
+
 
     // set volume as current set
     opts.volume = this.volume || 1;
@@ -299,8 +302,8 @@ export class PlayerService implements OnDestroy {
         if (song)
           navigator.mediaSession.metadata = new MediaMetadata({
             title: song.song_name,
-            album: song.game_name,
-            artist: song.uploader,
+            album: song.uploader,
+            artist: song.game_name,
             artwork: [
               {
                 src: "/assets/player-art.png",
