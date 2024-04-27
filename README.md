@@ -22,6 +22,8 @@ This is only possible thanks to the forked [revolving door BRSTM player](https:/
 
 I would like to also revamp the Smash Custom Music backend to be able to implement
 
+- Unit tests everywhere
+- Styling for mobile phones
 - User management, login, signup and roles to use the website
 - Song and Game likes
 - Music submission
@@ -69,7 +71,9 @@ To build this application, just run
 $ npm run build
 ```
 
-and if you have AWS cli configured in your machine, you can run
+The compiled webside will be stored in a root `./dist` folder ready to be put in your webhost. Be sure to forward all `/*` paths to the main generated index.html because Angular routes everything for you.
+
+If you have AWS cli configured in your machine, you can run
 
 ```sh
 $ npm run deploy
